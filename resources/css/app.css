@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@import "./styles.css";
+@source "../**/*.blade.php";
+@source "../**/*.js";
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
+@source "../../vendor/robsontenorio/mary/src/View/Components/**/*.php";
+
+
+@plugin "daisyui" {
+    themes: light --default, dark --prefersdark, cupcake;
+}
+
