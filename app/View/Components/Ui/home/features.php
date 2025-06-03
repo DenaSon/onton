@@ -1,12 +1,12 @@
 <?php
 
-namespace App\View\Components\ui\home;
+namespace App\View\Components\Ui\Home;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class features extends Component
+class Features extends Component
 {
     /**
      * Create a new component instance.

@@ -7,7 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{csrf_token()}}">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Onton Radar</title>
+    <title>Byblos Radar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
+
 
 
     <!-- Basic Meta Tags -->
@@ -16,9 +18,9 @@
     <link rel="canonical" href="{{ url()->current() }}">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="data4796"/>
-    <meta name="keywords" content="data4796"/>
-    <meta name="author" content="ONTON Radar"/>
+    <meta name="description" content="Make smarter startup moves with exclusive VC insights, curated and delivered straight to your inbox."/>
+    <meta name="keywords" content="Byblos Radar"/>
+    <meta name="author" content="Byblos Radar"/>
 
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -39,7 +41,7 @@
 
     <x-ui.home.footer/>
 
-<x-toast/>
+<x-toast position="toast-top toast-center"/>
 </body>
 
 @stack('scripts')

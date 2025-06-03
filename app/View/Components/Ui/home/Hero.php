@@ -1,12 +1,12 @@
 <?php
 
-namespace App\View\Components\ui\home;
+namespace App\View\Components\Ui\Home;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class footer extends Component
+class Hero extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class footer extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.ui.home.footer');
+        return view('components.ui.home.hero');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\ui\home;
+namespace App\View\Components\Ui\Home;
 
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -8,9 +8,9 @@ use Illuminate\View\Component;
 use Mary\Traits\Toast;
 use function Laravel\Prompts\alert;
 
-class pricing extends Component
+class Pricing extends Component
 {
-    use Toast;
+
     /**
      * Create a new component instance.
      */

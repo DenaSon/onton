@@ -8,23 +8,19 @@ use Mary\Traits\Toast;
 class PricePlan extends Component
 {
     use Toast;
-    public $planId;
-    public ?string $label;
-    public $labelClass;
 
-    public ?string $title;
 
-    public ?string $price;
 
-    public ?string $per;
 
-    public function saveNewsletterEmail(): void
+
+
+    public function trialStart(): void
     {
         $this->success(
             'Plan <u>updated</u>',
-            'Avtive ONTON Radar Plan  : <strong> Successfully </strong>',
+            'Avtive Byblos Radar Plan  : <strong> Successfully </strong>',
             position: 'bottom-end',
-            icon: 'o-heart',
+            icon: 'o-credit-card',
             css: 'bg-primary text-base-100'
         );
     }

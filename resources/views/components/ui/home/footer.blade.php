@@ -1,10 +1,10 @@
-<footer class="bg-base-200 text-base-content py-12 mt-10 border-t border-base-300">
+<footer class="bg-base-300/95 text-base-content py-12 mt-10 border-t border-t-gray-300 border-base-300">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
 
 
         <section aria-labelledby="footer-brand">
-            <h2 id="footer-brand" class="sr-only">About ONTON</h2>
-            <div class="text-2xl font-bold text-primary mb-2">ONTON</div>
+            <h2 id="footer-brand" class="font-semibold mb-2">About</h2>
+
             <p class="text-sm text-base-content/70">
                 Make smarter startup moves with exclusive VC insights, curated and delivered straight to your inbox.
             </p>
@@ -47,7 +47,7 @@
     <div class="mt-12 border-t border-base-300 pt-6 text-sm text-center text-base-content/60">
         <small>
             © <span x-data="{ year: new Date().getFullYear() }" x-text="year"></span>
-            ONTON. All rights reserved.
+            Byblos Radar. All rights reserved.
         </small>
         <div class="mt-2 flex justify-center space-x-4" aria-label="Social media links">
             <a href="#" class="hover:text-primary">

@@ -11,3 +11,5 @@
     themes: light --default, dark --prefersdark, cupcake;
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+

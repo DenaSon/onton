@@ -1,0 +1,34 @@
+<x-layouts.app>
+    <div class="hero min-h-screen bg-base-200/80 backdrop-blur-lg rounded-2xl shadow-inner">
+        <div class="hero-content flex-col lg:flex-row-reverse gap-8 lg:gap-24 px-4">
+
+            <div
+                x-data="{ shown: false }"
+                x-intersect.once="shown = true"
+                class="flex-1 flex flex-col items-center lg:items-start space-y-4 sm:space-y-6 transition-all duration-500 transform"
+                :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'"
+            >
+                <img src="{{ asset('static/img/reset-password-illus.svg') }}"
+                     alt="Reset Password Illustration"
+                     class="opacity-90 w-48 sm:w-64 md:w-80 lg:w-full max-w-md rounded-xl transition-all duration-300" />
+
+                <h1 class="text-xl sm:text-xl md:text-2xl lg:text-2xl font-extrabold text-primary leading-tight transition-all duration-300">
+                    Reset your password
+                </h1>
+
+                <p class="text-sm sm:text-base text-base-content/80 max-w-prose text-center lg:text-left">
+                    Please choose a new password for your account.
+                </p>
+            </div>
+
+            <x-card class="w-full max-w-sm bg-base-100/90 shadow-lg rounded-2xl backdrop-blur-md border-primary transition-shadow duration-100">
+                <div class="card-body space-y-0 px-4 py-0">
+                    <h2 class="card-title justify-center font-semibold text-2xl text-center">Set New Password</h2>
+
+                    @livewire('auth.reset-password', ['token' => request()->route('token')])
+                </div>
+            </x-card>
+
+        </div>
+    </div>
+</x-layouts.app>
