@@ -10,6 +10,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "hashids/hashids": "^5.0",
+        "jenssegers/agent": "^2.6",
         "laravel/cashier": "^15.6",
         "laravel/fortify": "^1.25",
         "laravel/framework": "^12.0",
@@ -19,7 +21,10 @@
         "livewire/volt": "^1.7",
         "owenvoke/blade-fontawesome": "^2.9",
         "robsontenorio/mary": "^2.4",
-        "spatie/laravel-permission": "^6.18"
+        "spatie/laravel-activitylog": "^4.10",
+        "spatie/laravel-permission": "^6.18",
+        "webklex/laravel-imap": "^6.2",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -35,7 +40,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Support/Helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

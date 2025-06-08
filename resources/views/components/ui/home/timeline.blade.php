@@ -17,7 +17,7 @@
                     :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'"
                 >
                     <div class="w-16 h-16 rounded-full bg-primary text-primary-content flex items-center justify-center text-2xl shadow-lg mb-4 z-10">
-                        <x-icon name="O-user" class="w-6 h-6" />
+                        <x-icon name="o-user" class="w-6 h-6" />
                     </div>
                     <h3 class="font-semibold text-lg mb-1">1. Sign Up</h3>
                     <p class="text-sm text-base-content/80">Create an account in seconds.</p>

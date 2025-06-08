@@ -2,10 +2,15 @@
 
 namespace App\Providers;
 
+use App\Models\Cashier\Subscription;
+use App\Models\User;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
+use Laravel\Cashier\Cashier;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -25,6 +30,16 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        Schema::defaultStringLength(191);
+        Cashier::useSubscriptionModel(Subscription::class);
+        Cashier::useCustomerModel(User::class);
+
+
+
+        Schema::defaultStringLength(125);
+
+        Gate::define('viewPulse', function (User $user) {
+            return $user->hasRole('admin');
+        });
+
     }
 }

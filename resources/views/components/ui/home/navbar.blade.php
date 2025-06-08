@@ -25,7 +25,7 @@
                 <!-- Logo -->
                 <a wire:navigate href="{{ route('home') }}" class="text-center leading-tight">
                     <div class="font-alfa text-xl text-primary tracking-wide">Byblos
-                        <span class="font-serif text-primary/70 text-sm font-semibold tracking-tight">Radar</span>
+
                     </div>
                 </a>
 
@@ -52,6 +52,7 @@
             <div class="navbar-end gap-3">
 
                 <x-theme-toggle/>
+                <label class="text-gray-400">|</label>
 
                 @guest
                     <x-button link="{{ route('login') }}" class="btn-outline btn-sm btn-circle tooltip tooltip-bottom"
@@ -63,7 +64,7 @@
                 @auth
                     <x-dropdown label="{{ Auth::user()->name ?? 'User' }}">
 
-                        <x-menu-item title="Dashboard" link="{{ route('dashboard') }}" icon="o-squares-2x2"/>
+                        <x-menu-item title="Dashboard" link="{{ route('panel.index') }}" icon="o-squares-2x2"/>
 
                         <x-menu-item title="My Profile" link="#" icon="o-user"/>
 

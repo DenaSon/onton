@@ -6,6 +6,7 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -26,6 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'is_suspended',
     ];
 
     /**
@@ -57,5 +59,28 @@ class User extends Authenticatable implements MustVerifyEmail
             ->explode(' ')
             ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
+    }
+
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(\App\Models\Cashier\Subscription::class);
+    }
+
+    public function activeSubscription()
+    {
+        return $this->hasOne(\App\Models\Cashier\Subscription::class)
+            ->where('stripe_status', 'active');
+    }
+
+
+
+    /**
+     * Determine if the user account is suspended.
+     *
+     * @return bool True if the user is suspended, false otherwise.
+     */
+    public function isSuspended(): bool
+    {
+        return $this->is_suspended;
     }
 }

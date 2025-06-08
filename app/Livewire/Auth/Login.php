@@ -5,6 +5,7 @@ namespace App\Livewire\Auth;
 use App\Actions\Auth\LoginAction;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Throwable;
 
 
 class Login extends Component
@@ -26,11 +27,16 @@ class Login extends Component
         try {
             $action->handle($this->email, $this->password, $this->remember);
 
-            return redirect()->intended(route('dashboard'));
+            if (auth()->check()) {
+                return auth()->user()->hasRole('admin')
+                    ? redirect()->intended(route('core.index'))
+                    : redirect()->intended(route('panel.index'));
+            }
+
 
         }
-        catch (\Illuminate\Validation\ValidationException $e) {
-            $this->warning('Sign In failed', 'Please check your email and password.', timeout: 5000);
+        catch (Throwable $e) {
+            $this->warning('Sign In failed', $e->getMessage(), timeout: 5000);
 
             $this->addError('email', $e->getMessage());
             $this->addError('password', __('These credentials do not match our records.'));

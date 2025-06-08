@@ -1,18 +1,39 @@
 <?php
 
+use App\Http\Middleware\RoleMiddleware;
 use App\Livewire\Actions\Logout;
+use App\Livewire\AdminDashboard\Documents\DocIndex;
 use App\Livewire\Home\Index;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Fortify;
 
 
 Route::get('/', Index::class)->name('home');
 
+Route::prefix('core')
+    ->as('core.')
+    ->middleware(['web', 'auth', 'verified', RoleMiddleware::class . ':admin'])
+    ->group(function () {
+        Route::get('/', \App\Livewire\AdminDashboard\Index::class)->name('index');
+
+        Route::get('/users', \App\Livewire\AdminDashboard\Users\UserIndex::class)->name('users.index');
+
+        Route::get('/vc-firms/create', \App\Livewire\AdminDashboard\VcFirms\VcForm::class)->name('vc-firms.create');
+        Route::get('/vc-firms/', \App\Livewire\AdminDashboard\VcFirms\VcsIndex::class)->name('vc-firms.index');
+        Route::get('/documents', DocIndex::class)->name('docs.index');
+        Route::get('/logs/activity', \App\Livewire\AdminDashboard\Logs\ActivityLog::class)->name('activity-logs');
+
+    });
 
 
+Route::prefix('panel')
+    ->as('panel.')
+    ->middleware(['web', 'auth', 'verified', RoleMiddleware::class . ':admin,user'])
+    ->group(function () {
+        Route::get('/', \App\Livewire\UserDashboard\Index::class)->name('index');
+
+    });
 
 
-Route::get('/out',Logout::class )->name('logout');
+Route::get('logout', Logout::class);
 
 
-Route::get('/dashboard',\App\Livewire\Dashboard\Overview::class)->name('dashboard');

@@ -3,6 +3,7 @@
 namespace App\Actions\Auth;
 
 
+use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Http\Request;
@@ -66,6 +67,7 @@ class LoginAction
         $this->rateLimiter->clear($this->throttleKey($email));
 
         $this->session->regenerate();
+
     }
 
     /**
@@ -83,7 +85,7 @@ class LoginAction
     {
         $key = $this->throttleKey($email);
 
-        if ($this->rateLimiter->tooManyAttempts($key, 5)) {
+        if ($this->rateLimiter->tooManyAttempts($key, 3)) {
             throw ValidationException::withMessages([
                 'email' => __('Too many login attempts. Please try again in :seconds seconds.', [
                     'seconds' => $this->rateLimiter->availableIn($key),
@@ -91,7 +93,7 @@ class LoginAction
             ]);
         }
 
-        $this->rateLimiter->hit($key, 60);
+        $this->rateLimiter->hit($key, 100);
     }
 
 

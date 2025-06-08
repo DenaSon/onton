@@ -23,13 +23,26 @@ return [
     | Database Connections
     |--------------------------------------------------------------------------
     |
-    | Below are all of the database connections defined for your application.
+    | Below are all the database connections defined for your application.
     | An example configuration is provided for each database system which
     | is supported by Laravel. You're free to add / remove connections.
     |
     */
 
     'connections' => [
+
+
+        'logs' => [
+            'driver' => 'mysql',
+            'host' => env('DB_LOG_HOST', '127.0.0.1'),
+            'port' => env('DB_LOG_PORT', '3306'),
+            'database' => env('DB_LOG_DATABASE', 'activity_log'),
+            'username' => env('DB_LOG_USERNAME', 'root'),
+            'password' => env('DB_LOG_PASSWORD', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+        ],
+
 
         'pulse' => [
             'driver' => 'mysql',
