@@ -61,7 +61,7 @@ return [
                 'username' => null,
                 'password' => null,
             ],
-            "timeout" => 30,
+            "timeout" => 40,
             "extensions" => []
         ],
 
@@ -151,7 +151,7 @@ return [
         // 'fallback_date' => "01.01.1970 00:00:00",
         'boundary' => '/boundary=(.*?(?=;)|(.*))/i',
         'message_key' => 'list',
-        'fetch_order' => 'asc',
+        'fetch_order' => 'desc',
         'dispositions' => ['attachment', 'inline'],
         'common_folders' => [
             "root" => "INBOX",

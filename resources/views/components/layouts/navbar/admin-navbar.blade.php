@@ -7,7 +7,7 @@
         </label>
 
         {{-- Brand --}}
-        <i class="text-xs md:text-xl text-primary font-semibold font-mono">ByblosRadar</i>
+        <i class="text-xs md:text-xl text-primary font-bold font-mono">ByblosRadar</i>
     </x-slot:brand>
 
     {{-- Right side actions --}}
@@ -28,11 +28,10 @@
 
             <x-menu-item title="My Profile" link="" icon="o-user"/>
 
-            <x-menu-item title="Settings" link="#" icon="o-cog-6-tooth"/>
 
             <x-menu-separator/>
 
-            <x-menu-item title="Help Center" link="#" icon="o-question-mark-circle"/>
+            <x-menu-item title="Help Center" link="{{ route('core.docs.index') }}" icon="o-question-mark-circle"/>
 
 
             <x-menu-separator/>

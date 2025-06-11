@@ -12,7 +12,7 @@
         <x-menu-item title="Add New VC" icon="o-plus-circle" link="{{ route('core.vc-firms.create') }}" />
     </x-menu-sub>
 
-    <x-menu-sub title="Crawler Monitor" icon="o-cpu-chip">
+    <x-menu-sub title="Crawler" icon="o-globe-alt">
         <x-menu-item title="Job Status" icon="o-play-circle" link="#" />
         <x-menu-item title="Error Logs" icon="o-exclamation-triangle" link="" />
     </x-menu-sub>
@@ -28,8 +28,8 @@
     </x-menu-sub>
 
     <x-menu-sub title="Analytics" icon="o-chart-bar">
-        <x-menu-item title="Active Users" icon="o-user-group" link="#" />
-        <x-menu-item title="Subscriptions" icon="o-credit-card" link="#" />
+        <x-menu-item title="Overview" icon="o-chart-pie" link="{{ route('core.analysis.overview') }}" />
+
     </x-menu-sub>
 
     <x-menu-item title="Documentation" icon="o-book-open" link="{{ route('core.docs.index') }}" />

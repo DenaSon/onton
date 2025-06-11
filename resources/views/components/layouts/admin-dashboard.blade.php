@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{csrf_token()}}">
-    <title>Byblos Radar</title>
+    <title>{{ $title ?? 'Byblos Radar Core' }}</title>
 
 
     <meta name="robots" content="index, follow"/>
@@ -17,7 +17,7 @@
 
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    @stack('headScripts')
 </head>
 
 <body class="font-sans bg-base-200">

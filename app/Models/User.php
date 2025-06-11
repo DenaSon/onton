@@ -61,6 +61,13 @@ class User extends Authenticatable implements MustVerifyEmail
             ->implode('');
     }
 
+    public function firstName(): string
+    {
+        return Str::of($this->name)
+            ->explode(' ')
+            ->first();
+    }
+
     public function subscriptions(): HasMany
     {
         return $this->hasMany(\App\Models\Cashier\Subscription::class);

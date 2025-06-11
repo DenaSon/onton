@@ -9,6 +9,6 @@ class DocIndex extends Component
 {
     public function render()
     {
-        return view('livewire.admin-dashboard.documents.doc-index');
+        return view('livewire.admin-dashboard.documents.doc-index')->title('Admin Core Documents');
     }
 }

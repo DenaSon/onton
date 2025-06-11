@@ -21,6 +21,6 @@ class ActivityLog extends Component
         $logs = Activity::latest()->paginate(15);
 
 
-        return view('livewire.admin-dashboard.logs.activity-log',['logs'=>$logs]);
+        return view('livewire.admin-dashboard.logs.activity-log',['logs'=>$logs])->title('Activity Logs');
     }
 }

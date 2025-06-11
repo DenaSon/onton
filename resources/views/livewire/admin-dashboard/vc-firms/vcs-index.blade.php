@@ -83,13 +83,14 @@
             @scope('actions', $vcFirm)
             <div class="flex gap-1">
                 <x-button
+                    link="{{ route('core.vc-firms.create',['action' =>'edit','id'=>$vcFirm->id]) }}"
                     icon="o-pencil-square"
                     class="tooltip btn-xs btn-outline btn-info"
                     data-tip="Edit"
                     href="#"
                 />
                 <x-button
-                    wire:click="deactivate({{ $vcFirm->id }})"
+                    wire:click="delete({{ $vcFirm->id }})"
                     wire:confirm="Are you sure you want to delete this firm?"
                     icon="o-trash"
                     class="tooltip btn-xs btn-outline btn-warning"

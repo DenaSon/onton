@@ -33,28 +33,31 @@ class VcForm extends Component
         'name' => 'required|string|max:255',
         'stages' => 'required|array|min:1',
         'stages.*' => 'string|in:Pre-Seed,Seed,Series A,Series B,Growth',
-        'website' => 'nullable|url',
+        'website' => 'nullable|string',
         'description' => 'nullable|string',
         'tags' => 'array',
         'tags.*' => 'string',
-        'country' => 'required|string|exists:countries,code',
+        'country' => 'required|string|exists:countries,name',
     ];
 
     #[Lazy]
     public function loadCountries()
     {
-        $this->countries = Country::all()->map(function ($country) {
-            return [
-                'label' => $country->name,
-                'code' => $country->code,
-            ];
-        })->toArray();
+        $this->countries = cache()->rememberForever('countries_list', function () {
+            return Country::all()->map(function ($country) {
+                return [
+                    'label' => $country->name,
+                    'code' => $country->code,
+                ];
+            })->toArray();
+        });
     }
 
 
     public function save()
     {
         $validatedData = $this->validate();
+        $this->info('VC saved successfully.','Note: This action is currently a placeholder and has not been executed for real');
     }
 
 
@@ -117,6 +120,6 @@ Maintain a clear, modern tone suitable for a VC directory or professional profil
     public function render()
     {
         return view('livewire.admin-dashboard.vc-firms.vc-form')
-            ->title('Add VC Firms');
+            ->title('VC Firms Form');
     }
 }

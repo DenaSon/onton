@@ -92,6 +92,6 @@ class UserIndex extends Component
             ['key' => 'actions', 'label' => 'Actions', 'class' => 'w-32', 'sortable' => false],
         ];
 
-        return view('livewire.admin-dashboard.users.user-index', compact('users', 'headers'));
+        return view('livewire.admin-dashboard.users.user-index', compact('users', 'headers'))->title('Users Management');
     }
 }

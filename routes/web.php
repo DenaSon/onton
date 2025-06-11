@@ -1,10 +1,14 @@
 <?php
 
 use App\Http\Middleware\RoleMiddleware;
+use App\Jobs\CrawlEmailsJob;
 use App\Livewire\Actions\Logout;
 use App\Livewire\AdminDashboard\Documents\DocIndex;
 use App\Livewire\Home\Index;
+use App\Services\Crawler\MailCrawler;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
+use Webklex\IMAP\Facades\Client;
 
 
 Route::get('/', Index::class)->name('home');
@@ -21,6 +25,8 @@ Route::prefix('core')
         Route::get('/vc-firms/', \App\Livewire\AdminDashboard\VcFirms\VcsIndex::class)->name('vc-firms.index');
         Route::get('/documents', DocIndex::class)->name('docs.index');
         Route::get('/logs/activity', \App\Livewire\AdminDashboard\Logs\ActivityLog::class)->name('activity-logs');
+        Route::get('/analysis/overview', \App\Livewire\AdminDashboard\Analytics\Overview\AnalysisIndex::class)->name('analysis.overview');
+
 
     });
 
@@ -35,5 +41,104 @@ Route::prefix('panel')
 
 
 Route::get('logout', Logout::class);
+
+
+Route::get('test', function () {
+    try {
+        $client = Client::account('default');
+        $client->connect();
+
+        if (!$client->isConnected()) {
+            return response('Cannot connect to IMAP server', 500);
+        }
+
+        $client->checkConnection();
+
+        $folder = $client->getFolderByName('INBOX');
+
+        $query = $folder->query()
+            ->fetchOrderDesc()
+            ->softFail()
+            ->unseen()
+            ->since(Carbon::now()->subDay(5))
+            ->limit(1);
+
+        $messages = $query->get();
+        $errors = $query->errors();
+
+        $output = [];
+
+        foreach ($messages as $message) {
+            $output[] = [
+                'subject' => $message->getSubject(),
+                'from' => $message->getFrom()[0]->mail ?? 'Unknown',
+                'date' => $message->getDate() ?? 'Unknown',
+                'body' => $message->getTextBody(),
+            ];
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'emails' => $output,
+            'errors' => collect($errors)->map(fn($e) => $e->getMessage())->all(),
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 480);
+    }
+});
+
+Route::get('crawl', function () {
+
+
+    \Log::info('Job started');
+    try {
+        $crawler = app(MailCrawler::class)
+            ->crawl('default', 'INBOX', function ($query) {
+                return $query->unseen()
+                    ->since(Carbon::now()->subDays(100))
+                    ->limit(10)
+                    ->softFail();
+            });
+
+        \Log::info('Crawl done');
+
+        $crawler->markAsRead()
+            ->parse()
+            ->saveAttachments();
+
+        \Log::info('All done');
+    } catch (\Throwable $e) {
+        \Log::error('Job error: ' . $e->getMessage());
+        \Log::error($e->getTraceAsString());
+    }
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

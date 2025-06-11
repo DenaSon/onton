@@ -160,10 +160,11 @@
                         <p class="text-xs text-gray-500">
                             {{ $activity->created_at->diffForHumans() }}
                         </p>
-                        @if(!empty($activity->properties['ip']) || !empty($activity->properties['user_agent']))
+                        @if(!empty($activity->properties['ip']) || !empty($activity->properties['platform'] || !empty($activity->properties['Device'])))
                             <p class="text-[10px] text-gray-400 mt-1">
                                 IP: {{ $activity->properties['ip'] ?? 'N/A' }} |
-                                Agent: {{ \Str::limit($activity->properties['user_agent'] ?? 'N/A', 40) }}
+                                Platform: {{ \Str::limit($activity->properties['platform'] ?? 'N/A', 40) }} |
+                                Device: {{ $activity->properties['Device'] ?? 'N/A' }}
                             </p>
                         @endif
                     </div>

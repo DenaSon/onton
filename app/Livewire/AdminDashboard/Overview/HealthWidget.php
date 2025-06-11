@@ -8,7 +8,7 @@ use Livewire\Component;
 use Spatie\Activitylog\Models\Activity;
 
 
-#[Lazy]
+
 class HealthWidget extends Component
 {
     public function render()

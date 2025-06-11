@@ -2,6 +2,7 @@
 
 namespace App\Services\AI;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 
 class OpenAIService
@@ -37,9 +38,15 @@ class OpenAIService
         return $headers;
     }
 
+    /**
+     * @throws ConnectionException
+     */
     public function chat(array $messages, string $model = 'gpt-3.5-turbo', float $temperature = 0.6, int $maxTokens = 250): string
     {
-        $response = Http::withHeaders($this->headers())->post("{$this->baseUrl}/chat/completions", [
+        $response = Http::withHeaders($this->headers())
+            ->timeout(60)
+            ->retry(2,100)
+            ->post("{$this->baseUrl}/chat/completions", [
             'model'       => $model,
             'messages'    => $messages,
             'temperature' => $temperature,

@@ -62,7 +62,7 @@
                 @endguest
 
                 @auth
-                    <x-dropdown label="{{ Auth::user()->name ?? 'User' }}">
+                    <x-dropdown label="{{ Auth::user()->firstName() ?? 'User' }}">
 
                         <x-menu-item title="Dashboard" link="{{ route('panel.index') }}" icon="o-squares-2x2"/>
 

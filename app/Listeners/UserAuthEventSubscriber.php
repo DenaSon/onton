@@ -6,29 +6,25 @@ use App\Models\User;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
-use Illuminate\Events\Dispatcher;
 use Jenssegers\Agent\Agent;
 
 class UserAuthEventSubscriber
 {
-    protected function logActivity(object $user, string $eventName, string $message): void
+    protected function logActivity(?object $user, string $eventName, string $message): void
     {
-        if (!$user) return;
-
         $agent = new Agent();
 
-        activity('authenticate')
-            ->causedBy($user)
+        $activity = activity('authenticate')
             ->event($eventName)
             ->withProperties([
                 'ip' => request()->ip() ?? 'N/A',
                 'role' => method_exists($user, 'getRoleNames') ? $user->getRoleNames()->first() : null,
-                'referer' => request()->header('referer'),
-                'url' => request()->fullUrl(),
-                'guard' => auth()->getDefaultDriver(),
+                'referer' => request()->header('referer') ??'N/A',
+                'url' => request()->fullUrl() ?? 'N/A',
+                'guard' => auth()->getDefaultDriver() ?? 'N/A',
                 'device' => $agent->device() ?? 'N/A',
                 'platform' => $agent->platform() ?? 'N/A',
                 'platform_version' => $agent->version($agent->platform()) ?? 'N/A',
@@ -37,9 +33,15 @@ class UserAuthEventSubscriber
                 'is_mobile' => $agent->isMobile(),
                 'is_desktop' => $agent->isDesktop(),
                 'is_robot' => $agent->isRobot(),
-            ])
-            ->log($message);
+            ]);
+
+        if ($user instanceof \Illuminate\Database\Eloquent\Model) {
+            $activity->causedBy($user);
+        }
+
+        $activity->log($message);
     }
+
 
     public function handleUserLogin(Login $event): void
     {
@@ -80,9 +82,9 @@ class UserAuthEventSubscriber
         $user = $event->user;
 
         $this->logActivity(
-            $user ?? (object) [],
+            $user,
             'FailedLogin',
-            __('Failed login with email: :email', ['email' => $user?->email ?? 'unknown'])
+            __('Failed login with email: :email', ['email' => $user->email])
         );
     }
 

@@ -9,7 +9,8 @@
     <x-form wire:submit.prevent="save">
 
         {{-- Name --}}
-        <x-input wire:loading.attr="disabled" wire:target="generateDescriptionWithAI" label="Name" wire:model.defer="name" placeholder="VC Firm Name"/>
+        <x-input wire:loading.attr="disabled" wire:target="generateDescriptionWithAI" label="Name"
+                 wire:model.defer="name" placeholder="VC Firm Name"/>
 
 
         <div wire:init="loadCountries"></div>
@@ -54,9 +55,8 @@
         </fieldset>
 
 
-        <x-input wire:loading.attr="disabled" wire:target="generateDescriptionWithAI" label="Website" wire:model="website" prefix="https://" placeholder="500.co"/>
-
-
+        <x-input wire:loading.attr="disabled" wire:target="generateDescriptionWithAI" label="Website"
+                 wire:model="website" prefix="https://" placeholder="500.co"/>
 
 
         {{-- Tags --}}
@@ -83,12 +83,11 @@
             </div>
 
             <x-textarea wire:loading.attr="disabled" wire:target="generateDescriptionWithAI"
-                wire:model.defer="description"
-                placeholder="Brief description about the VC firm..."
-                rows="3"
+                        wire:model.defer="description"
+                        placeholder="Brief description about the VC firm..."
+                        rows="3"
             />
         </div>
-
 
 
         {{-- Upload Logo --}}
@@ -96,7 +95,8 @@
 
 
         <div class="text-center mx-auto  mt-2">
-            <x-button wire:loading.attr="disabled" wire:target="generateDescriptionWithAI" spinner="save" type="submit" icon="o-check" label="Save" primary class="btn-primary"/>
+            <x-button wire:loading.attr="disabled" wire:target="generateDescriptionWithAI" spinner="save" type="submit"
+                      icon="o-check" label="Save" primary class="btn-primary"/>
 
         </div>
 
