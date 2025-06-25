@@ -11,14 +11,14 @@
                     </div>
                     <ul tabindex="0"
                         class="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow">
-                        @foreach($mainMenuItems as $item)
-                            <x-menu-item
-                                :title="$item['title']"
-                                :link="$item['route']"
-                                :icon="$item['icon'] ?? null"
-                                :class="$item['class'] ?? ''"
-                            />
-                        @endforeach
+{{--                        @foreach($mainMenuItems as $item)--}}
+{{--                            <x-menu-item--}}
+{{--                                :title="$item['title']"--}}
+{{--                                :link="$item['route']"--}}
+{{--                                :icon="$item['icon'] ?? null"--}}
+{{--                                :class="$item['class'] ?? ''"--}}
+{{--                            />--}}
+{{--                        @endforeach--}}
                     </ul>
                 </div>
 
@@ -37,14 +37,14 @@
             <!-- CENTER -->
             <div class="navbar-center hidden lg:flex">
                 <ul class="menu menu-horizontal px-1">
-                    @foreach($mainMenuItems as $item)
-                        <x-menu-item
-                            :title="$item['title']"
-                            :link="$item['route']"
-                            :icon="$item['icon'] ?? null"
-                            :class="$item['class'] ?? ''"
-                        />
-                    @endforeach
+{{--                    @foreach($mainMenuItems as $item)--}}
+{{--                        <x-menu-item--}}
+{{--                            :title="$item['title']"--}}
+{{--                            :link="$item['route']"--}}
+{{--                            :icon="$item['icon'] ?? null"--}}
+{{--                            :class="$item['class'] ?? ''"--}}
+{{--                        />--}}
+{{--                    @endforeach--}}
                 </ul>
             </div>
 
