@@ -21,10 +21,12 @@
         "livewire/livewire": "^3.6",
         "livewire/volt": "^1.7",
         "owenvoke/blade-fontawesome": "^2.9",
+        "rap2hpoutre/laravel-log-viewer": "^2.5",
         "robsontenorio/mary": "^2.4",
         "spatie/laravel-activitylog": "^4.10",
         "spatie/laravel-permission": "^6.18",
-        "webklex/laravel-imap": "*"
+        "webklex/laravel-imap": "*",
+        "ext-iconv": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",

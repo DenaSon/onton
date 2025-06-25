@@ -1,5 +1,4 @@
 <section class="p-4 bg-base-200 min-h-screen" id="vcFirmsIndex">
-
     <x-card title="All VC Firms" subtitle="Manage all listed VC firms" separator>
 
         {{-- Top Filters --}}
@@ -7,7 +6,7 @@
             <x-input class="input-sm w-full sm:w-64"
                      inline
                      label="Search"
-                     wire:model="search"
+                     wire:model.live.debounce.100ms="search"
                      placeholder="Search by name or website"
                      icon="o-magnifying-glass"/>
         </div>
@@ -22,57 +21,53 @@
                 ['key' => 'created_at', 'label' => 'Created', 'class' => 'w-28'],
                 ['key' => 'actions', 'label' => 'Actions', 'class' => 'w-32'],
             ];
-
-
-            $vcFirms = collect([
-                (object)[
-                    'id' => 1,
-                    'name' => 'Sequoia Capital',
-                    'country' => 'United States',
-                    'website' => 'https://sequoiacap.com',
-                    'is_active' => true,
-                    'created_at' => '2023-01-10',
-                ],
-                (object)[
-                    'id' => 2,
-                    'name' => 'Accel',
-                    'country' => 'United Kingdom',
-                    'website' => 'https://accel.com',
-                    'is_active' => false,
-                    'created_at' => '2022-11-05',
-                ],
-                (object)[
-                    'id' => 3,
-                    'name' => 'Atomico',
-                    'country' => 'Germany',
-                    'website' => 'https://atomico.com',
-                    'is_active' => true,
-                    'created_at' => '2023-03-20',
-                ],
-            ]);
         @endphp
 
-        {{-- Table --}}
         <x-table
             wire:model="expanded"
             expandable
             :headers="$headers"
             :rows="$vcFirms"
-
+            empty-text="No records found."
+            empty="No records found."
 
         >
 
+
             {{-- Expandable Section --}}
             @scope('expansion', $vcFirm)
-            <div class="p-4 text-gray-700">
-                <p><strong>Description:</strong> This is expanded info for <em>{{ $vcFirm->name }}</em>.</p>
-                <p><strong>Website:</strong> <a href="{{ $vcFirm->website }}" target="_blank" class="link link-primary">{{ $vcFirm->website }}</a></p>
+            <div class="overflow-x-auto">
+                <table class="table table-fixed w-full text-sm">
+                    <tbody>
+                    <tr>
+                        <th class="whitespace-nowrap">Newsletters</th>
+                        <td>{{ $vcFirm->newsletters()->count() ?? '0' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ $vcFirm->description ?? '-' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Website</th>
+                        <td>
+                            @if ($vcFirm->website)
+                                <a href="{{ $vcFirm->website }}" target="_blank" class="link link-primary break-all">
+                                    {{ $vcFirm->website }}
+                                </a>
+                            @else
+                                -
+                            @endif
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
+
             @endscope
 
             {{-- Status Badge --}}
             @scope('cell_is_active', $vcFirm)
-            @if($vcFirm->is_active)
+            @if(optional($vcFirm)->is_active)
                 <x-badge class="badge-success badge-xs" value="Active"/>
             @else
                 <x-badge class="badge-warning badge-xs" value="Inactive"/>
@@ -83,15 +78,14 @@
             @scope('actions', $vcFirm)
             <div class="flex gap-1">
                 <x-button
-                    link="{{ route('core.vc-firms.create',['action' =>'edit','id'=>$vcFirm->id]) }}"
+                    link="{{ route('core.vc-firms.create', ['action' =>'edit','id'=>$vcFirm->id]) }}"
                     icon="o-pencil-square"
                     class="tooltip btn-xs btn-outline btn-info"
                     data-tip="Edit"
-                    href="#"
                 />
                 <x-button
                     wire:click="delete({{ $vcFirm->id }})"
-                    wire:confirm="Are you sure you want to delete this firm?"
+                    wire:confirm="Are you sure you want to delete this VC firm? All related data such as newsletters, whitelist emails, tags, and investment relations will also be permanently deleted."
                     icon="o-trash"
                     class="tooltip btn-xs btn-outline btn-warning"
                     data-tip="Delete"
@@ -101,10 +95,9 @@
 
         </x-table>
 
+        <div class="mt-4">
+            {{ $vcFirms->links() }}
+        </div>
+
     </x-card>
-
-    <span class="text-xs">
-        Pagination will be placed here.like users index
-    </span>
-
 </section>

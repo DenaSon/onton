@@ -3,13 +3,15 @@
 namespace App\Jobs;
 
 
-use App\Services\Crawler\MailCrawler;
+use App\Models\Whitelist;
+use App\Services\Crawler\MailCrawlerService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -17,6 +19,14 @@ class CrawlEmailsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public function viaQueue(): string
+    {
+        return 'crawler';
+    }
+
+
+    public $tries = 5;
+    public $backoff = [30, 60, 120];
 
     /**
      * Create a new job instance.
@@ -26,31 +36,79 @@ class CrawlEmailsJob implements ShouldQueue
         //
     }
 
+    protected function getWhitelistedEmails(): array
+    {
+        return Cache::remember('whitelist:emails', now()->addHours(8), function () {
+            return Whitelist::whereNotNull('email')
+                ->pluck('email')
+                ->map(fn($email) => strtolower(trim($email)))
+                ->unique()
+                ->toArray();
+        });
+    }
+
+
     /**
      * Execute the job.
      */
     public function handle(): void
     {
-        \Log::info('Job started');
+
+        \Log::info('[CrawlEmailsJob] {MISSION_START} >>> ByblosCrawlerBot Has Entered The Target Zone.Crawling Initiated');
         try {
-            $crawler = app(MailCrawler::class)
-                ->crawl('default', 'INBOX', function ($query) {
+            $whiteListEmails = $this->getWhitelistedEmails();
+
+            if (empty($whiteListEmails)) {
+                \Log::warning('Whitelist emails is empty | Job Cancelled !');
+                return;
+            }
+
+
+
+            $limit = 15;
+            $lookbackHours = 100;
+
+
+
+            $crawler = app(MailCrawlerService::class)
+                ->crawl('default', 'INBOX', function ($query) use ($limit, $lookbackHours) {
                     return $query->unseen()
-                        ->since(Carbon::now()->subDays(1))
-                        ->limit(1)
+                        ->since(Carbon::now()->subHours($lookbackHours))
+                        ->limit($limit)
                         ->softFail();
                 });
 
-            \Log::info('Crawl done');
+           if ($crawler->folderIsEmpty())
+           {
 
-            $crawler->markAsRead()
+               return;
+           }
+
+
+            \Log::info('[CrawlEmailsJob] loaded: ' . count($whiteListEmails) . ' emails loaded from whitelist emails');
+
+            $emails = $crawler->markAsRead()
                 ->parse()
-                ->saveAttachments();
+                ->filterByWhitelistFrom($whiteListEmails)
+                ->saveAttachments()
+                ->get();
 
-            \Log::info('All done');
+
+            if (count($emails) > 0) {
+                StoreNewsletterJob::dispatch($emails)->onQueue('storenewsletter');
+                \Log::info('[CrawlEmailsJob] Dispatching StoreNewsletterJob with ' . count($emails) . ' emails.');
+                \Log::notice('[CrawlEmailsJob] {MISSION_COMPLETE} >>> Operation Crawl complete. Emails delivered. Next Mission Start.');
+            } else {
+                \Log::notice("[CrawlEmailsJob] No emails after filtering. Dispatch skipped.");
+                \Log::notice('[CrawlEmailsJob] Mission done — nothing to dispatch. [END]');
+            }
+
+
         } catch (\Throwable $e) {
-            \Log::error('Job error: ' . $e->getMessage());
-            \Log::error($e->getTraceAsString());
+            \Log::error('Job error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
+            $this->fail($e);
         }
     }
 
@@ -61,8 +119,8 @@ class CrawlEmailsJob implements ShouldQueue
 
     public function failed(Throwable $exception): void
     {
-        Log::error('CrawlEmailsJob failed', [
-            'message' => $exception->getMessage(),
+        Log::critical('CrawlEmailsJob failed permanently!', [
+            'exception' => $exception->getMessage(),
         ]);
     }
 

@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Middleware\RoleMiddleware;
-use App\Jobs\CrawlEmailsJob;
 use App\Livewire\Actions\Logout;
 use App\Livewire\AdminDashboard\Documents\DocIndex;
 use App\Livewire\Home\Index;
-use App\Services\Crawler\MailCrawler;
+use App\Models\Newsletter;
+use App\Models\Whitelist;
+use App\Services\Crawler\MailCrawlerService;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Webklex\IMAP\Facades\Client;
 
@@ -20,6 +22,7 @@ Route::prefix('core')
         Route::get('/', \App\Livewire\AdminDashboard\Index::class)->name('index');
 
         Route::get('/users', \App\Livewire\AdminDashboard\Users\UserIndex::class)->name('users.index');
+        Route::get('log-viewer', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('log-viewer.index');
 
         Route::get('/vc-firms/create', \App\Livewire\AdminDashboard\VcFirms\VcForm::class)->name('vc-firms.create');
         Route::get('/vc-firms/', \App\Livewire\AdminDashboard\VcFirms\VcsIndex::class)->name('vc-firms.index');
@@ -95,24 +98,81 @@ Route::get('crawl', function () {
 
     \Log::info('Job started');
     try {
-        $crawler = app(MailCrawler::class)
+
+        $emails = app(MailCrawlerService::class)
             ->crawl('default', 'INBOX', function ($query) {
                 return $query->unseen()
-                    ->since(Carbon::now()->subDays(100))
-                    ->limit(10)
+                    ->since(Carbon::now()->subDays(1))
+                    ->limit(1)
                     ->softFail();
-            });
-
-        \Log::info('Crawl done');
-
-        $crawler->markAsRead()
+            })
             ->parse()
-            ->saveAttachments();
+            ->get();
 
-        \Log::info('All done');
+
+
+
+        foreach ($emails as $email) {
+            try {
+
+
+                $uid = $email['__raw']->getUid();
+
+                $from = strtolower($email['from'] ?? $email['__raw']['header']['from'] ?? '');
+                Log::info('Processing Email From: ' . $from);
+
+                $whitelist = Whitelist::with('vc')->where('email', $from)->first();
+
+                if (!$whitelist || !$whitelist->vc) {
+                    Log::warning('Whitelist not found for email: ' . $from);
+                    return;
+                }
+
+                $vc = $whitelist->vc;
+
+                $bodyPlain = $email['text'] ?? '';
+                $bodyHtml = $email['html'] ?? '';
+                $bodyHash = sha1($bodyPlain ?: $bodyHtml);
+                $date = isset($email['date']) && $email['date'] instanceof \Carbon\Carbon
+                    ? $email['date']->toDateTimeString()
+                    : now()->toDateTimeString();
+
+
+                if (Newsletter::where('vc_id', $vc->id)->where('hash', $bodyHash)->exists()) {
+                    Log::info("Duplicate newsletter skipped for VC: {$vc->name}");
+                    return;
+                }
+
+                $data = [
+                    'vc_id' => $vc->id,
+                    'subject' => $email['subject'] ?? '(No subject)',
+                    'from_email' => $from,
+                    'to_email' => null,
+                    'body_plain' => $bodyPlain,
+                    'body_html' => $bodyHtml,
+                    'sent_at' => now(),
+                    'received_at' => $date,
+                    'message_id' => $uid,
+                    'hash' => $bodyHash,
+                ];
+
+                Newsletter::create($data);
+                Log::info('Email Saved Successfully In Newsletters for VC: ' . $vc->name);
+
+            } catch (\Throwable $e) {
+                Log::error('ProcessNewsletterJob failed: ' . $e->getMessage(), [
+                    'trace' => $e->getTraceAsString(),
+                ]);
+
+            }
+
+
+        }
+
+
     } catch (\Throwable $e) {
-        \Log::error('Job error: ' . $e->getMessage());
-        \Log::error($e->getTraceAsString());
+        \Log::error(' error: ' . $e->getMessage() . '/n' . $e->getLine());
+
     }
 
 
@@ -121,6 +181,13 @@ Route::get('crawl', function () {
 
 
 
+Route::get('show',function (){
+
+    $newsletter = Newsletter::find(1);
+
+    return $newsletter->body_html ?? '';
+
+});
 
 
 
