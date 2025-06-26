@@ -11,13 +11,14 @@
         </div>
 
 
-        <div class="mt-4">
-            <label class="font-semibold text-sm">Body:</label>
+        <div class="mt-6">
+            <label class="font-semibold text-sm mb-2 block">Body:</label>
 
-            <div class="mockup-window border border-base-300 w-full">
-                <div class="p-3 border-t border-base-300 h-80">  {!! $newsletter->body_html ?? '<em>No content</em>' !!}</div>
+            <div class="mockup-window border border-base-300 rounded-lg overflow-hidden">
+                <div class="bg-base-200 p-4 max-h-[35rem] overflow-auto prose prose-sm prose-headings:my-2 prose-img:rounded shadow-inner">
+                    {!! $newsletter->body_html ?? '<em>No content</em>' !!}
+                </div>
             </div>
-
         </div>
     </x-form>
 
