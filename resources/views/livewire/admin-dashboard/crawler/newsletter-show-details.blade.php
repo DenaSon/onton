@@ -21,6 +21,8 @@
         </div>
     </x-form>
 
+
+
     <div class="mt-6">
 
         <a href="{{ route('core.newsletters.index') }}" class="btn btn-sm btn-outline">← Back to Newsletters</a>
