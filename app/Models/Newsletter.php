@@ -14,6 +14,15 @@ class Newsletter extends Model
         'message_id', 'hash', 'processing_status', 'is_forwarded', 'forwarded_at'
     ];
 
+    protected $casts = [
+        'received_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'sent_at' => 'datetime',
+        'forwarded_at' => 'datetime',
+    ];
+
+
     public function tags(): MorphToMany
     {
         return $this->morphToMany(Tag::class, 'taggable');
