@@ -37,9 +37,9 @@ class CountersWidget extends Component
 
     protected function calculateVCStats(): void
     {
-        $this->vcFirmsTotal = \App\Models\VC::count();
+        $this->vcFirmsTotal = \App\Models\Vc::count();
 
-        $this->vcFirmsThisWeek = \App\Models\VC::where('created_at', '>=', now()->startOfWeek())->count();
+        $this->vcFirmsThisWeek = \App\Models\Vc::where('created_at', '>=', now()->startOfWeek())->count();
     }
 
 
