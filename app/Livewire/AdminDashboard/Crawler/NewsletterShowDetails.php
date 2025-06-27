@@ -4,6 +4,7 @@ namespace App\Livewire\AdminDashboard\Crawler;
 
 use App\Mail\ForwardNewsletterMailable;
 use App\Models\Newsletter;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -24,16 +25,24 @@ class NewsletterShowDetails extends Component
 
     public function forwardEmail()
     {
-        $this->validate(['email' => 'required|email']);
+        $this->validate([
+            'email' => 'required|email',
+        ]);
 
-        $newsletter = $this->newsletter;
+        try {
+            Mail::to($this->email)->send(new ForwardNewsletterMailable($this->newsletter));
 
-        Mail::to($this->email)->send(new ForwardNewsletterMailable($newsletter));
+            $this->success('Send Newsletter Email', 'Email has been sent to ' . $this->email);
 
+        } catch (\Exception $e) {
+            Log::error('Failed to send newsletter: ' . $e->getMessage());
 
-        $this->success('Send Newsletter Email','Email has been sent to ' . $this->email);
+            $this->addError('email', 'Sending failed. Please try again later.');
 
-        $this->reset(['email']);
+           $this->warning('Forward failed','Please try again later.');
+        }
+
+        $this->reset('email');
     }
 
 
