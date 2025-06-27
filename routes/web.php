@@ -27,11 +27,25 @@ Route::prefix('core')
         Route::get('crawler/newsletters', NewsletterIndex::class)->name('newsletters.index');
         Route::get('crawler/newsletter-{newsletter}', \App\Livewire\AdminDashboard\Crawler\NewsletterShowDetails::class)->name('newsletter.show');
 
+        //Payment Routes
+
+
         Route::get('crawler/newsletters/{id}/html', function ($id) {
             $newsletter = \App\Models\Newsletter::findOrFail($id);
             return response($newsletter->body_html)->header('Content-Type', 'text/html');
         })->name('newsletter.html');
 
+
+    });
+
+
+Route::prefix('payment')
+    ->as('payment.')
+    ->middleware(['web', 'auth', 'verified'])
+    ->group(function () {
+
+        Route::get('/subscribe', [SubscriptionController::class, 'show'])->name('subscribe.form');
+        Route::post('/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe.process');
 
     });
 

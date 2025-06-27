@@ -42,7 +42,7 @@
                 </li>
             </ul>
 
-            <x-button spinner wire:click.debounce.100ms="trialStart"
+            <x-button spinner wire:click.debounce.100ms="subscribe"
                       class="btn-primary w-full mt-6 py-3 text-lg font-semibold rounded-sm shadow-sm hover:shadow-md transition-all duration-100 hover:scale-100"
                       label="Start Free Trial" @mouseenter="hoverBtn = true" @mouseleave="hoverBtn = false" />
 
