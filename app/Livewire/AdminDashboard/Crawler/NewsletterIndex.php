@@ -4,7 +4,6 @@ namespace App\Livewire\AdminDashboard\Crawler;
 
 use App\Models\Newsletter;
 use Livewire\Attributes\Layout;
-
 use Livewire\Component;
 use Livewire\WithPagination;
 

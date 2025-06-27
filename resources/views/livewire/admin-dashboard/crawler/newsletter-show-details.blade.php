@@ -14,12 +14,16 @@
         <div class="mt-6">
             <label class="font-semibold text-sm mb-2 block">Body:</label>
 
-            <div class="mockup-window border border-base-300 rounded-lg overflow-hidden">
-                <div class="bg-base-200 p-4 max-h-[35rem] overflow-auto prose prose-sm prose-headings:my-2 prose-img:rounded shadow-inner">
-                    {!! $newsletter->body_html ?? '<em>No content</em>' !!}
-                </div>
-            </div>
+            <iframe
+                class="w-full border border-base-300 rounded h-[40rem] bg-white"
+                src="{{ route('core.newsletter.html', ['id' => $newsletter->id]) }}"
+                sandbox
+            ></iframe>
+
+
+
         </div>
+
     </x-form>
 
 
