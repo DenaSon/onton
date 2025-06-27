@@ -1,4 +1,4 @@
-<x-card class="space-y-1 max-w-3xl mx-auto mt-1" separator shadow>
+<x-card class="space-y-1 max-w-full mx-auto mt-1" separator shadow>
     <x-slot:title>
         <div class="flex items-center gap-2">
             <x-heroicon-o-squares-plus class="w-5 h-5 text-primary"/>
@@ -8,15 +8,10 @@
 
     <x-form wire:submit.prevent="save">
 
-        {{-- Name --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" wire:init="loadCountries">
         <x-input wire:loading.attr="disabled" label="Name"
                  wire:model.defer="name" placeholder="VC Firm Name"/>
 
-
-        <div wire:init="loadCountries"></div>
-        <span class="text-xs text-primary" wire:loading wire:target="loadCountries">
-            Loading Countries...
-        </span>
 
         <x-choices-offline
             wire:loading.attr="disabled"
@@ -35,6 +30,12 @@
 
         />
 
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {{-- Upload Logo --}}
+        <x-file wire:model="logo" label="VC Logo" hint="Only Images" accept="image/*"/>
+
 
         <x-input wire:loading.attr="disabled"  label="Website"
                  wire:model="website" placeholder="500.co">
@@ -43,6 +44,7 @@
             </x-slot:prefix>
 
         </x-input>
+        </div>
 
 
         {{-- Description with AI Assist --}}
@@ -65,20 +67,14 @@
             />
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <x-input money label="Ticket Min" wire:model.defer="ticket_min" placeholder="100000" suffix="$" />
             <x-input money label="Ticket Max" wire:model.defer="ticket_max" placeholder="5000000" suffix="$" />
         </div>
 
 
 
-        {{-- Upload Logo --}}
-        <x-file wire:model="logo" label="VC Logo" hint="Only Images" accept="image/*"/>
-        @if ($logo)
-            <div class="mt-2">
-                <img src="{{ $logo->temporaryUrl() }}" class="h-10 rounded-xl object-contain border" alt="Logo preview">
-            </div>
-        @endif
+
 
 
 
@@ -86,7 +82,7 @@
 
         {{-- Section: Tags --}}
         <div class="divider text-sm font-semibold text-base-content/70">Tags</div>
-
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <x-choices-offline
             label="Vertical Tags"
             placeholder="Select verticals..."
@@ -114,9 +110,9 @@
             clearable
             height="max-h-72"
         />
+        </div>
 
 
-        <div class="divider text-sm font-semibold text-base-content/70">Investments</div>
 
         <x-choices-offline
             label="This VC invests in"

@@ -17,8 +17,8 @@
             </x-slot:value>
 
             <x-slot:sub-value>
-                | <span>
-                    {{ $newsletter->from_email ?? 'N/A' }}   class="text-primary">Received:</span> {{ $newsletter->received_at->diffForHumans() }}
+
+                <span class="text-primary">{{ $newsletter->from_email ?? 'N/A' }} </span>  | Received:{{ $newsletter->received_at->diffForHumans() }}
 
             </x-slot:sub-value>
 

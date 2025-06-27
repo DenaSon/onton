@@ -5,13 +5,7 @@ use App\Livewire\Actions\Logout;
 use App\Livewire\AdminDashboard\Crawler\NewsletterIndex;
 use App\Livewire\AdminDashboard\Documents\DocIndex;
 use App\Livewire\Home\Index;
-use App\Models\Newsletter;
-use App\Models\Whitelist;
-use App\Services\Crawler\MailCrawlerService;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
-use Webklex\IMAP\Facades\Client;
 
 
 Route::get('/', Index::class)->name('home');
@@ -33,7 +27,7 @@ Route::prefix('core')
         Route::get('crawler/newsletters', NewsletterIndex::class)->name('newsletters.index');
         Route::get('crawler/newsletter-{newsletter}', \App\Livewire\AdminDashboard\Crawler\NewsletterShowDetails::class)->name('newsletter.show');
 
-        Route::get('/newsletters/{id}/html', function ($id) {
+        Route::get('crawler/newsletters/{id}/html', function ($id) {
             $newsletter = \App\Models\Newsletter::findOrFail($id);
             return response($newsletter->body_html)->header('Content-Type', 'text/html');
         })->name('newsletter.html');
