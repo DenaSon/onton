@@ -11,7 +11,9 @@ class PricePlan extends Component
     use Toast;
 
 
-
+    /**
+     * @throws \Exception
+     */
     public function subscribe()
     {
         if (!Auth::check()) {
