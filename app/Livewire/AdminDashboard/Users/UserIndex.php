@@ -3,7 +3,6 @@
 namespace App\Livewire\AdminDashboard\Users;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Crypt;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -43,9 +42,9 @@ class UserIndex extends Component
 
             $user = User::findOrFail($id);
             $user->update(['is_suspended' => true]);
-            $this->info('User has been suspended','');
+            $this->info('User has been suspended', '');
         } catch (\Exception $e) {
-            $this->info('cannot suspend user',$e->getMessage());
+            $this->info('cannot suspend user', $e->getMessage());
         }
     }
 
@@ -57,12 +56,11 @@ class UserIndex extends Component
 
             $user = User::findOrFail($id);
             $user->update(['is_suspended' => false]);
-            $this->info('User has been activated','');
+            $this->info('User has been activated', '');
         } catch (\Exception $e) {
-            $this->info('cannot active user',$e->getMessage());
+            $this->info('cannot active user', $e->getMessage());
         }
     }
-
 
 
     public function render()

@@ -23,15 +23,19 @@
             <div class="flex">
 
                 @if(!$user->is_suspended)
-                    <x-button spinner wire:click="suspendUser('{{ $user->id }}')" wire:confirm="Are you sure you want to suspend this user?" responsive icon="o-lock-closed"
+                    <x-button spinner wire:click="suspendUser('{{ $user->id }}')"
+                              wire:confirm="Are you sure you want to suspend this user?" responsive icon="o-lock-closed"
                               class="tooltip btn-xs btn-outline btn-warning" data-tip="Suspend"/>
                 @else
-                    <x-button spinner wire:click="active('{{ $user->id }}')" wire:confirm="Are you sure you want to active this user?" responsive icon="o-check"
+                    <x-button spinner wire:click="active('{{ $user->id }}')"
+                              wire:confirm="Are you sure you want to active this user?" responsive icon="o-check"
                               class="tooltip btn-xs btn-outline btn-success" data-tip="Active"/>
                 @endif
 
             </div>
             @endscope
+
+
 
             @scope('cell_is_suspended', $user)
             @if($user->is_suspended)

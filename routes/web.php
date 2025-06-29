@@ -6,6 +6,7 @@ use App\Livewire\AdminDashboard\Crawler\NewsletterIndex;
 use App\Livewire\AdminDashboard\Documents\DocIndex;
 use App\Livewire\Home\Index;
 use Illuminate\Support\Facades\Route;
+use Laravel\Cashier\Http\Controllers\WebhookController;
 
 
 Route::get('/', Index::class)->name('home');
@@ -19,8 +20,9 @@ Route::prefix('core')
         Route::get('/users', \App\Livewire\AdminDashboard\Users\UserIndex::class)->name('users.index');
         Route::get('log-viewer', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('log-viewer.index');
 
-        Route::get('/vc-firms/create', \App\Livewire\AdminDashboard\VcFirms\VcForm::class)->name('vc-firms.create');
-        Route::get('/vc-firms/', \App\Livewire\AdminDashboard\VcFirms\VcsIndex::class)->name('vc-firms.index');
+        Route::get('/vc/create', \App\Livewire\AdminDashboard\VcFirms\VcForm::class)->name('vc-firms.create');
+        Route::get('/vc/{vc}/edit', \App\Livewire\AdminDashboard\VcFirms\VcForm::class)->name('vc-firms.edit');
+        Route::get('/vc/', \App\Livewire\AdminDashboard\VcFirms\VcsIndex::class)->name('vc-firms.index');
         Route::get('/documents', DocIndex::class)->name('docs.index');
         Route::get('/logs/activity', \App\Livewire\AdminDashboard\Logs\ActivityLog::class)->name('activity-logs');
         Route::get('/analysis/overview', \App\Livewire\AdminDashboard\Analytics\Overview\AnalysisIndex::class)->name('analysis.overview');
@@ -39,15 +41,7 @@ Route::prefix('core')
     });
 
 
-Route::prefix('payment')
-    ->as('payment.')
-    ->middleware(['web', 'auth', 'verified'])
-    ->group(function () {
 
-        Route::get('/subscribe', [SubscriptionController::class, 'show'])->name('subscribe.form');
-        Route::post('/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe.process');
-
-    });
 
 
 Route::prefix('panel')
@@ -58,6 +52,7 @@ Route::prefix('panel')
 
     });
 
+Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
 
 Route::get('logout', Logout::class);
 

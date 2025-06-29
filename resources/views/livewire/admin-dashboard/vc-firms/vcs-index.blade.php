@@ -78,7 +78,7 @@
             @scope('actions', $vcFirm)
             <div class="flex gap-1">
                 <x-button
-                    link="{{ route('core.vc-firms.create', ['action' =>'edit','id'=>$vcFirm->id]) }}"
+                    link="{{ route('core.vc-firms.edit', ['vc'=>$vcFirm->id]) }}"
                     icon="o-pencil-square"
                     class="tooltip btn-xs btn-outline btn-info"
                     data-tip="Edit"

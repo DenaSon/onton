@@ -20,11 +20,19 @@ class Vc extends Model
         'name',
         'country',
         'website',
-        'description',
+        'substack_url',
+        'medium_url',
+        'blog_url',
+        'official_x_accounts',
+        'staff_x_accounts',
         'logo_url',
-        'ticket_min',
-        'ticket_max',
     ];
+
+    protected $casts = [
+        'official_x_accounts' => 'array',
+        'staff_x_accounts' => 'array',
+    ];
+
 
     /*
     |--------------------------------------------------------------------------

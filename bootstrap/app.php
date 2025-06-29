@@ -22,6 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
             | Request::HEADER_X_FORWARDED_PROTO,
         );
 
+        $middleware->validateCsrfTokens(except: [
+            'stripe/*',
+        ]);
 
     })
     ->withExceptions(function (Exceptions $exceptions) {

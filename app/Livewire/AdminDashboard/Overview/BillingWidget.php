@@ -2,40 +2,35 @@
 
 namespace App\Livewire\AdminDashboard\Overview;
 
-use Livewire\Attributes\Lazy;
+use App\Models\Cashier\Subscription as CustomSubscription;
 use Livewire\Component;
 
 class BillingWidget extends Component
 {
-
     public int $activeSubscriptions = 0;
     public int $cancelledSubscriptions = 0;
-    public float $monthlyRevenue = 0.0;
-    public ?string $lastPaymentDateDiff = null;
+    public float $estimatedRevenue = 0.0;
+    public ?string $lastSubscriptionDateDiff = null;
 
-
-    protected function loadBillingData(): void
+    public function loadBillingData(): void
     {
-        $now = now();
 
-        $this->activeSubscriptions = \Laravel\Cashier\Subscription::where('stripe_status', 'active')->count();
 
-        $this->cancelledSubscriptions = \Laravel\Cashier\Subscription::whereIn('stripe_status', ['canceled', 'cancelled', 'ended'])->count();
+        $this->activeSubscriptions = CustomSubscription::whereIn('stripe_status', ['active', 'trialing'])->count();
 
-        $startOfMonth = $now->copy()->startOfMonth();
-        $endOfMonth = $now->copy()->endOfMonth();
+        $this->cancelledSubscriptions = CustomSubscription::whereIn('stripe_status', ['canceled', 'cancelled', 'ended'])->count();
 
-        $this->monthlyRevenue = \Laravel\Cashier\Invoice::whereBetween('created_at', [$startOfMonth, $endOfMonth])
-                ->where('paid', true)
-                ->sum('total') / 100;
+        $this->estimatedRevenue = $this->activeSubscriptions * 9.99;
 
-        $lastInvoice = \Laravel\Cashier\Invoice::where('paid', true)
+        $lastSubscription = \App\Models\Cashier\Subscription::where('stripe_status', 'active')
+            ->orWhere('stripe_status', 'trialing')
             ->orderByDesc('created_at')
             ->first();
 
-        $this->lastPaymentDateDiff = $lastInvoice ? $lastInvoice->created_at->diffForHumans() : 'No payments yet';
+        $this->lastSubscriptionDateDiff = $lastSubscription
+            ? $lastSubscription->created_at->diffForHumans()
+            : 'No active subscriptions';
     }
-
 
     public function render()
     {
