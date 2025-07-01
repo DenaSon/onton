@@ -24,23 +24,11 @@
                     Newsletters : {{ $vc->newsletters_count }}
                 </x-slot:sub-value>
                 <x-slot:actions>
-                    @if(in_array($vc->id, $followedVcIds))
-                        <x-button
-                            icon="o-eye-slash"
-                            label="Unfollow"
-                            spinner
-                            wire:click.debounce.450ms="toggleFollow({{ $vc->id }})"
-                            class="btn-sm btn-outline btn-error hover:bg-error hover:text-white transition-transform transform hover:scale-105"
-                        />
-                    @else
-                        <x-button
-                            spinner
-                            icon="o-eye"
-                            label="Follow"
-                            wire:click.debounce.450ms="toggleFollow({{ $vc->id }})"
-                            class="btn-sm btn-outline btn-primary hover:bg-primary hover:text-white transition-transform transform hover:scale-105"
-                        />
-                    @endif
+
+                    <livewire:user-dashboard.vc.components.follow-unfollow-btn :vc="$vc" :wire:key="'follow-btn-'.$vc->id" />
+
+
+
                 </x-slot:actions>
             </x-list-item>
 

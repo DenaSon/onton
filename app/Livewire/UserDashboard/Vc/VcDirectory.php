@@ -29,47 +29,6 @@ class VcDirectory extends Component
     public $stageTags = [];
 
 
-    public function toggleFollow(Vc $vc): void
-    {
-
-
-        $user = auth()->user();
-
-        $vcKey = 'follow-vc:' . $user->id . ':' . $vc->id;
-        $globalKey = 'follow-vc:global:' . $user->id;
-
-        if (RateLimiter::tooManyAttempts($vcKey, 5)) {
-            $this->info('Too fast', 'You are toggling follow on this VC too often. Wait a few seconds.');
-            return;
-        }
-
-        if (RateLimiter::tooManyAttempts($globalKey, 12)) {
-            $this->warning('Rate limited', 'You are following too many VC firms too quickly. Please slow down.');
-            return;
-        }
-
-        RateLimiter::hit($vcKey, 30);
-        RateLimiter::hit($globalKey, 60);
-
-        $isFollowing = DB::table('user_vc_follows')
-            ->where('user_id', $user->id)
-            ->where('vc_id', $vc->id)
-            ->exists();
-
-        if ($isFollowing) {
-            $user->followedVCs()->detach($vc->id);
-            $this->followedVcIds = array_filter($this->followedVcIds, fn($id) => $id !== $vc->id);
-        } else {
-            $user->followedVCs()->syncWithoutDetaching([$vc->id]);
-            $this->followedVcIds[] = $vc->id;
-        }
-
-
-
-    }
-
-
-
     public function mount()
     {
         $this->verticalTags = Tag::where('type', 'vertical')
