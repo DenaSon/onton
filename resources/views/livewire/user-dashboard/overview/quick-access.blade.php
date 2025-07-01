@@ -10,7 +10,7 @@
     @endphp
 
     @foreach ($cards as $card)
-        <a href="{{ $card['link'] ?? '#'}}"
+        <a wire:key="quick-card-{{$card['link']}}" href="{{ $card['link'] ?? '#'}}"
            class="group card bg-base-100 border border-base-200 hover:border-primary/60 hover:shadow-xl transition duration-300 rounded-2xl">
             <div class="card-body items-center text-center px-6 py-8 relative overflow-hidden">
                 {{-- Background Glow Effect --}}

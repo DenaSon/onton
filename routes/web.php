@@ -39,13 +39,15 @@ Route::prefix('core')
     });
 
 
-
 Route::prefix('panel')
     ->as('panel.')
     ->middleware(['web', 'auth', 'verified', RoleMiddleware::class . ':admin,user'])
     ->group(function () {
         Route::get('/', \App\Livewire\UserDashboard\Index::class)->name('index');
+
         Route::get('/vc/directory', \App\Livewire\UserDashboard\Vc\VcDirectory::class)->name('vc.directory');
+
+        Route::get('/feed', \App\Livewire\UserDashboard\Feed\FeedIndex::class)->name('feed.index');
     });
 
 Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);

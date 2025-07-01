@@ -12,7 +12,7 @@
     <div class="px-4 py-2 max-h-72 overflow-y-auto scrollbar-thin scrollbar-thumb-base-300 scrollbar-track-base-200 space-y-4 pr-1">
 
         @forelse($newsletters as $newsletter)
-            <div class="p-3 rounded-lg bg-base-200/40 hover:bg-base-300/40 transition-colors duration-200 border border-transparent hover:border-primary/30">
+            <div wire:key="newsletter-follow-{{$newsletter->id}}" class="p-3 rounded-lg bg-base-200/40 hover:bg-base-300/40 transition-colors duration-200 border border-transparent hover:border-primary/30">
                 <p class="flex justify-between items-center text-sm font-medium text-base-content" title="{{ $newsletter->subject }}">
                     <span class="text-xs text-gray-400 order-2">{{ $newsletter->vc->name ?? '' }}</span>
                     <span class="order-1">{{ \Illuminate\Support\Str::limit($newsletter->subject, 50) }}</span>

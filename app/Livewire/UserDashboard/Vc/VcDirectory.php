@@ -30,9 +30,6 @@ class VcDirectory extends Component
     public function toggleFollow(Vc $vc): void
     {
         $user = auth()->user();
-        $this->followedVcIds = $user->followedVCs()->pluck('vcs.id')->toArray();
-
-        $isFollowing = in_array($vc->id, $this->followedVcIds);
 
         $vcKey = 'follow-vc:' . $user->id . ':' . $vc->id;
         $globalKey = 'follow-vc:global:' . $user->id;
@@ -50,16 +47,17 @@ class VcDirectory extends Component
         RateLimiter::hit($vcKey, 30);
         RateLimiter::hit($globalKey, 60);
 
+        $isFollowing = $user->followedVCs()->where('vc_id', $vc->id)->exists();
+
         if ($isFollowing) {
             $user->followedVCs()->detach($vc->id);
-
         } else {
             $user->followedVCs()->syncWithoutDetaching([$vc->id]);
-
         }
 
         $this->followedVcIds = $user->followedVCs()->pluck('vcs.id')->toArray();
     }
+
 
 
     public function mount()
