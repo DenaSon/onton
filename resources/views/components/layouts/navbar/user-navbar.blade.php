@@ -7,7 +7,7 @@
         </label>
 
         {{-- Brand --}}
-        <div>App</div>
+        <div class="text-primary font-bold text-sm font-sans">Byblos</div>
     </x-slot:brand>
 
     {{-- Right side actions --}}
@@ -15,6 +15,8 @@
 
         <x-button label="Messages" icon="o-envelope" link="###" class="btn-ghost btn-sm" responsive/>
         <x-button label="Notifications" icon="o-bell" link="###" class="btn-ghost btn-sm" responsive/>
+
+
         <label>|</label>
         <x-theme-toggle/>
 

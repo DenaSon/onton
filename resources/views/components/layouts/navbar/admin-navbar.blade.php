@@ -7,7 +7,7 @@
         </label>
 
         {{-- Brand --}}
-        <i class="text-xs md:text-xl text-primary font-bold font-mono">ByblosRadar</i>
+        <i class="text-xs md:text-xl text-primary font-bold font-mono">Byblos</i>
     </x-slot:brand>
 
     {{-- Right side actions --}}

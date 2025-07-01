@@ -123,4 +123,19 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return (bool) $this->getAttribute('is_suspended');
     }
+
+    public function followedVCs()
+    {
+        return $this->belongsToMany(VC::class, 'user_vc_follows')
+            ->withTimestamps();
+    }
+
+    public function isFollowingVC($vcId)
+    {
+        return $this->followedVCs()->where('vc_id', $vcId)->exists();
+    }
+
+
+
+
 }

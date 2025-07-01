@@ -36,32 +36,8 @@
 
             {{-- Expandable Section --}}
             @scope('expansion', $vcFirm)
-            <div class="overflow-x-auto">
-                <table class="table table-fixed w-full text-sm">
-                    <tbody>
-                    <tr>
-                        <th class="whitespace-nowrap">Newsletters</th>
-                        <td>{{ $vcFirm->newsletters()->count() ?? '0' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Description</th>
-                        <td>{{ $vcFirm->description ?? '-' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Website</th>
-                        <td>
-                            @if ($vcFirm->website)
-                                <a href="{{ $vcFirm->website }}" target="_blank" class="link link-primary break-all">
-                                    {{ $vcFirm->website }}
-                                </a>
-                            @else
-                                -
-                            @endif
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+
+            @include('livewire.admin-dashboard.vc-firms._partials.vc-expansion')
 
             @endscope
 

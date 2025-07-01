@@ -2,7 +2,7 @@
     <x-slot name="title">
         <div class="flex items-center gap-2">
             <x-heroicon-o-users class="w-5 h-5 text-primary"/>
-            <span class="text-sm font-semibold">Latest Registered Users</span>
+            <span class="text-sm font-semibold">Registered Users</span>
         </div>
     </x-slot>
 

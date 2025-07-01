@@ -15,7 +15,7 @@ class VcsIndex extends Component
     public string $search = '';
     public array $expanded = [1];
 
-    public int $perPage = 10;
+    public int $perPage = 12;
 
     public function updatingSearch()
     {
@@ -31,6 +31,13 @@ class VcsIndex extends Component
     public function render()
     {
         $vcFirms = Vc::query()
+            ->with([
+                'tags',
+                'whitelists',
+            ])
+            ->withCount([
+                'newsletters',
+            ])
             ->when($this->search, fn($query) =>
             $query->where('name', 'like', "%{$this->search}%")
                 ->orWhere('website', 'like', "%{$this->search}%")

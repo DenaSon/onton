@@ -86,6 +86,11 @@ class Vc extends Model
         return $this->hasMany(Newsletter::class);
     }
 
+    public function latestNewsletter()
+    {
+        return $this->hasOne(Newsletter::class)->latestOfMany();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Whitelists Relation
@@ -133,6 +138,13 @@ class Vc extends Model
     {
         return $this->hasMany(Portfolio::class);
     }
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'user_vc_follows')
+            ->withTimestamps();
+    }
+
 
 
     protected static function booted()

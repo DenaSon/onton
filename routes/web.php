@@ -29,9 +29,7 @@ Route::prefix('core')
         Route::get('crawler/newsletters', NewsletterIndex::class)->name('newsletters.index');
         Route::get('crawler/newsletter-{newsletter}', \App\Livewire\AdminDashboard\Crawler\NewsletterShowDetails::class)->name('newsletter.show');
 
-        //Payment Routes
-
-
+        //Render newsletters
         Route::get('crawler/newsletters/{id}/html', function ($id) {
             $newsletter = \App\Models\Newsletter::findOrFail($id);
             return response($newsletter->body_html)->header('Content-Type', 'text/html');
@@ -42,14 +40,12 @@ Route::prefix('core')
 
 
 
-
-
 Route::prefix('panel')
     ->as('panel.')
     ->middleware(['web', 'auth', 'verified', RoleMiddleware::class . ':admin,user'])
     ->group(function () {
         Route::get('/', \App\Livewire\UserDashboard\Index::class)->name('index');
-
+        Route::get('/vc/directory', \App\Livewire\UserDashboard\Vc\VcDirectory::class)->name('vc.directory');
     });
 
 Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
