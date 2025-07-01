@@ -35,7 +35,7 @@
     @if($newsletters->count() > 10)
         {{-- Footer --}}
         <div class="border-t border-base-200 py-4 text-right bg-base-100">
-            <a href="{{ route('newsletters.followed.index') }}"
+            <a href=""
                class="text-primary text-xs font-medium hover:underline hover:text-primary/80 transition duration-150 ease-in-out inline-flex items-center gap-1">
                 View All Followed Newsletters
                 <x-icon name="o-arrow-right" class="w-3.5 h-3.5"/>
