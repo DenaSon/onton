@@ -30,7 +30,7 @@ class FeedCard extends Component
 
 
         $rateKey = 'send-newsletter:' . $user->id . ':' . $this->newsletter->id;
-        if (RateLimiter::tooManyAttempts($rateKey, 5)) {
+        if (RateLimiter::tooManyAttempts($rateKey, 2)) {
 
             $secondsRemaining = RateLimiter::availableIn($rateKey);
             $minutes = ceil($secondsRemaining / 60);
