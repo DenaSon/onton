@@ -30,13 +30,21 @@
     </p>
 
     {{-- Fixed Footer --}}
-    <footer class="absolute bottom-2 left-0 right-0 px-4 flex justify-between items-center border-t border-t-gray-100">
+    <footer class="absolute bottom-2 left-0 right-0 px-2 flex justify-between items-center border-t border-t-gray-100">
 
         <x-button
             icon="o-eye"
             class="btn-xs btn-primary mt-2 btn-outline"
             label="View"
             tooltip="View newsletter"
+        />
+        <x-button
+            icon="o-paper-airplane"
+            label="Get in Inbox"
+            tooltip="Get newsletter in your inbox"
+            class="btn-xs btn-ghost hover:text-primary"
+            wire:click.debounce.350ms="sendNewsletter"
+            spinner
         />
 
 

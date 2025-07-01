@@ -6,6 +6,7 @@
         title="VC List"
         shadow
         separator
+        progress-indicator
         class="mt-6 bg-base-100 rounded-2xl ring-1 ring-base-200 hover:ring-primary/20 transition-all duration-300 shadow-xl group overflow-hidden z-0">
         @forelse($vcs as $key => $vc)
 
@@ -26,8 +27,6 @@
                 <x-slot:actions>
 
                     <livewire:user-dashboard.vc.components.follow-unfollow-btn :vc="$vc" :wire:key="'follow-btn-'.$vc->id" />
-
-
 
                 </x-slot:actions>
             </x-list-item>
