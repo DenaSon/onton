@@ -6,7 +6,6 @@
         title="VC List"
         shadow
         separator
-        progress-indicator
         class="mt-6 bg-base-100 rounded-2xl ring-1 ring-base-200 hover:ring-primary/20 transition-all duration-300 shadow-xl group overflow-hidden z-0">
         @forelse($vcs as $key => $vc)
 

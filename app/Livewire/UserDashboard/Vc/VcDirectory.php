@@ -4,6 +4,8 @@ namespace App\Livewire\UserDashboard\Vc;
 
 use App\Models\Tag;
 use App\Models\Vc;
+use Barryvdh\Debugbar\Facades\Debugbar;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -29,6 +31,8 @@ class VcDirectory extends Component
 
     public function toggleFollow(Vc $vc): void
     {
+
+
         $user = auth()->user();
 
         $vcKey = 'follow-vc:' . $user->id . ':' . $vc->id;
@@ -47,15 +51,21 @@ class VcDirectory extends Component
         RateLimiter::hit($vcKey, 30);
         RateLimiter::hit($globalKey, 60);
 
-        $isFollowing = $user->followedVCs()->where('vc_id', $vc->id)->exists();
+        $isFollowing = DB::table('user_vc_follows')
+            ->where('user_id', $user->id)
+            ->where('vc_id', $vc->id)
+            ->exists();
 
         if ($isFollowing) {
             $user->followedVCs()->detach($vc->id);
+            $this->followedVcIds = array_filter($this->followedVcIds, fn($id) => $id !== $vc->id);
         } else {
             $user->followedVCs()->syncWithoutDetaching([$vc->id]);
+            $this->followedVcIds[] = $vc->id;
         }
 
-        $this->followedVcIds = $user->followedVCs()->pluck('vcs.id')->toArray();
+
+
     }
 
 
