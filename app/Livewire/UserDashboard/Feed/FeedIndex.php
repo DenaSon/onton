@@ -6,7 +6,7 @@ use App\Models\Newsletter;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\WithoutUrlPagination;
+
 
 
 class FeedIndex extends Component

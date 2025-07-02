@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\UserDashboard\Feed;
+namespace App\Livewire\UserDashboard\Feed\Components;
 
 use App\Mail\ForwardNewsletterMailable;
 use App\Models\Newsletter;
@@ -11,10 +11,18 @@ use Mary\Traits\Toast;
 
 class FeedCard extends Component
 {
+
     use Toast;
 
     public Newsletter $newsletter;
 
+
+    public function mount(int $newsletterId): void
+    {
+
+
+        $this->newsletter = Newsletter::with('vc:id,name,logo_url')->findOrFail($newsletterId);
+    }
 
 
     public function getBodyPreviewProperty(): string
@@ -60,6 +68,6 @@ class FeedCard extends Component
 
     public function render()
     {
-        return view('livewire.user-dashboard.feed.feed-card');
+        return view('livewire.user-dashboard.feed.components.feed-card');
     }
 }

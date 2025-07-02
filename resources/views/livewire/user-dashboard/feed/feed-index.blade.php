@@ -4,7 +4,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach($newsletters as $newsletter)
 
-                @livewire('user-dashboard.feed.feed-card', ['newsletter' => $newsletter], 'feed-'.$newsletter->id)
+                @livewire('user-dashboard.feed.components.feed-card',['newsletterId' => $newsletter->id],key($newsletter->id))
 
             @endforeach
         </div>
