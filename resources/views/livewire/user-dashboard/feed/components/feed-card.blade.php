@@ -7,9 +7,15 @@
 
         <header class="flex items-center justify-between mb-2">
             <div class="flex items-center gap-3">
-                <img src="{{ asset('storage/'.$newsletter?->vc?->logo_url ?? '/placeholder-logo.svg') }}"
-                     alt="{{ $newsletter?->vc?->name }} Logo"
-                     class="w-8 h-8 rounded-full border"/>
+                <img
+                    loading="lazy"
+                    src="{{ $newsletter?->vc?->logo_url
+        ? asset('storage/' . $newsletter->vc->logo_url)
+        : asset('static/img/vc-no-logo.png') }}"
+                    alt="{{ $newsletter?->vc?->name ?? 'VC' }} Logo"
+                    class="w-8 h-8 rounded-full border"
+                />
+
 
                 <div class="text-sm font-semibold ">
                     {{ $newsletter?->vc?->name }}
@@ -32,7 +38,8 @@
         </p>
 
         {{-- Fixed Footer --}}
-        <footer class="absolute bottom-2 left-0 right-0 px-2 flex justify-between items-center border-t border-t-gray-100">
+        <footer
+            class="absolute bottom-2 left-0 right-0 px-2 flex justify-between items-center border-t border-t-gray-100">
             @can('viewHtml', $newsletter)
                 <x-button
                     icon="o-eye"
