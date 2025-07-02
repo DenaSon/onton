@@ -16,6 +16,9 @@ class SubscribeButton extends Component
     public $class;
 
 
+    /**
+     * @throws \Exception
+     */
     public function subscribe()
     {
         if (!Auth::check()) {
@@ -47,8 +50,8 @@ class SubscribeButton extends Component
 
             ->trialDays(30)
             ->checkout([
-                'success_url' => route('home') . '?subscribed=1',
-                'cancel_url' => route('home'),
+                'success_url' => route('panel.payment.success') . '?subscribed=true',
+                'cancel_url' => route('panel.payment.failed') . '?subscribed=false',
             ]);
     }
 

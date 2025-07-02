@@ -2,7 +2,7 @@
 
 
 
-    @livewire('user-dashboard.overview.welcomeSection')
+    @include('livewire.user-dashboard.overview.welcomeSection')
 
     <section class="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-3" id="newsletterAndBookmarks">
 
