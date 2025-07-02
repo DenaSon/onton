@@ -27,7 +27,7 @@ class FeedIndex extends Component
             ->whereIn('vc_id', $this->followedVcIds)
             ->with('vc:id,name,logo_url')
             ->orderByDesc('received_at')
-            ->paginate(1);
+            ->paginate(10);
 
         return view('livewire.user-dashboard.feed.feed-index', [
             'newsletters' => $newsletters,
