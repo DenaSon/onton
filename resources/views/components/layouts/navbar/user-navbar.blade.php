@@ -13,8 +13,8 @@
     {{-- Right side actions --}}
     <x-slot:actions>
 
-        <x-button label="RSS" icon="o-rss" link="{{ route('panel.feed.index') }}" class="btn-ghost btn-sm" responsive/>
-        <x-button label="Notifications" icon="o-bell" link="###" class="btn-ghost btn-sm" responsive/>
+        <x-button label="Feed" icon="o-rss" link="{{ route('panel.feed.index') }}" class="btn-ghost btn-sm" responsive/>
+        <x-button label="VC List" icon="o-inbox-stack" link="###" class="btn-ghost btn-sm" responsive/>
 
 
         <label>|</label>

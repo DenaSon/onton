@@ -30,7 +30,7 @@ class FeedCard extends Component
 
 
         $rateKey = 'send-newsletter:' . $user->id . ':' . $this->newsletter->id;
-        if (RateLimiter::tooManyAttempts($rateKey, 2)) {
+        if (RateLimiter::tooManyAttempts($rateKey, 1)) {
 
             $secondsRemaining = RateLimiter::availableIn($rateKey);
             $minutes = ceil($secondsRemaining / 60);
@@ -50,6 +50,11 @@ class FeedCard extends Component
             logger()->error('Newsletter sending failed', ['error' => $e]);
             $this->error('Failed', 'Unable to send newsletter right now.');
         }
+    }
+
+    public function view($id)
+    {
+        $this->dispatch('newsletterViewModal', id: $id);
     }
 
 

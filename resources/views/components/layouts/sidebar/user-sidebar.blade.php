@@ -14,9 +14,9 @@
     />
 
     <x-menu-item
-                 title="Bookmarks"
-                 icon="o-bookmark"
-                 link="#"
+                 title="Feed"
+                 icon="o-rss"
+                 link="{{ route('panel.feed.index') }}"
     />
 
     <x-menu-sub title="Settings" icon="o-cog-6-tooth">

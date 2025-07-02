@@ -7,6 +7,7 @@
             @endforeach
         </div>
 
+
         @if($newsletters->hasPages())
             <div class="mt-4">
                 {{ $newsletters->links() }}
@@ -28,5 +29,12 @@
             />
         </section>
     @endif
+
+
+        <livewire:user-dashboard.feed.components.view-newsletter-modal
+            wire:key="newsletter-modal"
+        />
+
+
 
 </div>

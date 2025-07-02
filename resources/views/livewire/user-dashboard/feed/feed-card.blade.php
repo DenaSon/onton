@@ -2,7 +2,7 @@
     rounded
     class="relative border border-base-200 bg-base-100 backdrop-blur-md shadow-md hover:shadow-lg transition duration-300 min-h-0 lg:min-h-[260px] pb-12"
 >
-    {{-- Header: VC Info --}}
+
     <header class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-3">
             <img src="{{ asset('storage/'.$newsletter?->vc?->logo_url ?? '/placeholder-logo.svg') }}"
@@ -34,26 +34,22 @@
 
         <x-button
             icon="o-eye"
-            class="btn-xs btn-primary mt-2 btn-outline"
+            spinner
+            class="btn-xs btn-ghoost mt-2 btn-outline hover:text-primary"
             label="View"
             tooltip="View newsletter"
+            wire:click.debounce.250ms="view({{$newsletter->id}})"
         />
         <x-button
             icon="o-paper-airplane"
             label="Get in Inbox"
-            tooltip="Get newsletter in your inbox"
+            tooltip="Send"
             class="btn-xs btn-ghost hover:text-primary"
+            wire:confirm="Do you want to receive this newsletter in your inbox?"
             wire:click.debounce.350ms="sendNewsletter"
             spinner
         />
 
 
-        <div class="flex gap-2 items-center">
-            <x-button
-                icon="o-bookmark"
-                class="btn-xs btn-ghost hover:text-primary"
-                tooltip="Bookmark"
-            />
-        </div>
     </footer>
 </x-card>

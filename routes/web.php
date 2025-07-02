@@ -48,6 +48,10 @@ Route::prefix('panel')
         Route::get('/vc/directory', \App\Livewire\UserDashboard\Vc\VcDirectory::class)->name('vc.directory');
 
         Route::get('/feed', \App\Livewire\UserDashboard\Feed\FeedIndex::class)->name('feed.index');
+
+        Route::get('newsletters/{id}/html', [\App\Http\Controllers\User\NewsletterHtmlController::class, 'show'])
+            ->name('newsletterView.html');
+
     });
 
 Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
