@@ -15,6 +15,8 @@ class FeedCard extends Component
 
     public Newsletter $newsletter;
 
+
+
     public function getBodyPreviewProperty(): string
     {
         $paragraphs = preg_split('/\r\n|\r|\n/', strip_tags($this->newsletter->body_plain));
@@ -27,8 +29,6 @@ class FeedCard extends Component
     public function sendNewsletter(): void
     {
         $user = auth()->user();
-
-
         $rateKey = 'send-newsletter:' . $user->id . ':' . $this->newsletter->id;
         if (RateLimiter::tooManyAttempts($rateKey, 1)) {
 
@@ -52,7 +52,7 @@ class FeedCard extends Component
         }
     }
 
-    public function view($id)
+    public function viewModal($id)
     {
         $this->dispatch('newsletterViewModal', id: $id);
     }

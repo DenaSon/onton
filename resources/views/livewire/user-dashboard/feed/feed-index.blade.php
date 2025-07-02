@@ -3,19 +3,21 @@
     @if($newsletters->count())
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach($newsletters as $newsletter)
-                <livewire:user-dashboard.feed.feed-card :newsletter="$newsletter" :wire:key="'feed-'.$newsletter->id"/>
+
+                @livewire('user-dashboard.feed.feed-card', ['newsletter' => $newsletter], 'feed-'.$newsletter->id)
+
             @endforeach
         </div>
 
 
-        @if($newsletters->hasPages())
-            <div class="mt-4">
-                {{ $newsletters->links() }}
-            </div>
-        @endif
+
+        <div class="mt-4">
+            {{ $newsletters->links() }}
+        </div>
+
     @else
         <section class="w-full min-h-[100vh] flex flex-col items-center justify-center text-center py-10 px-2">
-            <x-icon name="o-rss" class="w-12 h-12 text-base-300 mb-4" />
+            <x-icon name="o-rss" class="w-12 h-12 text-base-300 mb-4"/>
             <h3 class="text-2xl font-semibold text-base-content mb-1">No Newsletters Yet</h3>
             <p class="text-sm text-base-content/60 max-w-md mx-auto">
                 Once the VC firms you follow publish new newsletters, they'll appear here.
@@ -31,10 +33,9 @@
     @endif
 
 
-        <livewire:user-dashboard.feed.components.view-newsletter-modal
-            wire:key="newsletter-modal"
-        />
-
+    <livewire:user-dashboard.feed.components.view-newsletter-modal
+        wire:key="newsletter-modal"
+    />
 
 
 </div>

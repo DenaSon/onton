@@ -1,4 +1,5 @@
 <x-card
+
     rounded
     class="relative border border-base-200 bg-base-100 backdrop-blur-md shadow-md hover:shadow-lg transition duration-300 min-h-0 lg:min-h-[260px] pb-12"
 >
@@ -31,15 +32,16 @@
 
     {{-- Fixed Footer --}}
     <footer class="absolute bottom-2 left-0 right-0 px-2 flex justify-between items-center border-t border-t-gray-100">
-
-        <x-button
-            icon="o-eye"
-            spinner
-            class="btn-xs btn-ghoost mt-2 btn-outline hover:text-primary"
-            label="View"
-            tooltip="View newsletter"
-            wire:click.debounce.250ms="view({{$newsletter->id}})"
-        />
+        @can('viewHtml', $newsletter)
+            <x-button
+                icon="o-eye"
+                spinner
+                class="btn-xs btn-ghoost mt-2 btn-outline hover:text-primary"
+                label="View"
+                tooltip="View newsletter"
+                wire:click.debounce.250ms="view({{$newsletter->id}})"
+            />
+        @endcan
         <x-button
             icon="o-paper-airplane"
             label="Get in Inbox"

@@ -6,12 +6,12 @@ use App\Models\Newsletter;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\WithoutUrlPagination;
+
 
 class FeedIndex extends Component
 {
     use WithPagination;
-
-    public $perPage = 10;
 
     public array $followedVcIds = [];
 
@@ -27,7 +27,7 @@ class FeedIndex extends Component
             ->whereIn('vc_id', $this->followedVcIds)
             ->with('vc:id,name,logo_url')
             ->orderByDesc('received_at')
-            ->paginate($this->perPage);
+            ->paginate(1);
 
         return view('livewire.user-dashboard.feed.feed-index', [
             'newsletters' => $newsletters,

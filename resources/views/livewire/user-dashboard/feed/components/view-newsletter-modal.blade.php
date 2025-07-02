@@ -2,6 +2,7 @@
     @if($newsletter && $newsletterViewModal)
         <x-modal
             wire:model="newsletterViewModal"
+            subtitle=""
             title="Newsletter Preview"
             class="backdrop-blur"
             box-class="max-w-5xl p-4"
@@ -20,11 +21,14 @@
 
                     {{-- Iframe --}}
                     <iframe
+                        loading="lazy"
+                        title="Preview"
                         src="{{ route('panel.newsletterView.html', ['id' => $newsletter->id]) }}"
                         class="w-full h-[70vh] bg-white rounded border z-0"
                         sandbox
                         @load="loaded = true"
                     ></iframe>
+
                 </div>
 
 
