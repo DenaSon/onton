@@ -19,8 +19,8 @@
 
     <!-- SEO Meta Tags -->
     <meta name="description" content="Make smarter startup moves with exclusive VC insights, curated and delivered straight to your inbox."/>
-    <meta name="keywords" content="Byblos Radar"/>
-    <meta name="author" content="Byblos Radar"/>
+    <meta name="keywords" content="Byblos"/>
+    <meta name="author" content="Byblos"/>
 
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])

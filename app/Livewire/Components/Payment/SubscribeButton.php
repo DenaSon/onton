@@ -36,7 +36,7 @@ class SubscribeButton extends Component
         $subscription = $user->subscription('default');
 
         if ($subscription && $subscription->active()) {
-            $this->info('Subscription Active', 'You already have an active subscription until: '. optional($subscription->nextBillingDate())->diffForHumans());
+            $this->info('Subscription Active', 'You already have an active subscription until: ' . optional($subscription->nextBillingDate())->diffForHumans());
             return;
         }
 
@@ -45,9 +45,10 @@ class SubscribeButton extends Component
             return;
         }
 
+        session()->put('payment_in_progress', true);
+
         return $user
             ->newSubscription('default', 'price_1RebzlP6tOy2de8NRFvjB45u')
-
             ->trialDays(30)
             ->checkout([
                 'success_url' => route('panel.payment.success') . '?subscribed=true',

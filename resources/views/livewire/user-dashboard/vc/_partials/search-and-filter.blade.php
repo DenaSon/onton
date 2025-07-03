@@ -1,4 +1,4 @@
-<x-collapse wire:model="show" separator class="bg-base-100 overflow-visible z-10">
+<x-collapse wire:model="show" separator class="bg-base-100 overflow-visible z-7">
     <x-slot:heading>Search & Filters</x-slot:heading>
     <x-slot:content>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">

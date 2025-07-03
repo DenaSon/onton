@@ -10,7 +10,7 @@
 
 
         <p class="text-gray-600 dark:text-gray-300 mb-4">
-            Welcome, {{ Auth::user()->name }} 👋<br>
+            Welcome, {{ Auth::user()->name }} <br>
             Your 30-day free trial is now active.
         </p>
 
@@ -33,7 +33,7 @@
             <a href="" class="btn btn-outline w-full">
                 Update Profile
             </a>
-            <a href="" class="btn btn-ghost text-sm">
+            <a wire:navigate href="{{ route('panel.payment.management') }}" class="btn btn-ghost text-sm">
                 Manage Subscription
             </a>
         </div>

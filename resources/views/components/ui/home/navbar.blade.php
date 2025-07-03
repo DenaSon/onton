@@ -11,14 +11,14 @@
                     </div>
                     <ul tabindex="0"
                         class="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow">
-{{--                        @foreach($mainMenuItems as $item)--}}
-{{--                            <x-menu-item--}}
-{{--                                :title="$item['title']"--}}
-{{--                                :link="$item['route']"--}}
-{{--                                :icon="$item['icon'] ?? null"--}}
-{{--                                :class="$item['class'] ?? ''"--}}
-{{--                            />--}}
-{{--                        @endforeach--}}
+                        {{--                        @foreach($mainMenuItems as $item)--}}
+                        {{--                            <x-menu-item--}}
+                        {{--                                :title="$item['title']"--}}
+                        {{--                                :link="$item['route']"--}}
+                        {{--                                :icon="$item['icon'] ?? null"--}}
+                        {{--                                :class="$item['class'] ?? ''"--}}
+                        {{--                            />--}}
+                        {{--                        @endforeach--}}
                     </ul>
                 </div>
 
@@ -30,21 +30,19 @@
                 </a>
 
 
-
-
             </div>
 
             <!-- CENTER -->
             <div class="navbar-center hidden lg:flex">
                 <ul class="menu menu-horizontal px-1">
-{{--                    @foreach($mainMenuItems as $item)--}}
-{{--                        <x-menu-item--}}
-{{--                            :title="$item['title']"--}}
-{{--                            :link="$item['route']"--}}
-{{--                            :icon="$item['icon'] ?? null"--}}
-{{--                            :class="$item['class'] ?? ''"--}}
-{{--                        />--}}
-{{--                    @endforeach--}}
+                    {{--                    @foreach($mainMenuItems as $item)--}}
+                    {{--                        <x-menu-item--}}
+                    {{--                            :title="$item['title']"--}}
+                    {{--                            :link="$item['route']"--}}
+                    {{--                            :icon="$item['icon'] ?? null"--}}
+                    {{--                            :class="$item['class'] ?? ''"--}}
+                    {{--                        />--}}
+                    {{--                    @endforeach--}}
                 </ul>
             </div>
 
@@ -52,16 +50,31 @@
             <div class="navbar-end gap-3">
 
                 <x-theme-toggle/>
-                <label class="text-gray-400">|</label>
+                <label class="text-base-300">|</label>
 
                 @guest
-                    <x-button link="{{ route('login') }}" class="btn-outline btn-sm btn-circle tooltip tooltip-bottom"
-                              icon="o-user" responsive data-tip="Sign In"/>
-                    <x-button link="{{ route('register') }}" class="btn-primary  btn-sm" label="Sign Up"
-                              icon="o-plus"/>
+
+                    <x-button
+                        link="{{ route('login') }}"
+                        class="btn-outline btn-sm"
+
+                        label="Sign In"
+                    />
+
+
+
+
+
+                    <x-button
+                        link="{{ route('register') }}"
+                        class="btn-primary btn-sm"
+                        
+                        label="Sign Up"
+                    />
                 @endguest
 
-                @auth
+
+            @auth
                     <x-dropdown label="{{ Auth::user()->firstName() ?? 'User' }}">
 
                         <x-menu-item title="Dashboard" link="{{ route('panel.index') }}" icon="o-squares-2x2"/>

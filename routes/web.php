@@ -47,8 +47,9 @@ Route::prefix('panel')
 
         Route::get('/vc/directory', \App\Livewire\UserDashboard\Vc\VcDirectory::class)->name('vc.directory');
 
-        Route::get('/payment/success',\App\Livewire\UserDashboard\Payment\SuccessPayment::class)->name('payment.success');
-        Route::get('/payment/failed',\App\Livewire\UserDashboard\Payment\FailedPayment::class)->name('payment.failed');
+        Route::get('/payment/success', \App\Livewire\UserDashboard\Payment\SuccessPayment::class)->name('payment.success');
+        Route::get('/payment/failed', \App\Livewire\UserDashboard\Payment\FailedPayment::class)->name('payment.failed');
+        Route::get('/payment/subscription', \App\Livewire\UserDashboard\Payment\SubscriptionManagement::class)->name('payment.management');
 
         Route::get('/feed', \App\Livewire\UserDashboard\Feed\FeedIndex::class)->name('feed.index');
 

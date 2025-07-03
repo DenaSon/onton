@@ -8,15 +8,15 @@
 
     <x-menu-item
 
-                 title="VC Directory"
-                 icon="o-inbox-stack"
-                 link="{{ route('panel.vc.directory') }}"
+        title="VC Directory"
+        icon="o-inbox-stack"
+        link="{{ route('panel.vc.directory') }}"
     />
 
     <x-menu-item
-                 title="Feed"
-                 icon="o-rss"
-                 link="{{ route('panel.feed.index') }}"
+        title="Feed"
+        icon="o-rss"
+        link="{{ route('panel.feed.index') }}"
     />
 
     <x-menu-sub title="Settings" icon="o-cog-6-tooth">
@@ -36,18 +36,9 @@
         <x-menu-item
             title="My Plan"
             icon="o-receipt-percent"
-            link="#"
+            link="{{ route('panel.payment.management') }}"
         />
-        <x-menu-item
-            title="Payment Success"
-            icon="o-check-circle"
-            link="#"
-        />
-        <x-menu-item
-            title="Payment Failed"
-            icon="o-x-circle"
-            link="#"
-        />
+
         <x-menu-item
             title="Invoices"
             icon="o-document-text"
