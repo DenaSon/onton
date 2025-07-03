@@ -25,7 +25,7 @@
 
             <x-menu-item title="Dashboard" link="{{ route('panel.index') }}" icon="o-squares-2x2"/>
 
-            <x-menu-item title="My Profile" link="#" icon="o-user"/>
+            <x-menu-item title="My Profile" link="{{ route('panel.profile.edit') }}" icon="o-user"/>
 
             <x-menu-item title="Settings" link="#" icon="o-cog-6-tooth"/>
 

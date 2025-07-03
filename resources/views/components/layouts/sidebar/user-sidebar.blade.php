@@ -22,8 +22,8 @@
     <x-menu-sub title="Settings" icon="o-cog-6-tooth">
         <x-menu-item
             title="Account Settings"
-            icon="o-user-circle"
-            link="#"
+            icon="o-user"
+            link="{{ route('panel.profile.edit') }}"
         />
         <x-menu-item
             title="Notification Preferences"
@@ -39,10 +39,5 @@
             link="{{ route('panel.payment.management') }}"
         />
 
-        <x-menu-item
-            title="Invoices"
-            icon="o-document-text"
-            link="#"
-        />
     </x-menu-sub>
 </x-menu>

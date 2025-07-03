@@ -44,6 +44,7 @@ Route::prefix('panel')
     ->middleware(['web', 'auth', 'verified', RoleMiddleware::class . ':admin,user'])
     ->group(function () {
         Route::get('/', \App\Livewire\UserDashboard\Index::class)->name('index');
+        Route::get('/profile', \App\Livewire\UserDashboard\Profile\EditProfile::class)->name('profile.edit');
 
         Route::get('/vc/directory', \App\Livewire\UserDashboard\Vc\VcDirectory::class)->name('vc.directory');
 

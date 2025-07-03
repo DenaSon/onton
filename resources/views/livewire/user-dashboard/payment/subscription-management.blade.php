@@ -3,7 +3,7 @@
         $cardShadow = $subscription && $subscription->valid() ? 'shadow-green-400' : 'shadow-primary';
     @endphp
 
-    <x-card separator title="Subscription Overview" class="shadow-lg rounded-2xl mt-6 {{ $cardShadow }}">
+    <x-card progress-indicator separator title="Subscription Overview" class="shadow rounded-2xl mt-6 {{ $cardShadow }}">
 
         @if ($errors->has('rate_limit'))
             <x-alert icon="o-exclamation-triangle" type="error" description="{{ $errors->first('rate_limit') }}"
@@ -81,7 +81,7 @@
     </x-card>
 
 
-    <x-card title="Billing History" class="mt-8 rounded-2xl shadow-lg" wire:init="loadInvoices">
+    <x-card  title="Billing History" class="mt-8 rounded-2xl shadow-lg" wire:init="loadInvoices">
         @if($invoices === [])
             {{-- Loading state --}}
             <div class="text-center py-6 text-gray-400 animate-pulse">
