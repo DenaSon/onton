@@ -35,12 +35,11 @@ class SendNewsletterToUserJob implements ShouldQueue
                 return;
             }
 
-            $lastSentAt = $setting->last_sent_at ?? $user->created_at->copy()->subDays(3);
-
+            $lastSentAt = $setting->last_sent_at ?? $user->created_at->copy()->subDays(7);
             $followedVcs = $user->followedVCs()->pluck('vcs.id');
 
             $newsletters = Newsletter::whereIn('vc_id', $followedVcs)
-                ->where('sent_at', '>', $lastSentAt)
+                ->where('received_at', '>', $lastSentAt)
                 ->whereNotIn('id', function ($query) use ($user) {
                     $query->select('newsletter_id')
                         ->from('newsletter_user_sends')

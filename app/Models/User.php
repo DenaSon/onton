@@ -148,6 +148,16 @@ class User extends Authenticatable implements MustVerifyEmail
             ->withTimestamps();
     }
 
+    protected static function booted()
+    {
+        static::created(function (User $user) {
+            $user->notificationSetting()->create([
+                'frequency' => 'daily',
+                'last_sent_at' => null,
+            ]);
+        });
+    }
+
 
 
 
