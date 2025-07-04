@@ -43,4 +43,14 @@ class Newsletter extends Model
     {
         return $this->belongsTo(Vc::class);
     }
+
+
+    public function sentToUsers()
+    {
+        return $this->belongsToMany(User::class, 'newsletter_user_sends')
+            ->withPivot('sent_at')
+            ->withTimestamps();
+    }
+
+
 }

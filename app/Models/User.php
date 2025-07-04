@@ -136,6 +136,19 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+    public function notificationSetting()
+    {
+        return $this->hasOne(UserNotificationSetting::class);
+    }
+
+    public function sentNewsletters()
+    {
+        return $this->belongsToMany(Newsletter::class, 'newsletter_user_sends')
+            ->withPivot('sent_at')
+            ->withTimestamps();
+    }
+
+
 
 
 }

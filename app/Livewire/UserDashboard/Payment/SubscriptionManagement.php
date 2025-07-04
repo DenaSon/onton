@@ -119,6 +119,17 @@ class SubscriptionManagement extends Component
 
         $this->subscription?->resume();
         $this->info('Subscription Resumed', 'Your subscription has been resumed and will continue as usual.');
+
+        auth()->user()->notify(new UserSystemNotification(
+            subject: 'Subscription resume',
+            title: 'Your subscription has been resumed',
+            message: 'Your subscription resume again',
+            actionUrl: route('panel.payment.management'),
+            actionText: 'View Plans',
+            footerText: 'Resume subscription successfully.',
+        ));
+
+
         cache()->forget('stripe_invoices_user_' . auth()->id());
 
         $this->mount();

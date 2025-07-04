@@ -25,9 +25,9 @@
             <a href="{{ route('panel.index') }}" class="btn btn-outline w-full">
                 Back to Dashboard
             </a>
-            <a href="" class="btn btn-ghost text-sm">
-                Contact Support
-            </a>
+{{--            <a href="" class="btn btn-ghost text-sm">--}}
+{{--                Contact Support--}}
+{{--            </a>--}}
         </div>
     </div>
 </div>

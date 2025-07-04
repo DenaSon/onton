@@ -8,3 +8,6 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('emails:crawl')->everyTenMinutes();
+
+Schedule::command('newsletters:dispatch')->everyTenMinutes();
+
