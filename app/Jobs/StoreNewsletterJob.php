@@ -69,9 +69,7 @@ class StoreNewsletterJob implements ShouldQueue
                 $bodyPlain = $email['text'] ?? '';
                 $bodyHtml = $email['html'] ?? '';
                 $bodyHash = sha1($bodyPlain ?: $bodyHtml);
-                $date = isset($email['date']) && $email['date'] instanceof \Carbon\Carbon
-                    ? $email['date']->toDateTimeString()
-                    : now()->toDateTimeString();
+                $date = now();
 
                 if (Newsletter::where('vc_id', $vc->id)->where('hash', $bodyHash)->exists()) {
                     Log::alert("Duplicate newsletter skipped for VC: {$vc->name}");
