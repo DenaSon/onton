@@ -30,11 +30,13 @@
             <a wire:navigate.hover href="{{ route('panel.index') }}" class="btn btn-primary w-full">
                 Go to Dashboard
             </a>
-            <a href="" class="btn btn-outline w-full">
-                Update Profile
-            </a>
-            <a wire:navigate href="{{ route('panel.payment.management') }}" class="btn btn-ghost text-sm">
+
+            <a wire:navigate href="{{ route('panel.payment.management') }}" class="btn btn-ghost btn-outline text-sm">
                 Manage Subscription
+            </a>
+
+            <a href="{{ route('panel.profile.edit') }}" class="btn btn-ghost w-full">
+                Update Profile
             </a>
         </div>
     </div>

@@ -1,67 +1,66 @@
 <div>
     <x-card
-
         rounded
-        class="relative border border-base-200 bg-base-100 backdrop-blur-md shadow-md hover:shadow-lg transition duration-300 min-h-0 lg:min-h-[260px] pb-12"
+        class="relative border border-gray-300 dark:border-gray-700 bg-base-100 shadow-sm hover:shadow-md transition duration-300 min-h-0 lg:min-h-[260px] pb-14 overflow-hidden group"
     >
 
-        <header class="flex items-center justify-between mb-2">
+
+    {{-- Header --}}
+        <header class="flex items-center justify-between gap-2 mb-2">
             <div class="flex items-center gap-3">
                 <img
                     loading="lazy"
                     src="{{ $newsletter?->vc?->logo_url
-        ? asset('storage/' . $newsletter->vc->logo_url)
-        : asset('static/img/vc-no-logo.png') }}"
+                        ? asset('storage/' . $newsletter->vc->logo_url)
+                        : asset('static/img/vc-no-logo.png') }}"
                     alt="{{ $newsletter?->vc?->name ?? 'VC' }} Logo"
-                    class="w-8 h-8 rounded-full border"
+                    class="w-9 h-9 rounded-full border border-base-300 shadow-sm"
                 />
-
-
-                <div class="text-sm font-semibold ">
-                    {{ $newsletter?->vc?->name }}
+                <div class="flex flex-col">
+                    <span class="text-sm font-semibold text-base-content leading-tight">
+                        {{ $newsletter?->vc?->name }}
+                    </span>
+                    <span class="text-[11px] text-base-content/50">
+                        {{ $newsletter?->received_at->diffForHumans() }}
+                    </span>
                 </div>
             </div>
-
-            <span class="text-xs text-gray-500">
-            {{ $newsletter?->received_at->diffForHumans() }}
-        </span>
         </header>
 
         {{-- Subject --}}
-        <h3 class="text-base font-bold  line-clamp-2 mb-1">
+        <h3 class="text-base font-semibold text-base-content line-clamp-2 mb-1">
             {{ $newsletter?->subject }}
         </h3>
 
         {{-- Snippet --}}
-        <p class="text-sm text-gray-600 line-clamp-3">
+        <p class="text-sm text-base-content/70 line-clamp-3 mb-3">
             {{ $this->bodyPreview }}
         </p>
 
-        {{-- Fixed Footer --}}
+        {{-- Footer --}}
         <footer
-            class="absolute bottom-2 left-0 right-0 px-2 flex justify-between items-center border-t border-t-gray-100">
+            class="absolute bottom-2 left-0 right-0 px-3 flex justify-between items-center border-t border-base-200 pt-2 bg-gradient-to-t from-base-100 via-base-100/90 to-transparent"
+        >
             @can('viewHtml', $newsletter)
                 <x-button
                     icon="o-eye"
                     spinner
-                    class="btn-xs btn-ghoost mt-2 btn-outline hover:text-primary"
+                    class="btn-xs btn-outline btn-ghost text-xs"
                     label="View"
-                    tooltip="View newsletter"
-                    wire:click.debounce.250ms="viewModal({{$newsletter->id}})"
+                    tooltip="Preview"
+                    wire:click.debounce.250ms="viewModal({{ $newsletter->id }})"
                 />
             @endcan
+
             <x-button
                 icon="o-paper-airplane"
-                label="Get in Inbox"
+                label="Inbox"
                 tooltip="Send"
-                class="btn-xs btn-ghost hover:text-primary"
+                class="btn-xs btn-ghost text-xs hover:text-primary"
                 wire:confirm="Do you want to receive this newsletter in your inbox?"
                 wire:click.debounce.350ms="sendNewsletter"
                 spinner
             />
-
-
         </footer>
     </x-card>
-
 </div>

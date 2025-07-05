@@ -5,6 +5,7 @@ use App\Livewire\Actions\Logout;
 use App\Livewire\AdminDashboard\Crawler\NewsletterIndex;
 use App\Livewire\AdminDashboard\Documents\DocIndex;
 use App\Livewire\Home\Index;
+use App\Livewire\UserDashboard\Setting\DeliverySetting;
 use Illuminate\Support\Facades\Route;
 use Laravel\Cashier\Http\Controllers\WebhookController;
 
@@ -45,7 +46,7 @@ Route::prefix('panel')
     ->group(function () {
         Route::get('/', \App\Livewire\UserDashboard\Index::class)->name('index');
         Route::get('/profile', \App\Livewire\UserDashboard\Profile\EditProfile::class)->name('profile.edit');
-
+        Route::get('/setting/delivery', DeliverySetting::class)->name('setting.delivery');
         Route::get('/vc/directory', \App\Livewire\UserDashboard\Vc\VcDirectory::class)->name('vc.directory');
 
         Route::get('/payment/success', \App\Livewire\UserDashboard\Payment\SuccessPayment::class)->name('payment.success');

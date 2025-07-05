@@ -147,6 +147,7 @@ class Vc extends Model
 
 
 
+
     protected static function booted()
     {
         static::deleting(function (Vc $vc) {

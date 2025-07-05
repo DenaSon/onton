@@ -6,6 +6,7 @@ use App\Models\VC;
 use App\Models\Newsletter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class Tag
@@ -50,4 +51,23 @@ class Tag extends Model
     {
         return $this->morphedByMany(Newsletter::class, 'taggable');
     }
+
+
+
+
+    protected static function booted(): void
+    {
+        static::saved(function () {
+            Cache::forget('tags.vertical');
+            Cache::forget('tags.stage');
+        });
+
+        static::deleted(function () {
+            Cache::forget('tags.vertical');
+            Cache::forget('tags.stage');
+        });
+    }
+
+
+
 }

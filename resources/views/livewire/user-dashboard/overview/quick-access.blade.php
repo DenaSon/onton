@@ -4,7 +4,7 @@
         $cards = [
             ['title' => 'Feed', 'icon' => 'rss','link' => route('panel.feed.index')],
             ['title' => 'VC Directory', 'icon' => 'inbox-stack','link' => route('panel.vc.directory')],
-            ['title' => 'Delivery Settings', 'icon' => 'adjustments-horizontal','link' => '#'],
+            ['title' => 'Delivery Settings', 'icon' => 'adjustments-horizontal','link' => route('panel.setting.delivery')],
             ['title' => 'My Subscription', 'icon' => 'credit-card','link' => route('panel.payment.management')],
         ];
     @endphp

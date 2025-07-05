@@ -14,10 +14,10 @@ class FollowUnfollowBtn extends Component
     public Vc $vc;
     public bool $isFollowing = false;
 
-    public function mount(Vc $vc)
+    public function mount(Vc $vc, array $followedVcIds = [])
     {
         $this->vc = $vc;
-        $this->isFollowing = Auth::user()->followedVCs()->where('vc_id', $vc->id)->exists();
+        $this->isFollowing = in_array($vc->id, $followedVcIds);
     }
 
 

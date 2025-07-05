@@ -26,9 +26,9 @@
             link="{{ route('panel.profile.edit') }}"
         />
         <x-menu-item
-            title="Notification Preferences"
+            title="Delivery Setting"
             icon="o-bell-alert"
-            link="#"
+            link="{{ route('panel.setting.delivery') }}"
         />
     </x-menu-sub>
 
