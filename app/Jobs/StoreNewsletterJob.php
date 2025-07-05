@@ -23,7 +23,6 @@ class StoreNewsletterJob implements ShouldQueue
     }
 
 
-
     protected array $emails;
 
     public function __construct(array $emails)
@@ -115,8 +114,24 @@ class StoreNewsletterJob implements ShouldQueue
             \Log::notice("[StoreNewsletterJob] {BYBLOS_BOT_MISSION_COMPLETE} >>> payload transferred. {$savedCount} newsletters delivered to ByblosRadar.[END]");
 
         }
+    }
+
+    public function failed(Throwable $exception): void
+    {
+        \Log::critical('[StoreNewsletterJob] Job failed permanently!', [
+            'message' => $exception->getMessage(),
+            'trace' => $exception->getTraceAsString(),
+        ]);
 
 
+        \App\Models\User::notifyAdminsByRoleId(1, new \App\Notifications\UserSystemNotification(
+            subject: 'Newsletter Storage Failed',
+            title: 'Newsletter Storage Job Failed',
+            message: 'The StoreNewsletterJob failed while processing a batch of emails. Exception: ' . $exception->getMessage(),
+            actionUrl: url('core/log-viewer'),
+            actionText: 'View Logs',
+            footerText: 'Automated system notification from Byblos Bot.'
+        ));
     }
 
 }

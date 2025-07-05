@@ -13,39 +13,35 @@ use Mary\Traits\Toast;
 
 #[Layout('components.layouts.user-dashboard')]
 #[Title('Newsletters Delivery Setting')]
-
-
 class DeliverySetting extends Component
 {
     use Toast;
-    #[Validate('required|in:daily,weekly')]
 
+    #[Validate('required|in:daily,weekly')]
     public string $frequency = 'daily';
     public ?Carbon $lastSentAt = null;
 
-    public function mount()
+    public function mount(): void
     {
-        $user = Auth::user();
-        $setting = $user?->notificationSetting;
+        $setting = Auth::user()?->notificationSetting;
 
         $this->frequency = $setting?->frequency ?? 'daily';
         $this->lastSentAt = $setting?->last_sent_at;
     }
 
-    public function save()
+    public function save(): void
     {
-        if (! $this->rateLimit()) {
-            return;
-        }
+        if (! $this->rateLimit()) return;
+
         $this->validate();
 
+        if (! $this->checkSubscriptionAccess()) return;
 
-        $user = Auth::user();
-        $user->notificationSetting()->updateOrCreate([], [
+        Auth::user()->notificationSetting()->updateOrCreate([], [
             'frequency' => $this->frequency,
         ]);
 
-       $this->success('Setting Updated','Delivery Settings Saved successfully');
+        $this->success('Setting Updated', 'Delivery Settings Saved successfully');
     }
 
     protected function rateLimit(): bool
@@ -58,6 +54,16 @@ class DeliverySetting extends Component
         }
 
         RateLimiter::hit($key, 80); // 80-second decay
+        return true;
+    }
+
+    protected function checkSubscriptionAccess(): bool
+    {
+        if (! Auth::user()?->hasActiveSubscription()) {
+            $this->warning('Subscription Needed', 'This feature is available with an active subscription or free trial. Upgrade now to unlock it.');
+            return false;
+        }
+
         return true;
     }
 

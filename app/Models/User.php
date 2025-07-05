@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
 use Spatie\Permission\Traits\HasRoles;
@@ -150,6 +151,33 @@ class User extends Authenticatable implements MustVerifyEmail
             ->withPivot('sent_at')
             ->withTimestamps();
     }
+
+    public function hasActiveSubscription(string $plan = 'default'): bool
+    {
+        return $this->subscribed($plan) || $this->onTrial($plan);
+    }
+
+
+    public function scopeSubscribedOrOnTrial($query): void
+    {
+        $query->whereHas('subscriptions', function ($sub) {
+            $sub->where(function ($q) {
+                $q->where('stripe_status', 'active')
+                    ->orWhere(function ($q2) {
+                        $q2->where('stripe_status', 'trialing')
+                            ->where('trial_ends_at', '>', now());
+                    });
+            });
+        });
+    }
+
+    public static function notifyAdminsByRoleId(int $roleId, Notification $notification): void
+    {
+        self::whereHas('roles', fn($q) => $q->where('id', $roleId))
+            ->each(fn($admin) => $admin->notify($notification));
+    }
+
+
 
     protected static function booted()
     {

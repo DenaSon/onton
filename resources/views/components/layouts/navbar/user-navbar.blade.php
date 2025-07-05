@@ -27,11 +27,11 @@
 
             <x-menu-item title="My Profile" link="{{ route('panel.profile.edit') }}" icon="o-user"/>
 
-            <x-menu-item title="Settings" link="#" icon="o-cog-6-tooth"/>
+            <x-menu-item title="Settings" link="{{ route('panel.setting.delivery') }}" icon="o-cog-6-tooth"/>
 
             <x-menu-separator/>
 
-            <x-menu-item title="Help Center" link="#" icon="o-question-mark-circle"/>
+            <x-menu-item title="Help Center" link="{{ route('panel.index') }}" icon="o-question-mark-circle"/>
 
 
             <x-menu-separator/>

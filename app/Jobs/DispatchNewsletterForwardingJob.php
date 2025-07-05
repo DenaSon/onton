@@ -27,6 +27,7 @@ class DispatchNewsletterForwardingJob implements ShouldQueue
         $now = Carbon::now();
 
         try {
+
             User::with(['notificationSetting', 'followedVCs'])
                 ->whereHas('notificationSetting', function ($query) use ($now) {
                     $query->where(function ($q) use ($now) {
@@ -44,6 +45,7 @@ class DispatchNewsletterForwardingJob implements ShouldQueue
                             });
                     });
                 })
+                ->subscribedOrOnTrial()
                 ->chunkById(100, function ($usersChunk) {
                     foreach ($usersChunk as $user) {
                         try {
@@ -62,7 +64,25 @@ class DispatchNewsletterForwardingJob implements ShouldQueue
             Log::error('[NewsletterDispatchJob] Unexpected error during dispatch process: ' . $e->getMessage(), [
                 'exception' => $e,
             ]);
+
+
         }
+    }
+
+    public function failed(\Throwable $exception): void
+    {
+        Log::critical('[NewsletterDispatchJob] Job failed permanently! Exception: ' . $exception->getMessage(), [
+            'trace' => $exception->getTraceAsString(),
+        ]);
+
+        \App\Models\User::notifyAdminsByRoleId(1, new \App\Notifications\UserSystemNotification(
+            subject: 'Newsletter Dispatch Failed',
+            title: 'Critical: Newsletter Dispatch Job Failed',
+            message: 'The automated newsletter dispatch job failed permanently. Please review the logs and take action. Exception: ' . $exception->getMessage(),
+            actionUrl: url('core/log-viewer'),
+            actionText: 'Check Logs',
+            footerText: 'System notification'
+        ));
     }
 
 }

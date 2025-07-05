@@ -85,4 +85,18 @@ class SendNewsletterToUserJob implements ShouldQueue
         }
     }
 
+    public function failed(\Throwable $exception): void
+    {
+        Log::critical("[SendNewsletterToUserJob] Failed permanently for user #{$this->user->id}: {$exception->getMessage()}");
+
+        \App\Models\User::notifyAdminsByRoleId(1, new \App\Notifications\UserSystemNotification(
+            subject: 'Newsletter Sending Failed',
+            title: "Newsletter Failed for {$this->user->email}",
+            message: "The system failed to send newsletters to user #{$this->user->id}. Exception: {$exception->getMessage()}",
+            actionUrl: url('core/log-viewer'),
+            actionText: 'Check Logs',
+            footerText: 'Automated notification from newsletter dispatch system.'
+        ));
+    }
+
 }

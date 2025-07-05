@@ -68,8 +68,6 @@ class CrawlEmailsJob implements ShouldQueue
             $limit = 15;
             $lookbackHours = 100;
 
-
-
             $crawler = app(MailCrawlerService::class)
                 ->crawl('default', 'INBOX', function ($query) use ($limit, $lookbackHours) {
                     return $query->unseen()
@@ -119,9 +117,19 @@ class CrawlEmailsJob implements ShouldQueue
 
     public function failed(Throwable $exception): void
     {
-        Log::critical('CrawlEmailsJob failed permanently!', [
+        Log::critical('[CrawlEmailsJob] Failed permanently!', [
             'exception' => $exception->getMessage(),
         ]);
+
+        \App\Models\User::notifyAdminsByRoleId(1, new \App\Notifications\UserSystemNotification(
+            subject: 'Email Crawling Failed',
+            title: 'Crawler Failure Alert',
+            message: 'The email crawling job failed permanently due to an error: ' . $exception->getMessage(),
+            actionUrl: url('core/log-viewer'),
+            actionText: 'View Logs',
+            footerText: 'This is an automated system alert from Byblos Crawler Bot.'
+        ));
     }
+
 
 }
