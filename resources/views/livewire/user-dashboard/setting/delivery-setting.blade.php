@@ -4,14 +4,16 @@
     <div class="space-y-4">
 
 
-        <x-alert title="You don’t have an active subscription"
-                 description="Please start your free trial to access premium features."
-                 icon="o-exclamation-triangle"
-                 dismissible>
-            <x-slot:actions>
-                @livewire('components.payment.subscribe-button',['label' => 'Start Trial','class' => 'btn-sm btn-info'])
-            </x-slot:actions>
-        </x-alert>
+       @if(! Auth::user()->hasActiveSubscription())
+            <x-alert title="You don’t have an active subscription"
+                     description="Please start your free trial to access premium features."
+                     icon="o-exclamation-triangle"
+                     dismissible>
+                <x-slot:actions>
+                    @livewire('components.payment.subscribe-button',['label' => 'Start Trial','class' => 'btn-sm btn-info'])
+                </x-slot:actions>
+            </x-alert>
+       @endif
 
 
         <div class="flex items-center space-x-2 text-gray-700 dark:text-gray-200">
