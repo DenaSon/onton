@@ -7,7 +7,10 @@
         </label>
 
 
-        <div class="text-primary font-bold text-sm font-sans">Byblos</div>
+        <a href="{{ route('home') }}" class="text-primary font-bold text-lg font-alfa">
+            Byblos
+        </a>
+
     </x-slot:brand>
 
 

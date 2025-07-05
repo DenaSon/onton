@@ -7,7 +7,9 @@
         </label>
 
         {{-- Brand --}}
-        <i class="text-xs md:text-xl text-primary font-bold font-mono">Byblos</i>
+        <a href="{{ route('home') }}" class="text-primary font-bold text-lg font-alfa">
+            Byblos
+        </a>
     </x-slot:brand>
 
     {{-- Right side actions --}}

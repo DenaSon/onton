@@ -15,7 +15,7 @@
             </div>
 
             <p class="text-lg md:text-xl text-base-content mb-3">
-                Never miss a VC opportunity —  Managing all your VC newsletter subscriptions in one place.
+                Never miss a VC opportunity — Managing all your VC newsletter subscriptions in one place.
                 Subscribe or unsubscribe effortlessly without hopping between multiple websites.
             </p>
 
@@ -28,16 +28,35 @@
 
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <x-button class="btn btn-primary btn-lg" label="Try It Now"/>
-                <x-button  class="btn btn-outline btn-secondary btn-lg" label="Learn More"/>
+
+                @auth
+                    @if(auth()->user()->hasActiveSubscription())
+                        <a wire:navigate href="{{ route('panel.index') }}" class="btn btn-primary btn-lg">
+                            Dashboard
+                        </a>
+                    @else
+                        @livewire('components.payment.subscribe-button', ['class' => 'btn-primary btn-lg', 'label' => 'Try It Now'])
+                    @endif
+                @else
+                    @livewire('components.payment.subscribe-button', ['class' => 'btn-primary btn-lg', 'label' => 'Try It Now'])
+                @endauth
+
+                    <x-button
+                        class="btn btn-outline btn-secondary btn-lg"
+                        label="Learn More"
+                        onclick="document.getElementById('features').scrollIntoView({ behavior: 'smooth' })"
+                    />
+
             </div>
+
         </div>
+
 
         <!-- Right Image -->
         <div class="w-full md:w-1/2 mb-5 md:mb-0 hidden md:block">
 
             <img
-                src="{{ asset('static/img/byblos-hero-home.webp') }}"
+                src="{{ asset('static/img/byblos-hero.webp') }}"
                 alt="newsletter automation"
                 class="w-full max-w-md mx-auto rounded-2xl shadow-xl ring-1 ring-base-300 hover:scale-105 transition-transform duration-500 ease-in-out"
             />
