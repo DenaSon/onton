@@ -27,7 +27,7 @@
             </x-slot:heading>
             <x-slot:content>
                 <p class="text-sm leading-relaxed">
-                    Byblos Radar offers tagging, content crawling, scheduling, automated email delivery, and advanced filtering—all accessible from a centralized dashboard.
+                    Byblos  offers tagging, content crawling, scheduling, automated email delivery, and advanced filtering—all accessible from a centralized dashboard.
                 </p>
             </x-slot:content>
         </x-collapse>
@@ -56,11 +56,11 @@
 
         <x-collapse separator class="bg-base-100">
             <x-slot:heading>
-                Why Byblos Radar?
+                Why Byblos ?
             </x-slot:heading>
             <x-slot:content>
                 <p class="text-sm leading-relaxed">
-                    Byblos Radar simplifies newsletter curation through automation and personalization. It’s ideal for teams managing high-volume content with clarity.
+                    Byblos  simplifies newsletter curation through automation and personalization. It’s ideal for teams managing high-volume content with clarity.
                 </p>
             </x-slot:content>
         </x-collapse>

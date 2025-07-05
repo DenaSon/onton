@@ -12,8 +12,8 @@
     <meta name="robots" content="index, follow"/>
     <meta name="description"
           content="Byblos Dashboard"/>
-    <meta name="keywords" content="Byblos Radar"/>
-    <meta name="author" content="Byblos Radar"/>
+    <meta name="keywords" content="Byblos"/>
+    <meta name="author" content="Byblos"/>
 
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])

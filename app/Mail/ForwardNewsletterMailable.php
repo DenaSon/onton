@@ -31,7 +31,7 @@ class ForwardNewsletterMailable extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'ByblosRadar: '. $this->newsletter->subject ?? 'Newsletter',
+            subject: 'Byblos: '. $this->newsletter->subject ?? 'Newsletter',
         );
     }
 

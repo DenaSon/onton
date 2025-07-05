@@ -3,18 +3,18 @@
 
 <div class="max-w-6xl mx-auto px-2 grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-24 items-center">
 
-        <!-- Left: Why ONTON Radar -->
+        <!-- Left: Why  -->
         <div class="p-8 max-w-3xl mx-auto space-y-5">
             <div class="space-y-8">
                 <h2 class="text-2xl font-extrabold text-primary leading-tight">
-                    Why Founders Choose Byblos Radar ?
+                    Why Founders Choose Byblos  ?
                 </h2>
                 <div class="w-24 h-1 bg-primary rounded opacity-40"></div>
 
                 <p class="text-base-content/70 text-lg leading-relaxed font-medium">
                     Stay in the VC loop — the smarter way.<br class="hidden sm:inline" />
                     <span class="text-base-content">
-                        Byblos Radar helps you discover, subscribe to, and manage 100+ VC newsletters from one clean, centralized dashboard.
+                        Byblos  helps you discover, subscribe to, and manage 100+ VC newsletters from one clean, centralized dashboard.
                     </span>
                 </p>
             </div>

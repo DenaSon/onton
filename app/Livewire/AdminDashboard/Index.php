@@ -9,6 +9,6 @@ class Index extends Component
 {
     public function render()
     {
-        return view('livewire.admin-dashboard.index')->title('Byblos Radar Dashboard');
+        return view('livewire.admin-dashboard.index')->title('Byblos Dashboard');
     }
 }

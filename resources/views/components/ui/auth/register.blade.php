@@ -15,7 +15,8 @@
                      class="opacity-90 w-48 sm:w-64 md:w-80 lg:w-full max-w-md rounded-xl  transition-all duration-300" />
 
                 <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-extrabold text-primary leading-tight transition-all duration-300">
-                    Start Your Radar
+                    Launch Your Insights
+
                 </h1>
 
                 <p class="text-sm sm:text-base md:text-lg text-base-content/80 max-w-prose text-center lg:text-left">

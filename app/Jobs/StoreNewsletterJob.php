@@ -111,7 +111,7 @@ class StoreNewsletterJob implements ShouldQueue
         if ($savedCount === 0) {
             \Log::warning('[StoreNewsletterJob] Done — All emails skipped — no newsletters were stored. [END]');
         } else {
-            \Log::notice("[StoreNewsletterJob] {BYBLOS_BOT_MISSION_COMPLETE} >>> payload transferred. {$savedCount} newsletters delivered to ByblosRadar.[END]");
+            \Log::notice("[StoreNewsletterJob] {BYBLOS_BOT_MISSION_COMPLETE} >>> payload transferred. {$savedCount} newsletters delivered to Byblos.[END]");
 
         }
     }

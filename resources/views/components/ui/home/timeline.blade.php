@@ -1,6 +1,6 @@
 <section class="py-10 bg-base-100" id="how-it-works">
     <div class="max-w-6xl mx-auto px-2 text-center">
-        <h2 class="text-4xl font-bold mb-16">How Byblos Radar Works</h2>
+        <h2 class="text-4xl font-bold mb-16">How Byblos Works</h2>
 
         <div class="relative">
             <!-- Horizontal line -->

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{csrf_token()}}">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Byblos Radar</title>
+    <title>Byblos</title>
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
 
 

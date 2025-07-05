@@ -47,7 +47,7 @@
     <div class="mt-12 border-t border-base-300 pt-6 text-sm text-center text-base-content/60">
         <small>
             © <span x-data="{ year: new Date().getFullYear() }" x-text="year"></span>
-            Byblos Radar. All rights reserved.
+            Byblos. All rights reserved.
         </small>
         <div class="mt-2 flex justify-center space-x-4" aria-label="Social media links">
             <a href="#" class="hover:text-primary">

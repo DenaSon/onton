@@ -10,7 +10,7 @@
                     Stay Ahead with
 
                 </h3>
-                <h1 class="text-primary text-4xl md:text-4xl font-bold">Byblos Radar</h1>
+                <h1 class="text-primary text-4xl md:text-4xl font-bold">Byblos</h1>
 
             </div>
 
