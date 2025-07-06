@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Mary\Traits\Toast;
+use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
 use Stripe\Subscription as StripeSubscription;
 
@@ -21,6 +22,9 @@ class SubscriptionManagement extends Component
     public $planName = 'Unknown';
     public $nextBillingDate = null;
 
+    public $planPrice = null;
+    public $planCurrency = null;
+
     public array $invoices = [];
 
     public function mount()
@@ -30,16 +34,13 @@ class SubscriptionManagement extends Component
         $this->onTrial = $user->onTrial('default');
         $this->trialEndsAt = $this->subscription?->trial_ends_at;
 
-        $this->planName = match ($this->subscription?->stripe_price) {
-            'price_basic' => 'Basic',
-            'price_pro' => 'Pro',
-            default => $this->onTrial ? 'Trial' : 'Unknown',
-        };
-
 
     }
 
 
+    /**
+     * @throws ApiErrorException
+     */
     public function loadStripeSubscriptionData(): void
     {
         if (!$this->subscription?->stripe_id) {
@@ -52,6 +53,17 @@ class SubscriptionManagement extends Component
         $stripeSubscription = StripeSubscription::retrieve($this->subscription->stripe_id);
 
         $this->nextBillingDate = \Carbon\Carbon::createFromTimestamp($stripeSubscription->current_period_end);
+
+
+        $priceId = $stripeSubscription->items->data[0]->price->id ?? null;
+
+        if ($priceId) {
+            $price = \Stripe\Price::retrieve($priceId);
+
+            $this->planPrice = number_format($price->unit_amount / 100, 2);
+            $this->planCurrency = strtoupper($price->currency);
+        }
+
     }
 
     public function loadInvoices(): void

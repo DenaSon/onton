@@ -4,20 +4,20 @@
         $showBillingHistory = $subscription && ($subscription->valid() || $subscription->onTrial());
     @endphp
 
-    <x-card progress-indicator separator title="Subscription Overview" class="shadow rounded-2xl mt-6 {{ $cardShadow }}">
+    <x-card progress-indicator separator title="Subscription Overview"
+            class="shadow rounded-2xl mt-6 {{ $cardShadow }}">
         @if ($errors->has('rate_limit'))
             <x-alert icon="o-exclamation-triangle" type="error" description="{{ $errors->first('rate_limit') }}"
                      title="Slow down"/>
         @endif
 
         @if($subscription)
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6"  wire:init="loadStripeSubscriptionData">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6" wire:init="loadStripeSubscriptionData">
                 <x-stat
-                    title="Plan"
-                    value="{{ $planName }}"
-                    icon="o-check"
-                    color="text-primary"
-                    tooltip="Current subscription plan"
+                    title="Plan Price"
+                    value="{{ $planPrice ? $planPrice . ' ' . $planCurrency : '—' }}"
+                    icon="o-currency-dollar"
+                    color="text-success"
                 />
 
                 <x-stat
@@ -40,13 +40,30 @@
                     icon="o-calendar-days"
                     color="text-accent"
                 />
+
+
             </div>
 
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div class="text-sm text-base-content/70">
-                    Stripe Price ID: <code
-                        class="bg-base-200 px-2 py-1 rounded">{{ $subscription->stripe_price ?? '—' }}</code>
+                    Status:
+                    <span class="font-semibold">
+        {{ ucfirst($subscription->stripe_status ?? 'inactive') }}
+    </span>
+                    <small class="block text-xs text-gray-400">
+                        @if($subscription->onGracePeriod())
+                            Subscription canceled — ends {{ $subscription->ends_at?->format('M d, Y') }}
+                            ({{ $subscription->ends_at?->diffForHumans() }})
+                        @elseif($subscription->onTrial())
+                            Trial ends on {{ $subscription->trial_ends_at?->format('M d, Y') }}
+                            ({{ $subscription->trial_ends_at?->diffForHumans() }})
+                        @else
+                            Active subscription — started {{ $subscription->created_at->format('M d, Y') }}
+                            ({{ $subscription->created_at->diffForHumans() }})
+                        @endif
+                    </small>
                 </div>
+
 
                 <div class="flex gap-2">
                     @if($subscription->onGracePeriod())
@@ -71,12 +88,6 @@
             </div>
         @endif
 
-        @if($subscription?->onGracePeriod())
-            <x-hr/>
-            <div class="text-warning">
-                Your subscription will end on {{ $subscription->ends_at->format('M d, Y') }}.
-            </div>
-        @endif
 
     </x-card>
 
