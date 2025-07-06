@@ -13,20 +13,20 @@
             {{-- VC Name --}}
             @if($newsletter->vc?->name)
                 <p style="margin: 0 0 4px 0; font-size: 13px; color: #6b7280;">
-                    From: <strong>{{ $newsletter->vc->name }}</strong>
+                    From: <strong>{{ $newsletter?->vc?->name }}</strong>
                 </p>
             @endif
 
             {{-- Subject --}}
             <h2 style="margin: 0; font-size: 20px; color: #1a202c;">
-                {{ $newsletter->subject ?? 'Untitled Newsletter' }}
+                {{ $newsletter?->subject ?? 'Untitled Newsletter' }}
             </h2>
         </td>
     </tr>
 
     <tr>
         <td style="padding: 0 24px 24px 24px;">
-            {!! $newsletter->body_html ?? nl2br(e($newsletter->body_plain)) !!}
+            {!! $newsletter?->body_html ?? nl2br(e($newsletter?->body_plain)) !!}
         </td>
     </tr>
     <tr>
@@ -34,10 +34,10 @@
             <p style="margin: 0 0 6px;">
                 Thanks for staying connected with us.
             </p>
-            <strong style="display: block; margin-bottom: 4px;"> The Byblos Team </strong>
-            <a href="https://byblos.com"
+            <strong style="display: block; margin-bottom: 4px;"> The {{ config('app.name') }} Team </strong>
+            <a href="{{ config('app.url') }}"
                style="color: #3b82f6; text-decoration: none; font-weight: 500;">
-                byblos.com
+                {{ config('app.url') }}
             </a>
         </td>
     </tr>

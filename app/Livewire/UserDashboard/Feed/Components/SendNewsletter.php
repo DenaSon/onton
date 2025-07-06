@@ -19,11 +19,9 @@ class SendNewsletter extends Component
     {
         $newsletter = Newsletter::findOrFail($id);
 
-
-
         $user = auth()->user();
 
-        if (! $user->can('receive', $newsletter)) {
+        if (!$user->can('receive', $newsletter)) {
             $this->error('Unauthorized', 'You are not allowed to receive this newsletter.');
             return;
         }
