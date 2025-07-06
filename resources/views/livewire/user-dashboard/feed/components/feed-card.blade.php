@@ -41,7 +41,7 @@
         <footer
             class="absolute bottom-2 left-0 right-0 px-3 flex justify-between items-center border-t border-base-200 pt-2 bg-gradient-to-t from-base-100 via-base-100/90 to-transparent"
         >
-            @can('viewHtml', $newsletter)
+
                 <x-button
                     icon="o-eye"
                     spinner
@@ -50,7 +50,7 @@
                     tooltip="Preview"
                     wire:click.debounce.250ms="viewModal({{ $newsletter->id }})"
                 />
-            @endcan
+
 
             <x-button
                 icon="o-paper-airplane"

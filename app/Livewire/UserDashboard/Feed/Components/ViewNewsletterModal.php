@@ -7,24 +7,22 @@ use Livewire\Component;
 
 class ViewNewsletterModal extends Component
 {
-    public $newsletterViewModal = false;
-    public $newsletter;
+    public bool $newsletterViewModal = false;
+    public ?int $newsletterId = null;
+
 
     protected $listeners = ['newsletterViewModal' => 'open'];
 
-    public function open($id): void
+    public function open(int $id): void
     {
-
+        $this->newsletterId = $id;
 
         $this->newsletterViewModal = true;
-
-        $this->newsletter = Newsletter::findOrfail($id);
-
     }
-
 
     public function render()
     {
         return view('livewire.user-dashboard.feed.components.view-newsletter-modal');
     }
 }
+

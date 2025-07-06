@@ -14,21 +14,22 @@ class FeedCard extends Component
 
     use Toast;
 
+
     public Newsletter $newsletter;
 
 
-    public function mount(int $newsletterId): void
+    public function mount(Newsletter $newsletter)
     {
-
-
-        $this->newsletter = Newsletter::with('vc:id,name,logo_url')->findOrFail($newsletterId);
+        $this->newsletter = $newsletter
+            ->loadMissing('vc');
     }
 
 
     public function getBodyPreviewProperty(): string
     {
         $paragraphs = preg_split('/\r\n|\r|\n/', strip_tags($this->newsletter->body_plain));
-        $body = collect($paragraphs)->slice(2)->implode(' ');
+        $body = collect($paragraphs)->slice(2)->implode(' ') ?: collect($paragraphs)->implode(' ');
+
 
         return \Str::limit($body, 250);
     }
@@ -62,7 +63,9 @@ class FeedCard extends Component
 
     public function viewModal($id)
     {
-        $this->dispatch('newsletterViewModal', id: $id);
+        $this->dispatch('newsletterViewModal', $id);
+
+
     }
 
 

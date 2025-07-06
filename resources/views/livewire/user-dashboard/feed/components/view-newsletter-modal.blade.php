@@ -1,49 +1,42 @@
 <div>
-    @if($newsletter && $newsletterViewModal)
+    @if($newsletterViewModal)
         <x-modal
             wire:model="newsletterViewModal"
-            subtitle=""
-            title="Newsletter Preview"
             class="backdrop-blur"
-            box-class="max-w-5xl p-4"
+            box-class="max-w-6xl rounded-2xl p-0 overflow-hidden bg-base-100 shadow-xl"
         >
-            {{-- IFRAME Wrapper --}}
-            <div class="border border-base-300 rounded-lg overflow-hidden shadow-inner">
-
-                <div x-data="{ loaded: false }" class="relative">
-                    {{-- Spinner overlay --}}
-                    <div
-                        x-show="!loaded"
-                        class="absolute inset-0 z-10 flex items-center justify-center bg-base-100/70 backdrop-blur-sm transition-opacity duration-300"
-                    >
-                        <span class="loading loading-ring loading-lg text-primary"></span>
-                    </div>
-
-                    {{-- Iframe --}}
-                    <iframe
-                        loading="lazy"
-                        title="Preview"
-                        src="{{ route('panel.newsletterView.html', ['id' => $newsletter->id]) }}"
-                        class="w-full h-[70vh] bg-white rounded border z-0"
-                        sandbox
-                        @load="loaded = true"
-                    ></iframe>
-
-                </div>
-
-
+            <div class="flex items-center justify-between px-6 py-4 border-b border-base-200 bg-base-100/80 backdrop-blur-sm">
+                <h2 class="text-lg font-semibold text-base-content">📬 Newsletter Preview</h2>
 
             </div>
 
-            {{-- Footer --}}
-            <x-slot:actions>
+            <div x-data="{ loaded: false }" class="relative">
+                <div
+                    x-show="!loaded"
+                    class="absolute inset-0 z-10 flex items-center justify-center bg-base-100/70 backdrop-blur-sm transition-opacity duration-300"
+                >
+                    <span class="loading loading-ring loading-lg text-primary"></span>
+                </div>
+
+                <iframe
+                    loading="lazy"
+                    title="Preview"
+                    src="{{ route('panel.newsletterView.html', ['id' => $newsletterId]) }}"
+                    class="w-full h-[75vh] bg-white"
+                    sandbox
+                    @load="loaded = true"
+                ></iframe>
+            </div>
+
+            <div class="flex justify-end px-6 py-4 border-t border-base-200 bg-base-100/80 backdrop-blur-sm">
                 <x-button
                     label="Close"
                     icon="o-x-mark"
                     class="btn-sm btn-outline"
                     wire:click="$set('newsletterViewModal', false)"
                 />
-            </x-slot:actions>
+            </div>
         </x-modal>
     @endif
+
 </div>

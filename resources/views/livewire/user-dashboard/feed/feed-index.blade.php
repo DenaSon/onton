@@ -4,16 +4,18 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach($newsletters as $newsletter)
 
-                @livewire('user-dashboard.feed.components.feed-card',['newsletterId' => $newsletter->id],key($newsletter->id))
+                @livewire('user-dashboard.feed.components.feed-card', ['newsletter' => $newsletter], key($newsletter->id))
+
 
             @endforeach
         </div>
 
 
 
-        <div class="mt-4">
+        <div class="mt-6 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-base-100">
             {{ $newsletters->links() }}
         </div>
+
 
     @else
         <section class="w-full min-h-[100vh] flex flex-col items-center justify-center text-center py-10 px-2">

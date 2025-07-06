@@ -4,14 +4,20 @@ namespace App\Livewire\UserDashboard\Feed;
 
 use App\Models\Newsletter;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 
 
+#[Layout('components.layouts.user-dashboard')]
+#[Title('Feed Index')]
 class FeedIndex extends Component
 {
     use WithPagination;
+
+
 
     public array $followedVcIds = [];
 
@@ -27,10 +33,11 @@ class FeedIndex extends Component
             ->whereIn('vc_id', $this->followedVcIds)
             ->with('vc:id,name,logo_url')
             ->orderByDesc('received_at')
-            ->paginate(10);
+            ->simplePaginate(18);
+
 
         return view('livewire.user-dashboard.feed.feed-index', [
             'newsletters' => $newsletters,
-        ])->layout('components.layouts.user-dashboard')->title('Your Feed');
+        ]);
     }
 }
