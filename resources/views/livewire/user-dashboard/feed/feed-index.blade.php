@@ -3,19 +3,17 @@
     @if($newsletters->count())
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach($newsletters as $newsletter)
-
-                @livewire('user-dashboard.feed.components.feed-card', ['newsletter' => $newsletter], key($newsletter->id))
-
-
+                @include('livewire.user-dashboard.feed.components.feed-item', ['newsletter' => $newsletter])
             @endforeach
         </div>
 
 
-
-        <div class="mt-6 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-base-100">
-            {{ $newsletters->links() }}
-        </div>
-
+        @if($newsletters->hasPages())
+            <div
+                class="mt-6 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-base-100">
+                {{ $newsletters->links() }}
+            </div>
+        @endif
 
     @else
         <section class="w-full min-h-[100vh] flex flex-col items-center justify-center text-center py-10 px-2">
@@ -34,10 +32,12 @@
         </section>
     @endif
 
-
-    <livewire:user-dashboard.feed.components.view-newsletter-modal
-        wire:key="newsletter-modal"
-    />
+    @once
+        <livewire:user-dashboard.feed.components.send-newsletter/>
+        <livewire:user-dashboard.feed.components.view-newsletter-modal
+            wire:key="newsletter-modal"
+        />
+    @endonce
 
 
 </div>

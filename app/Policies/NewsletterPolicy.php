@@ -66,6 +66,16 @@ class NewsletterPolicy
 
     public function viewHtml(User $user, Newsletter $newsletter): bool
     {
-        return $user->followedVCs()->where('vcs.id', $newsletter->vc_id)->exists();
+        return $this->receive($user, $newsletter);
     }
+
+    public function receive(User $user, Newsletter $newsletter): bool
+    {
+        return $user->followedVCs()
+            ->where('vcs.id', $newsletter->vc_id)
+            ->exists();
+    }
+
+
+
 }
