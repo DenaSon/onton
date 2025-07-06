@@ -20,7 +20,8 @@ class NewsletterHtmlController extends Controller
         return response($newsletter->body_html)
             ->header('Content-Type', 'text/html')
             ->header('X-Frame-Options', 'SAMEORIGIN')
-            ->header('Content-Security-Policy', "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none';")
+            ->header('Content-Security-Policy', "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'none'; img-src 'self' https: data:;")
             ->header('X-Content-Type-Options', 'nosniff');
+
     }
 }
