@@ -23,7 +23,7 @@
                     title="Preview"
                     src="{{ route('panel.newsletterView.html', ['id' => $newsletterId]) }}"
                     class="w-full h-[75vh] bg-white"
-                    sandbox
+                    sandbox="allow-same-origin"
                     @load="loaded = true"
                 ></iframe>
             </div>
