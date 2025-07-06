@@ -145,6 +145,20 @@ class Vc extends Model
             ->withTimestamps();
     }
 
+    public function scopeWithVerticals($query, $verticalIds)
+    {
+        return $query->whereHas('tags', fn($q) =>
+        $q->where('type', 'vertical')->whereIn('tags.id', $verticalIds)
+        );
+    }
+
+    public function scopeWithStages($query, $stageIds)
+    {
+        return $query->whereHas('tags', fn($q) =>
+        $q->where('type', 'stage')->whereIn('tags.id', $stageIds)
+        );
+    }
+
 
 
 

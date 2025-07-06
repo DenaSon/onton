@@ -2,16 +2,17 @@
 
 namespace App\Livewire\UserDashboard\Vc;
 
-use App\Models\Tag;
 use App\Models\Vc;
-use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
+#[Layout('components.layouts.user-dashboard')]
+#[Title('VC Directory')]
 class VcDirectory extends Component
 {
     use WithPagination, Toast;
@@ -30,9 +31,10 @@ class VcDirectory extends Component
     public $stageTags = [];
 
 
-
     public function mount()
     {
+
+
         $this->verticalTags = Cache::rememberForever('tags.vertical', function () {
             return \App\Models\Tag::where('type', 'vertical')
                 ->orderBy('name')
@@ -55,7 +57,6 @@ class VcDirectory extends Component
                 ->toArray();
         });
     }
-
 
 
     public function updatedSearch(): void
@@ -98,39 +99,31 @@ class VcDirectory extends Component
 
     public function render()
     {
+
         $user = auth()->user();
-
-
         $this->followedVcIds = $user->followedVCs()->pluck('vcs.id')->toArray();
 
         $vcs = Vc::query()
-            ->when($this->search, fn($q) =>
-            $q->where('name', 'like', "%{$this->search}%")
+            ->select('vcs.id', 'vcs.name', 'vcs.logo_url')
+            ->when($this->search, fn($q) => $q->where('name', 'like', "{$this->search}%")
             )
-            ->when(!empty($this->selectedVerticals), fn($q) =>
-            $q->whereHas('tags', fn($t) =>
-            $t->where('type', 'vertical')
-                ->whereIn('tags.id', $this->selectedVerticals)
+            ->when($this->selectedVerticals, fn($q) => $q->withVerticals($this->selectedVerticals)
             )
-            )
-            ->when(!empty($this->selectedStages), fn($q) =>
-            $q->whereHas('tags', fn($t) =>
-            $t->where('type', 'stage')
-                ->whereIn('tags.id', $this->selectedStages)
-            )
+            ->when($this->selectedStages, fn($q) => $q->withStages($this->selectedStages)
+
             )
             ->with('tags')
             ->withCount(['newsletters', 'followers'])
             ->orderBy('name')
-            ->paginate(10);
+            ->simplePaginate(2);
 
 
         return view('livewire.user-dashboard.vc.vc-directory', [
             'vcs' => $vcs,
 
-        ])
-            ->layout('components.layouts.user-dashboard')
-            ->title('VC Directory');
+        ]);
+
+
     }
 
 

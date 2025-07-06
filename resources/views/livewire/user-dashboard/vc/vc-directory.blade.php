@@ -61,10 +61,10 @@
 
 
     @if ($vcs->hasPages())
-        <x-card class="mt-6 p-4 shadow-md rounded-box">
-            <div class="flex justify-center">
+        <x-card class="mt-6 p-4 shadow-lg rounded-box">
+
                 {{ $vcs->links() }}
-            </div>
+
         </x-card>
     @endif
 

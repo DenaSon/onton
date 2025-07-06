@@ -14,12 +14,18 @@ return new class extends Migration
         Schema::create('taggables', function (Blueprint $table) {
             $table->unsignedBigInteger('tag_id');
             $table->unsignedBigInteger('taggable_id');
-            $table->string('taggable_type');
+            $table->string('taggable_type', 80);
 
-            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+            $table->foreign('tag_id')
+                ->references('id')
+                ->on('tags')
+                ->onDelete('cascade');
 
-            $table->primary(['tag_id', 'taggable_id', 'taggable_type']);
-        });;
+
+            $table->index(['taggable_id', 'taggable_type']);
+            $table->index(['tag_id']);
+            $table->index(['tag_id', 'taggable_type']);
+        });
     }
 
     /**

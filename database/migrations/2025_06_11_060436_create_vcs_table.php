@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('vcs', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('Primary key');
 
-            $table->string('name')->comment('Name of the VC firm');
+            $table->string('name')->index()->comment('Name of the VC firm');
             $table->string('country')->nullable()->comment('Country of registration (optional)');
             $table->string('website')->nullable()->comment('Official website');
             $table->string('substack_url')->nullable()->comment('Optional Substack URL');
@@ -32,6 +32,8 @@ return new class extends Migration
 
             $table->index('country');
             $table->index('is_active');
+            $table->index('rating');
+
         });
     }
 

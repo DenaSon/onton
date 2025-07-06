@@ -29,7 +29,7 @@ return new class extends Migration
             $table->timestamp('sent_at')->nullable()->comment('Original email sent time');
             $table->timestamp('received_at')->comment('Time received by crawler');
 
-            $table->unsignedBigInteger('message_id')->nullable()->comment('Email message ID header');
+            $table->unsignedBigInteger('message_id')->nullable()->comment('IMAP UID of the email'); //UID
 
             $table->string('hash')->nullable()->comment('Hash for content deduplication');
 
