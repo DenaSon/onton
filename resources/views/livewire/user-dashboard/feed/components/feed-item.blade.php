@@ -1,9 +1,10 @@
 <x-card
-    separator progress-indicator="true"
+
     rounded
-    class="relative border border-gray-300 dark:border-gray-700 bg-base-100 shadow-sm hover:shadow-md transition duration-300 min-h-0 lg:min-h-[260px] pb-14 overflow-hidden group"
+    class="relative border border-gray-300 dark:border-gray-700 bg-base-100 shadow-sm hover:shadow-md transition duration-300 min-h-0 lg:min-h-[220px] pb-14 overflow-hidden group"
 >
-    {{-- Header --}}
+
+{{-- Header --}}
     <header class="flex items-center justify-between gap-2 mb-2">
         <div class="flex items-center gap-3">
             <img
@@ -27,12 +28,15 @@
 
     {{-- Subject --}}
     <h3 class="text-base font-semibold text-base-content line-clamp-2 mb-1">
+
         {{ $newsletter->subject }}
     </h3>
 
     {{-- Snippet --}}
     <p class="text-sm text-base-content/70 line-clamp-3 mb-3">
-        {{ \Illuminate\Support\Str::limit(strip_tags($newsletter->body_plain), 250) }}
+
+        {{ $newsletter->getBodyPreview() }}
+
     </p>
 
     {{-- Footer --}}
