@@ -30,7 +30,9 @@ class NewsletterShowDetails extends Component
         ]);
 
         try {
-            Mail::to($this->email)->send(new ForwardNewsletterMailable($this->newsletter));
+
+            Mail::to($this->email)->queue(new ForwardNewsletterMailable($this->newsletter));
+
 
             $this->success('Send Newsletter Email', 'Email has been sent to ' . $this->email);
 

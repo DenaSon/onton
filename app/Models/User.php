@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Models\Cashier\Subscription;
+use App\Notifications\QueuedResetPassword;
+use App\Notifications\QueuedVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -61,7 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * The attributes casts.
+     * The attribute cast.
      *
      * @var array<string,string>
      */
@@ -69,6 +70,18 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new QueuedVerifyEmail);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new QueuedResetPassword($token));
+    }
+
 
     /**
      * Get the initials of the user's name.
@@ -79,7 +92,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Str::of($this->name)
             ->explode(' ')
-            ->map(fn (string $name) => Str::of($name)->substr(0, 1))
+            ->map(fn(string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
     }
 
@@ -123,7 +136,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isSuspended(): bool
     {
-        return (bool) $this->getAttribute('is_suspended');
+        return (bool)$this->getAttribute('is_suspended');
     }
 
     public function followedVCs()
@@ -136,8 +149,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->followedVCs()->where('vc_id', $vcId)->exists();
     }
-
-
 
 
     public function notificationSetting()
@@ -178,7 +189,6 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
-
     protected static function booted()
     {
         static::created(function (User $user) {
@@ -188,8 +198,6 @@ class User extends Authenticatable implements MustVerifyEmail
             ]);
         });
     }
-
-
 
 
 }
