@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Lazy;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Mary\Traits\Toast;
 use Str;
 use Throwable;
-
+#[Title('Sign Up')]
 class Register extends Component
 {
     use Toast;

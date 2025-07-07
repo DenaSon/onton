@@ -3,9 +3,10 @@
 namespace App\Livewire\Auth;
 
 use Illuminate\Support\Facades\Password;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Mary\Traits\Toast;
-
+#[Title('Forgot Password')]
 class ForgotPassword extends Component
 {
     use Toast;

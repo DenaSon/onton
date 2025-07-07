@@ -3,11 +3,12 @@
 namespace App\Livewire\Auth;
 
 use App\Actions\Auth\LoginAction;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Mary\Traits\Toast;
 use Throwable;
 
-
+#[Title('Sign In')]
 class Login extends Component
 {
     use Toast;
