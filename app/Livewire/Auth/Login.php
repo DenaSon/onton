@@ -37,7 +37,7 @@ class Login extends Component
 
         }
         catch (Throwable $e) {
-            $this->warning('Sign In failed', 'These credentials do not match our records.', timeout: 5000);
+            $this->warning('Sign In failed', 'These credentials do not match our records.', timeout: 5500);
             logger()->warning('Login exception: '.$e->getMessage(), [
                 'email' => $this->email,
                 'ip' => request()->ip(),
