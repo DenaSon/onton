@@ -3,10 +3,10 @@
 namespace App\Livewire\Auth;
 
 use Illuminate\Support\Facades\Password;
-use Livewire\Attributes\Title;
+
 use Livewire\Component;
 use Mary\Traits\Toast;
-#[Title('Forgot Password')]
+
 class ForgotPassword extends Component
 {
     use Toast;
@@ -35,6 +35,6 @@ class ForgotPassword extends Component
     }
     public function render()
     {
-        return view('livewire.auth.forgot-password');
+        return view('livewire.auth.forgot-password')->title('Forgot Password');
     }
 }

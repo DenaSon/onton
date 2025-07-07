@@ -15,7 +15,6 @@ use Livewire\Component;
 use Mary\Traits\Toast;
 use Str;
 use Throwable;
-#[Title('Sign Up')]
 class Register extends Component
 {
     use Toast;
@@ -95,6 +94,6 @@ class Register extends Component
 
     public function render()
     {
-        return view('livewire.auth.register');
+        return view('livewire.auth.register')->title('Sign Up');
     }
 }
