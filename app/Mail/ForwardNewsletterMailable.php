@@ -32,7 +32,7 @@ class ForwardNewsletterMailable extends Mailable  implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Byblos: '. $this->newsletter->subject ?? 'Newsletter',
+            subject: config('app.name') .': '. $this->newsletter->subject ?? 'Newsletter',
         );
     }
 

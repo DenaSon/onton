@@ -5,8 +5,10 @@ namespace App\Livewire\UserDashboard;
 use App\Models\Newsletter;
 use App\Models\Vc;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 #[Layout('components.layouts.user-dashboard')]
+#[Title('User Dashboard')]
 class Index extends Component
 {
     public int $newslettersToday = 0;
@@ -38,6 +40,7 @@ class Index extends Component
 
     public function render()
     {
+
         return view('livewire.user-dashboard.index');
     }
 }

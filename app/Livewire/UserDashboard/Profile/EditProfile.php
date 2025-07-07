@@ -6,11 +6,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Lazy;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 use Mary\Traits\Toast;
 
 #[Lazy]
 #[Layout('components.layouts.user-dashboard')]
+#[Title('Profile Settings')]
 class EditProfile extends Component
 {
     use Toast;

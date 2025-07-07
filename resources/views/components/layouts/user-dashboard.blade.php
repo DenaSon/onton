@@ -6,14 +6,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{csrf_token()}}">
-    <title>{{ $title ?? '' }}</title>
+    <title>{{ config('app.name') . ' ' . $title ?? '' }}</title>
 
 
     <meta name="robots" content="index, follow"/>
     <meta name="description"
-          content="Byblos Dashboard"/>
-    <meta name="keywords" content="Byblos"/>
-    <meta name="author" content="Byblos"/>
+          content="{{ config('app.name') }} Dashboard"/>
+    <meta name="keywords" content="{{ config('app.name') }}"/>
+    <meta name="author" content="{{ config('app.name') }}"/>
 
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
