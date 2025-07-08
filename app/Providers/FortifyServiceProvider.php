@@ -30,24 +30,35 @@ class FortifyServiceProvider extends ServiceProvider
     {
 
         Fortify::registerView(function () {
-            return view('components.ui.auth.register');
+            return view('components.ui.auth.register', [
+                'title' => 'Sign Up | ' . config('app.name'),
+            ]);
         });
 
         Fortify::loginView(function () {
-            return view('components.ui.auth.login');
+            return view('components.ui.auth.login', [
+                'title' => 'Sign In | ' . config('app.name'),
+            ]);
         });
 
         Fortify::requestPasswordResetLinkView(function () {
-            return view('components.ui.auth.forgot-password');
+            return view('components.ui.auth.forgot-password', [
+                'title' => 'Forgot Password | ' . config('app.name'),
+            ]);
         });
 
         Fortify::resetPasswordView(function () {
-            return view('components.ui.auth.reset-password');
+            return view('components.ui.auth.reset-password', [
+                'title' => 'Reset Password | ' . config('app.name'),
+            ]);
         });
 
         Fortify::verifyEmailView(function () {
-            return view('components.ui.auth.verify-email');
+            return view('components.ui.auth.verify-email', [
+                'title' => 'Verify Email | ' . config('app.name'),
+            ]);
         });
+
 
 
         Fortify::createUsersUsing(CreateNewUser::class);

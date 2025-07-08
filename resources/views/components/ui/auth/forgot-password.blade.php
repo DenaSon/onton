@@ -1,4 +1,4 @@
-<x-layouts.app>
+<x-layouts.app title="{{ $title ?? '' }}">
 
     <div class="hero min-h-screen bg-base-200/80 backdrop-blur-lg rounded-2xl shadow-inner">
         <div class="hero-content flex-col lg:flex-row-reverse gap-8 lg:gap-24 px-4">

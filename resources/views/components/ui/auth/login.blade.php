@@ -1,8 +1,7 @@
-<x-layouts.app>
+<x-layouts.app title="{{ $title }}">
 
     <div class="hero min-h-screen bg-base-200/80 backdrop-blur-lg rounded-2xl shadow-inner">
         <div class="hero-content flex-col lg:flex-row-reverse gap-8 lg:gap-24 px-4">
-
 
             <div
                 x-data="{ shown: false }"
@@ -12,7 +11,7 @@
             >
                 <img src="{{ asset('static/img/signin-authenticate.svg') }}"
                      alt="SignIN"
-                     class="opacity-90 w-48 sm:w-64 md:w-80 lg:w-full max-w-md rounded-xl  transition-all duration-300" />
+                     class="opacity-90 w-48 sm:w-64 md:w-80 lg:w-full max-w-md rounded-xl  transition-all duration-300"/>
 
                 <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-extrabold text-primary leading-tight transition-all duration-300">
                     Log In. Stay Ready
@@ -22,8 +21,6 @@
                     Sign in and manage what truly matters in your inbox
                 </p>
             </div>
-
-
 
             <x-card
 
