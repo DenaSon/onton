@@ -9,7 +9,7 @@
         <meta property="og:image" content="{{ asset('static/img/byblos-hero.webp') }}">
         <meta property="og:url" content="{{ url()->current() }}">
         <meta name="twitter:card" content="summary_large_image">
-
+    @endpush
 
         <script type="application/ld+json">
             {
