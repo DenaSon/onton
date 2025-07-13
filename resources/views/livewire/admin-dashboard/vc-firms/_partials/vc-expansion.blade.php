@@ -21,16 +21,20 @@
 
 
         <tr>
-            <th>Tags</th>
+            <th>Vertical Tags</th>
             <td>
-                @foreach($vcFirm->tags as $tag)
+                @foreach($vcFirm->tags->where('type', 'vertical') as $tag)
                     <span class="badge badge-sm badge-outline mr-1">{{ $tag->name }}</span>
                 @endforeach
             </td>
         </tr>
         <tr>
-            <th>Stage</th>
-            <td>{{ $vcFirm->stage ?? 'N/A' }}</td>
+            <th>Stage Tags</th>
+            <td>
+                @foreach($vcFirm->tags->where('type', 'stage') as $tag)
+                    <span class="badge badge-sm badge-outline mr-1">{{ $tag->name }}</span>
+                @endforeach
+            </td>
         </tr>
 
         <tr>
