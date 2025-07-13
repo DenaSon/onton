@@ -43,7 +43,7 @@
     <x-ui.home.pricing/>
 
 
-    @include('components.ui.home.scroll-up-button')
+{{--    @include('components.ui.home.scroll-up-button')--}}
 
 
 </div>
