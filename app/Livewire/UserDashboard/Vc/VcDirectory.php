@@ -115,7 +115,7 @@ class VcDirectory extends Component
             ->with('tags')
             ->withCount(['newsletters', 'followers'])
             ->orderBy('name')
-            ->simplePaginate(2);
+            ->simplePaginate(20);
 
 
         return view('livewire.user-dashboard.vc.vc-directory', [
