@@ -24,7 +24,7 @@
             <th>Vertical Tags</th>
             <td>
                 @foreach($vcFirm->tags->where('type', 'vertical') as $tag)
-                    v<span class="badge badge-sm badge-outline mr-1">{{ $tag->name }}</span>
+                    <span class="badge badge-sm badge-outline mr-1">{{ $tag->name }}</span>
                 @endforeach
             </td>
         </tr>
