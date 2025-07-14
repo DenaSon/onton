@@ -29,6 +29,8 @@ class DispatchNewsletterForwardingJob implements ShouldQueue
         try {
 
             User::with(['notificationSetting', 'followedVCs'])
+                ->where('is_suspended', 0)
+                ->whereNotNull('email_verified_at')
                 ->whereHas('notificationSetting', function ($query) use ($now) {
                     $query->where(function ($q) use ($now) {
                         $q->where('frequency', 'daily')
@@ -47,9 +49,13 @@ class DispatchNewsletterForwardingJob implements ShouldQueue
                 })
                 ->subscribedOrOnTrial()
                 ->chunkById(100, function ($usersChunk) {
-                    foreach ($usersChunk as $user) {
+                    foreach ($usersChunk as $index => $user) {
                         try {
-                            SendNewsletterToUserJob::dispatch($user)->onQueue('send-newsletters');
+                            Log::info("[NewsletterDispatchJob] Ready user :  #{$user->id} ({$user->email}).");
+
+                            SendNewsletterToUserJob::dispatch($user)
+                                ->delay(now()->addSeconds($index * 5))
+                                ->onQueue('send-newsletters');
                             Log::info("[NewsletterDispatchJob] Dispatched newsletter sending for user #{$user->id} ({$user->email}).");
                         } catch (\Throwable $e) {
                             Log::error("[NewsletterDispatchJob] Failed to dispatch job for user #{$user->id}: {$e->getMessage()}", [

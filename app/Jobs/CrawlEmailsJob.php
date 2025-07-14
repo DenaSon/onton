@@ -54,6 +54,10 @@ class CrawlEmailsJob implements ShouldQueue
     public function handle(): void
     {
 
+
+
+
+
         \Log::info('[CrawlEmailsJob] {MISSION_START} >>> ByblosCrawlerBot Has Entered The Target Zone.Crawling Initiated');
         try {
             $whiteListEmails = $this->getWhitelistedEmails();

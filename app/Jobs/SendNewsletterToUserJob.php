@@ -52,9 +52,15 @@ class SendNewsletterToUserJob implements ShouldQueue
                 return;
             }
 
-            foreach ($newsletters as $newsletter) {
+            foreach ($newsletters as $index => $newsletter) {
                 try {
-                    Mail::to($user->email)->queue(new ForwardNewsletterMailable($newsletter));
+
+                    Mail::to($user->email)
+                        ->queue(
+                            (new ForwardNewsletterMailable($newsletter))
+                                ->delay(now()->addSeconds($index * 15))
+                                ->onQueue('emails_sender')
+                        );
 
                     $user->sentNewsletters()->attach($newsletter->id, [
                         'sent_at' => now(),
