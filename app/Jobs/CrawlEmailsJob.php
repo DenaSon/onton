@@ -2,8 +2,9 @@
 
 namespace App\Jobs;
 
-
+use App\Models\User;
 use App\Models\Whitelist;
+use App\Notifications\UserSystemNotification;
 use App\Services\Crawler\MailCrawlerService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -19,18 +20,14 @@ class CrawlEmailsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $tries = 5;
+    public $backoff = [30, 60, 120];
+
     public function viaQueue(): string
     {
         return 'crawler';
     }
 
-
-    public $tries = 5;
-    public $backoff = [30, 60, 120];
-
-    /**
-     * Create a new job instance.
-     */
     public function __construct()
     {
         //
@@ -47,67 +44,57 @@ class CrawlEmailsJob implements ShouldQueue
         });
     }
 
+    protected function crawlFolder(string $folder, array $whitelist, int $limit, int $lookbackHours): array
+    {
+        return app(MailCrawlerService::class)
+            ->crawl('default', $folder, function ($query) use ($limit, $lookbackHours) {
+                return $query->unseen()
+                    ->since(Carbon::now()->subHours($lookbackHours))
+                    ->limit($limit)
+                    ->softFail();
+            })
+            ->markAsRead()
+            ->parse()
+            ->filterByWhitelistFrom($whitelist)
+            ->saveAttachments()
+            ->get();
+    }
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
+        Log::info('[CrawlEmailsJob] {MISSION_START} >>> ByblosCrawlerBot has entered the target zone. Crawling initiated.');
 
-
-
-
-
-        \Log::info('[CrawlEmailsJob] {MISSION_START} >>> ByblosCrawlerBot Has Entered The Target Zone.Crawling Initiated');
         try {
             $whiteListEmails = $this->getWhitelistedEmails();
 
             if (empty($whiteListEmails)) {
-                \Log::warning('Whitelist emails is empty | Job Cancelled !');
+                Log::warning('[CrawlEmailsJob] Whitelist is empty. Job cancelled.');
                 return;
             }
-
-
 
             $limit = 15;
             $lookbackHours = 100;
 
-            $crawler = app(MailCrawlerService::class)
-                ->crawl('default', 'INBOX', function ($query) use ($limit, $lookbackHours) {
-                    return $query->unseen()
-                        ->since(Carbon::now()->subHours($lookbackHours))
-                        ->limit($limit)
-                        ->softFail();
-                });
+            // Crawl inbox and spam folders separately
+            $inboxEmails = $this->crawlFolder('INBOX', $whiteListEmails, $limit, $lookbackHours);
+            $spamEmails = $this->crawlFolder('Spam', $whiteListEmails, $limit, $lookbackHours);
 
-           if ($crawler->folderIsEmpty())
-           {
+            // Merge results
+            $emails = array_merge($inboxEmails, $spamEmails);
 
-               return;
-           }
-
-
-            \Log::info('[CrawlEmailsJob] loaded: ' . count($whiteListEmails) . ' emails loaded from whitelist emails');
-
-            $emails = $crawler->markAsRead()
-                ->parse()
-                ->filterByWhitelistFrom($whiteListEmails)
-                ->saveAttachments()
-                ->get();
-
+            Log::info('[CrawlEmailsJob] Loaded ' . count($whiteListEmails) . ' whitelisted emails.');
 
             if (count($emails) > 0) {
-                StoreNewsletterJob::dispatch($emails)->onQueue('storenewsletter');
-                \Log::info('[CrawlEmailsJob] Dispatching StoreNewsletterJob with ' . count($emails) . ' emails.');
-                \Log::notice('[CrawlEmailsJob] {MISSION_COMPLETE} >>> Operation Crawl complete. Emails delivered. Next Mission Start.');
+                StoreNewsletterJob::dispatch($emails)->delay(now()->addSeconds(4))->onQueue('storenewsletter');
+                Log::info('[CrawlEmailsJob] Dispatching StoreNewsletterJob with ' . count($emails) . ' emails.');
+                Log::notice('[CrawlEmailsJob] {MISSION_COMPLETE} >>> Operation Crawl complete. Emails delivered. Next Mission Start.');
             } else {
-                \Log::notice("[CrawlEmailsJob] No emails after filtering. Dispatch skipped.");
-                \Log::notice('[CrawlEmailsJob] Mission done — nothing to dispatch. [END]');
+                Log::notice('[CrawlEmailsJob] No emails after filtering. Dispatch skipped.');
+                Log::notice('[CrawlEmailsJob] Mission done — nothing to dispatch. [END]');
             }
 
-
-        } catch (\Throwable $e) {
-            \Log::error('Job error: ' . $e->getMessage(), [
+        } catch (Throwable $e) {
+            Log::error('[CrawlEmailsJob] Error: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
             ]);
             $this->fail($e);
@@ -125,7 +112,7 @@ class CrawlEmailsJob implements ShouldQueue
             'exception' => $exception->getMessage(),
         ]);
 
-        \App\Models\User::notifyAdminsByRoleId(1, new \App\Notifications\UserSystemNotification(
+        User::notifyAdminsByRoleId(1, new UserSystemNotification(
             subject: 'Email Crawling Failed',
             title: 'Crawler Failure Alert',
             message: 'The email crawling job failed permanently due to an error: ' . $exception->getMessage(),
@@ -134,6 +121,4 @@ class CrawlEmailsJob implements ShouldQueue
             footerText: 'This is an automated system alert from Byblos Crawler Bot.'
         ));
     }
-
-
 }

@@ -50,7 +50,6 @@ class MailCrawlerService
     protected function imapConnection(string $account = 'default'): \Webklex\PHPIMAP\Client
     {
         try {
-            \Log::info('[MailCrawlerService] About to connect IMAP');
 
             $client = Client::account($account);
             \Log::info('[MailCrawlerService] Connected IMAP successfully');
@@ -61,7 +60,6 @@ class MailCrawlerService
             }
 
             $client->connect();
-            \Log::info('[MailCrawlerService] Client connected successfully');
 
 
             if (!$client->isConnected()) {
@@ -71,7 +69,7 @@ class MailCrawlerService
                 throw new RuntimeException("[MailCrawlerService] connection failed for account '{$account}'. Client not connected.");
             }
 
-            \Log::info('[MailCrawlerService] Run checkConnection() method');
+
             $client->checkConnection();
 
             \Log::info('[MailCrawlerService] OK | All connections successfully');
@@ -88,7 +86,6 @@ class MailCrawlerService
             throw new RuntimeException("[MailCrawlerService] failed to connect to  account: '{$account}'", previous: $e);
         }
     }
-
 
 
     /**
@@ -172,7 +169,6 @@ class MailCrawlerService
 
         return $this;
     }
-
 
 
     /**
@@ -266,8 +262,6 @@ class MailCrawlerService
     }
 
 
-
-
     /**
      * Saves attachments from the parsed messages to the specified path.
      *
@@ -332,7 +326,6 @@ class MailCrawlerService
 
         return $this;
     }
-
 
 
     /**
@@ -414,7 +407,6 @@ class MailCrawlerService
             ]);
         }
     }
-
 
 
 }
