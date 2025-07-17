@@ -40,4 +40,13 @@
         />
 
     </x-menu-sub>
+
+<x-menu-separator/>
+    <x-menu-item
+        separator
+        title="Help"
+        icon="o-question-mark-circle"
+        link="{{ route('panel.help.index') }}"
+    />
+
 </x-menu>

@@ -52,8 +52,8 @@ Route::prefix('panel')
         Route::get('/payment/success', \App\Livewire\UserDashboard\Payment\SuccessPayment::class)->name('payment.success');
         Route::get('/payment/failed', \App\Livewire\UserDashboard\Payment\FailedPayment::class)->name('payment.failed');
         Route::get('/payment/subscription', \App\Livewire\UserDashboard\Payment\SubscriptionManagement::class)->name('payment.management');
-
         Route::get('/feed', \App\Livewire\UserDashboard\Feed\FeedIndex::class)->name('feed.index');
+        Route::get('/help', \App\Livewire\UserDashboard\Documents\DocIndex::class)->name('help.index');
 
         Route::get('newsletters/{id}/html', [\App\Http\Controllers\User\NewsletterHtmlController::class, 'show'])
             ->name('newsletterView.html');
@@ -63,30 +63,6 @@ Route::prefix('panel')
 Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
 
 Route::get('logout', Logout::class);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

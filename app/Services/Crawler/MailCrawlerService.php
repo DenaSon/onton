@@ -112,7 +112,7 @@ class MailCrawlerService
                 $folderName = $folder->name ?? 'unknown';
             } else {
                 $folderObj = $client->getFolderByName($folder);
-                $folderName = $folder; // keep original folder name for logging
+                $folderName = $folder; // keep the original folder name for logging
             }
 
             if (!$folderObj) {

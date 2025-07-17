@@ -34,7 +34,7 @@
 
             <x-menu-separator/>
 
-            <x-menu-item title="Help Center" link="{{ route('panel.index') }}" icon="o-question-mark-circle"/>
+            <x-menu-item title="Help Center" link="{{ route('panel.help.index') }}" icon="o-question-mark-circle"/>
 
 
             <x-menu-separator/>
