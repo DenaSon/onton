@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\User;
+use App\Models\Vc;
 use App\Models\Whitelist;
 use App\Notifications\UserSystemNotification;
 use App\Services\Crawler\MailCrawlerService;
@@ -63,6 +64,12 @@ class CrawlEmailsJob implements ShouldQueue
     public function handle(): void
     {
         Log::info('[CrawlEmailsJob] {MISSION_START} >>> ByblosCrawlerBot has entered the target zone. Crawling initiated.');
+
+
+        if (Vc::count() === 0) {
+            Log::warning('[CrawlEmailsJob] No VC entries found. Job cancelled before crawling.');
+            return;
+        }
 
         try {
             $whiteListEmails = $this->getWhitelistedEmails();
