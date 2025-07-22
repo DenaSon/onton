@@ -71,6 +71,14 @@ class CrawlEmailsJob implements ShouldQueue
             return;
         }
 
+        $vcWithWhitelistExists = Vc::whereHas('whitelists')->exists();
+
+        if (! $vcWithWhitelistExists) {
+            Log::warning('[CrawlEmailsJob] No VC with whitelist entries found. Job cancelled.');
+            return;
+        }
+
+
         try {
             $whiteListEmails = $this->getWhitelistedEmails();
 
