@@ -13,7 +13,7 @@ class ActivityLog extends Component
 {
     use Toast, WithPagination;
 
-    public array $sortBy = ['column' => 'id', 'direction' => 'asc'];
+    public array $sortBy = ['column' => 'id', 'direction' => 'desc'];
     public array $expanded = [];
 
     public function render()

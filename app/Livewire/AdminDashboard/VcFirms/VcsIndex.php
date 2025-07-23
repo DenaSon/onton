@@ -12,7 +12,7 @@ class VcsIndex extends Component
 {
     use WithPagination;
 
-    public array $sortBy = ['column' => 'created_at', 'direction' => 'asc'];
+    public array $sortBy = ['column' => 'created_at', 'direction' => 'desc'];
 
 
     public string $search = '';
