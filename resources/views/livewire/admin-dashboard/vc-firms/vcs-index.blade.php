@@ -25,6 +25,7 @@
 
         <x-table
             wire:model="expanded"
+            :sort-by="$sortBy"
             expandable
             :headers="$headers"
             :rows="$vcFirms"

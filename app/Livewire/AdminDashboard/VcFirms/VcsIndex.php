@@ -12,8 +12,11 @@ class VcsIndex extends Component
 {
     use WithPagination;
 
+    public array $sortBy = ['column' => 'created_at', 'direction' => 'asc'];
+
+
     public string $search = '';
-    public array $expanded = [1];
+    public array $expanded = [];
 
     public int $perPage = 12;
 
@@ -39,10 +42,11 @@ class VcsIndex extends Component
                 'newsletters',
             ])
             ->when($this->search, fn($query) =>
-            $query->where('name', 'like', "%{$this->search}%")
-                ->orWhere('website', 'like', "%{$this->search}%")
+            $query->where('name', 'like', "{$this->search}%")
+                ->orWhere('website', 'like', "{$this->search}%")
             )
-            ->orderByDesc('created_at')
+           // ->orderByDesc('created_at')
+            ->orderBy(...array_values($this->sortBy))
             ->paginate($this->perPage);
 
         return view('livewire.admin-dashboard.vc-firms.vcs-index', compact('vcFirms'))

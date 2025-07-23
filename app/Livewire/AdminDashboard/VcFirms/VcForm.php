@@ -118,9 +118,14 @@ class VcForm extends Component
                     'logo_url' => $logoUrl ?? $this->vc->logo_url,
                 ]);
                 $vc = $this->vc;
+
+                $this->logActivity($vc, 'Updated');
+
+
             } else {
-                // Create
+                // Create new VC
                 $vc = $this->createVc($logoUrl);
+                $this->logActivity($vc, 'Created');
             }
 
             $this->syncTags($vc);
@@ -190,6 +195,26 @@ class VcForm extends Component
 
         if ($validEmails->isNotEmpty()) {
             $vc->whitelists()->createMany($validEmails->toArray());
+        }
+    }
+
+
+    protected function logActivity($vc, string $action): void
+    {
+        try {
+            $username = auth()->user()->name ?? auth()->user()->email;
+            activity('VC')
+                ->event($action)
+
+                ->causedBy(auth()->user())
+                ->performedOn($vc)
+                ->withProperties([
+                    'action' => 'User '.  $username. ' ' . $action . ' : VC: ' . $vc->name,
+                ])
+                ->log(" {$vc->name} {$action} by {$username}");
+
+        } catch (\Throwable $e) {
+            logger()->error('Error  saving activitylog for VC', ['error' => $e->getMessage()]);
         }
     }
 

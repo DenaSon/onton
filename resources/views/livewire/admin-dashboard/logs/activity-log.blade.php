@@ -13,7 +13,7 @@
     @endphp
 
 
-    <x-card title="Activity Logs" subtitle="Manage Activities" separator wire:poll.visible>
+    <x-card progress-indicator  title="Activity Logs" subtitle="Manage Activities" separator wire:poll.10s>
 
         <x-table empty-text="No Records" empty="The list is empty" wire:model="expanded" expandable :headers="$headers"
                  :rows="$logs" :sort-by="$sortBy" with-pagination>

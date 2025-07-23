@@ -18,7 +18,7 @@ class ActivityLog extends Component
 
     public function render()
     {
-        $logs = Activity::latest()->paginate(15);
+        $logs = Activity::orderBy(...array_values($this->sortBy))->paginate(15);
 
 
         return view('livewire.admin-dashboard.logs.activity-log',['logs'=>$logs])->title('Activity Logs');
