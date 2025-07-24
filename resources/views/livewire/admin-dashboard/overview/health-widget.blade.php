@@ -160,11 +160,15 @@
                         <p class="text-xs text-gray-500">
                             {{ $activity->created_at->diffForHumans() }}
                         </p>
-                        @if(!empty($activity->properties['ip']) || !empty($activity->properties['platform'] || !empty($activity->properties['Device'])))
+                        @if(
+       !empty(data_get($activity->properties, 'ip')) ||
+       !empty(data_get($activity->properties, 'platform')) ||
+       !empty(data_get($activity->properties, 'Device'))
+   )
                             <p class="text-[10px] text-gray-400 mt-1">
-                                IP: {{ $activity->properties['ip'] ?? 'N/A' }} |
-                                Platform: {{ \Str::limit($activity->properties['platform'] ?? 'N/A', 40) }} |
-                                Device: {{ $activity->properties['Device'] ?? 'N/A' }}
+                                IP: {{ data_get($activity->properties, 'ip', 'N/A') }} |
+                                Platform: {{ \Str::limit(data_get($activity->properties, 'platform', 'N/A'), 40) }} |
+                                Device: {{ data_get($activity->properties, 'Device', 'N/A') }}
                             </p>
                         @endif
                     </div>
