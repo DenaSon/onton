@@ -6,11 +6,12 @@ use App\Models\Vc;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
 #[Layout('components.layouts.admin-dashboard')]
 class VcsIndex extends Component
 {
-    use WithPagination;
+    use WithPagination,Toast;
 
     public array $sortBy = ['column' => 'created_at', 'direction' => 'desc'];
 
@@ -20,15 +21,22 @@ class VcsIndex extends Component
 
     public int $perPage = 12;
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
 
-    public function delete($id)
+    public function delete($id): void
     {
+        if (auth()->user()->email !== 'info@byblos.digital') {
+            $this->warning('You are not authorized to delete this.');
+            return;
+        }
+
         $vc = Vc::findOrFail($id);
         $vc->delete();
+
+        $this->info('VC deleted successfully.');
     }
 
     public function render()

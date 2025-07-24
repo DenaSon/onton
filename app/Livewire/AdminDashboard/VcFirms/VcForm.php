@@ -210,6 +210,7 @@ class VcForm extends Component
                 ->performedOn($vc)
                 ->withProperties([
                     'action' => 'User '.  $username. ' ' . $action . ' : VC: ' . $vc->name,
+                    'ip' => request()->ip() ?? 'N/A',
                 ])
                 ->log(" {$vc->name} {$action} by {$username}");
 
