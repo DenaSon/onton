@@ -19,7 +19,7 @@
                 ['key' => 'website', 'label' => 'Website'],
                 ['key' => 'is_active', 'label' => 'Status', 'class' => 'w-20'],
                 ['key' => 'created_at', 'label' => 'Created', 'class' => 'w-28'],
-                ['key' => 'actions', 'label' => 'Actions', 'class' => 'w-32'],
+                ['key' => 'actions', 'label' => 'Actions', 'class' => 'w-32','sortable'=>false],
             ];
         @endphp
 

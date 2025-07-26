@@ -6,9 +6,10 @@
         </div>
     </x-slot:title>
 
-    <x-form wire:submit.prevent="save">
+    <x-form wire:submit.prevent="save" wire:target="loadCountries">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" wire:init="loadCountries">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
             <x-input wire:loading.attr="disabled" label="Name"
                      wire:model.defer="name" placeholder="VC Firm Name"/>
 

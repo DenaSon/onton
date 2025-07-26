@@ -83,13 +83,14 @@ class VcForm extends Component
             $this->selectedStages = $vc->tags()->where('type', 'stage')->pluck('tags.id')->toArray();
             $this->whitelistEmails = $vc->whitelists()->pluck('email')->toArray();
         }
+        $this->loadCountries();
     }
 
 
     public function loadCountries()
     {
-        $this->countries = cache()->rememberForever('countries_list', function () {
-            return Country::all()->map(fn($c) => [
+        $this->countries = cache()->rememberForever('countries_list_v1', function () {
+            return Country::select('name','code')->get()->map(fn($c) => [
                 'label' => $c->name,
                 'code' => $c->code,
             ])->toArray();
