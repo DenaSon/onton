@@ -30,11 +30,13 @@ class Index extends Component
         $subscription = $user?->subscription('default');
 
 
-        if (!$subscription || !$subscription->onTrial()) {
+        if (!$subscription || is_null($subscription->trial_ends_at)) {
             $this->showTrialAlert = true;
             $this->trialMessage = "Start your free trial now!";
         }
     }
+
+
 
 
 

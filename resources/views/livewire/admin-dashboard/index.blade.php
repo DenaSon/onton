@@ -2,17 +2,16 @@
 
     <div x-data="{ visible: false }" x-intersect.once="visible = true">
         <template x-if="visible">
-            <livewire:admin-dashboard.overview.counters-widget />
+            <livewire:admin-dashboard.overview.counters-widget/>
         </template>
     </div>
-
 
 
     <hr class="bg-base-300 mt-2 mb-2 text-base-300"/>
 
     <div x-data="{ visible: false }" x-intersect.once="visible = true">
         <template x-if="visible">
-            <livewire:admin-dashboard.overview.billing-widget />
+            <livewire:admin-dashboard.overview.billing-widget/>
         </template>
     </div>
 
@@ -24,18 +23,16 @@
 
         <div x-data="{ visible: false }" x-intersect.once="visible = true">
             <template x-if="visible">
-                <livewire:admin-dashboard.overview.users-widget />
+                <livewire:admin-dashboard.overview.users-widget/>
             </template>
         </div>
-
 
 
         <div x-data="{ visible: false }" x-intersect.once="visible = true">
             <template x-if="visible">
-                <livewire:admin-dashboard.overview.crawler-status-widget />
+                <livewire:admin-dashboard.overview.crawler-status-widget/>
             </template>
         </div>
-
 
 
     </section>
@@ -45,20 +42,17 @@
 
     <div x-data="{ visible: false }" x-intersect.once="visible = true">
         <template x-if="visible">
-            <livewire:admin-dashboard.overview.health-widget />
+            <livewire:admin-dashboard.overview.health-widget/>
         </template>
     </div>
-
 
 
     <hr class="bg-base-300 mt-2 mb-2 text-base-300"/>
 
 
-
-
     <div x-data="{ visible: false }" x-intersect.once="visible = true">
         <template x-if="visible">
-            <livewire:admin-dashboard.overview.btn-links-widget />
+            <livewire:admin-dashboard.overview.btn-links-widget/>
         </template>
     </div>
 

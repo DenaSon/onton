@@ -34,7 +34,6 @@ class SubscriptionManagement extends Component
         $this->onTrial = $user->onTrial('default');
         $this->trialEndsAt = $this->subscription?->trial_ends_at;
 
-
     }
 
 
