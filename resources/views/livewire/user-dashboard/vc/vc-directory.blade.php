@@ -14,7 +14,7 @@
             <x-list-item :item="$vc" wire:key="vcwk-{{ $vc->id }}">
                 <x-slot:avatar>
                     <img
-                        src="{{ $vc->logo_url ? asset('storage/' . $vc->logo_url) : asset('static/img/vc-no-logo.png') }}"
+                        src="{{ $vc->logo_url ? asset('storage/' . $vc->logo_url) : asset('static/img/no-vc-placeholder.png') }}"
                         alt="{{ $vc->name }} Logo"
                         class="rounded-full w-12 h-12 border border-primary shadow-sm object-cover"
                     />
@@ -36,7 +36,7 @@
                     <div class="flex items-center text-sm text-gray-500 gap-2">
                         @if ($vc->followers_count)
                             <x-icon name="o-user-group" class="w-4 h-4 text-primary" />
-                            <span>{{ $vc->followers_count }} followers</span>
+                            <span>{{ $vc->followers_count }} followers </span>
                         @endif
                     </div>
                 </x-slot:sub-value>
