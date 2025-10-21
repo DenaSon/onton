@@ -1,10 +1,8 @@
 <x-card
-
     rounded
     class="relative border border-gray-300 dark:border-gray-700 bg-base-100 shadow-sm hover:shadow-md transition duration-300 min-h-0 lg:min-h-[220px] pb-14 overflow-hidden group"
 >
-
-{{-- Header --}}
+    {{-- Header --}}
     <header class="flex items-center justify-between gap-2 mb-2">
         <div class="flex items-center gap-3">
             <img
@@ -28,36 +26,69 @@
 
     {{-- Subject --}}
     <h3 class="text-base font-semibold text-base-content line-clamp-2 mb-1">
-
         {{ $newsletter->subject }}
     </h3>
 
     {{-- Snippet --}}
     <p class="text-sm text-base-content/70 line-clamp-3 mb-3">
-
         {{ $newsletter->getBodyPreview() }}
-
     </p>
+
+    @php
+        // Cashier-based gating (only trial or active subscription may act)
+        $user = Auth::user();
+        $hasTrial = $user && method_exists($user, 'onTrial') && $user->onTrial();
+        // prefer project helper if present; otherwise fallback to Cashier
+        $hasActiveSub = $user && (
+            (method_exists($user, 'hasActiveSubscription') && $user->hasActiveSubscription())
+            || (method_exists($user, 'subscribed') && $user->subscribed('default'))
+            || (method_exists($user, 'onGracePeriod') && $user->onGracePeriod())
+        );
+        $canAct = $hasTrial || $hasActiveSub;
+
+        $subscribeRoute = route('panel.payment.management');
+    @endphp
 
     {{-- Footer --}}
     <footer
         class="absolute bottom-2 left-0 right-0 px-3 flex justify-between items-center border-t border-base-200 pt-2 bg-gradient-to-t from-base-100 via-base-100/90 to-transparent"
     >
-        <x-button
-            icon="o-eye"
-            class="btn-xs btn-outline btn-ghost text-xs"
-            label="View"
-            tooltip="Preview"
-            x-on:click="$dispatch('newsletterViewModal',  { id: {{ $newsletter->id }} })"
-        />
+        {{-- View --}}
+        @if($canAct)
+            <x-button
+                icon="o-eye"
+                class="btn-xs btn-outline btn-ghost text-xs"
+                label="View"
+                tooltip="Preview"
+                x-on:click="$dispatch('newsletterViewModal',  { id: {{ $newsletter->id }} })"
+            />
+        @else
+            <x-button
+                icon="o-eye"
+                class="btn-xs btn-outline btn-ghost text-xs opacity-80"
+                label="View"
+                tooltip="Start free trial to preview"
+                x-on:click="window.location='{{ $subscribeRoute }}'"
+            />
+        @endif
 
-        <x-button
-            icon="o-paper-airplane"
-            label="Inbox"
-            tooltip="Send"
-            class="btn-xs btn-ghost text-xs hover:text-primary"
-            wire:click.debounce.350ms="$dispatch('sendNewsletter', { id: {{ $newsletter->id }} })"
-
-        />
+        {{-- Inbox / Send --}}
+        @if($canAct)
+            <x-button
+                icon="o-paper-airplane"
+                label="Inbox"
+                tooltip="Send"
+                class="btn-xs btn-ghost text-xs hover:text-primary"
+                wire:click.debounce.350ms="$dispatch('sendNewsletter', { id: {{ $newsletter->id }} } )"
+            />
+        @else
+            <x-button
+                icon="o-paper-airplane"
+                label="Inbox"
+                tooltip="Start free trial to send"
+                class="btn-xs btn-ghost text-xs opacity-80 hover:text-primary"
+                x-on:click="window.location='{{ $subscribeRoute }}'"
+            />
+        @endif
     </footer>
 </x-card>
