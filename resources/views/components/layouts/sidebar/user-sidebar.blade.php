@@ -30,9 +30,7 @@
             icon="o-bell-alert"
             link="{{ route('panel.setting.delivery') }}"
         />
-    </x-menu-sub>
 
-    <x-menu-sub title="Subscription" icon="o-credit-card">
         <x-menu-item
             title="My Plan"
             icon="o-receipt-percent"
@@ -40,6 +38,8 @@
         />
 
     </x-menu-sub>
+
+
 
 <x-menu-separator/>
     <x-menu-item
