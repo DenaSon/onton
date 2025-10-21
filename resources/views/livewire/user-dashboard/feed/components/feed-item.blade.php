@@ -1,3 +1,16 @@
+@php
+    $subscribeRoute = route('panel.payment.management');
+
+    // یک بار و کاملاً منطبق با اسکوپ مدل User شما
+    $canAct = false;
+    if (Auth::check()) {
+        $canAct = \App\Models\User::query()
+            ->whereKey(Auth::id())
+            ->subscribedOrOnTrial()
+            ->exists();
+    }
+@endphp
+
 <x-card
     rounded
     class="relative border border-gray-300 dark:border-gray-700 bg-base-100 shadow-sm hover:shadow-md transition duration-300 min-h-0 lg:min-h-[220px] pb-14 overflow-hidden group"
@@ -34,21 +47,6 @@
         {{ $newsletter->getBodyPreview() }}
     </p>
 
-    @php
-        // Cashier-based gating (only trial or active subscription may act)
-        $user = Auth::user();
-        $hasTrial = $user && method_exists($user, 'onTrial') && $user->onTrial();
-        // prefer project helper if present; otherwise fallback to Cashier
-        $hasActiveSub = $user && (
-            (method_exists($user, 'hasActiveSubscription') && $user->hasActiveSubscription())
-            || (method_exists($user, 'subscribed') && $user->subscribed('default'))
-            || (method_exists($user, 'onGracePeriod') && $user->onGracePeriod())
-        );
-        $canAct = $hasTrial || $hasActiveSub;
-
-        $subscribeRoute = route('panel.payment.management');
-    @endphp
-
     {{-- Footer --}}
     <footer
         class="absolute bottom-2 left-0 right-0 px-3 flex justify-between items-center border-t border-base-200 pt-2 bg-gradient-to-t from-base-100 via-base-100/90 to-transparent"
@@ -79,7 +77,7 @@
                 label="Inbox"
                 tooltip="Send"
                 class="btn-xs btn-ghost text-xs hover:text-primary"
-                wire:click.debounce.350ms="$dispatch('sendNewsletter', { id: {{ $newsletter->id }} } )"
+                wire:click.debounce.350ms="$dispatch('sendNewsletter', { id: {{ $newsletter->id }} })"
             />
         @else
             <x-button
