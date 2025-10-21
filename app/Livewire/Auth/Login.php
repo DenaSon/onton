@@ -31,7 +31,7 @@ class Login extends Component
             if (auth()->check()) {
                 return auth()->user()->hasRole('admin')
                     ? redirect()->intended(route('core.index'))
-                    : redirect()->intended(route('panel.index'));
+                    : redirect()->intended(route('panel.feed.index'));
             }
 
 
