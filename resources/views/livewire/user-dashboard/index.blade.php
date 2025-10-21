@@ -4,11 +4,23 @@
 
     @include('livewire.user-dashboard.overview.welcomeSection')
 
+
+
+    @include('livewire.user-dashboard.overview.tabs')
+
+
     <section class="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-3" id="newsletterAndBookmarks">
 
-        @livewire('user-dashboard.overview.vcs-widget')
 
-        @livewire('user-dashboard.overview.followed-newsletters-widget')
+
+
+
+
+
+
+{{--        @livewire('user-dashboard.overview.vcs-widget')--}}
+
+{{--        @livewire('user-dashboard.overview.followed-newsletters-widget')--}}
 
     </section>
     <hr class="mt-3 text-gray-200 rounded"/>
