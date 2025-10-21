@@ -99,32 +99,24 @@ class VcDirectory extends Component
 
     public function render()
     {
-
         $user = auth()->user();
         $this->followedVcIds = $user->followedVCs()->pluck('vcs.id')->toArray();
 
         $vcs = Vc::query()
             ->select('vcs.id', 'vcs.name', 'vcs.logo_url')
-            ->when($this->search, fn($q) => $q->where('name', 'like', "{$this->search}%")
-            )
-            ->when($this->selectedVerticals, fn($q) => $q->withVerticals($this->selectedVerticals)
-            )
-            ->when($this->selectedStages, fn($q) => $q->withStages($this->selectedStages)
-
+            ->when($this->search, fn($q) =>
+            $q->where('name', 'like', "%{$this->search}%")
             )
             ->with('tags')
             ->withCount(['newsletters', 'followers'])
             ->orderBy('name')
             ->simplePaginate(20);
 
-
         return view('livewire.user-dashboard.vc.vc-directory', [
             'vcs' => $vcs,
-
         ]);
-
-
     }
+
 
 
 }
