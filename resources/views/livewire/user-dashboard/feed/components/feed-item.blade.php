@@ -22,7 +22,7 @@
                 loading="lazy"
                 src="{{ $newsletter->vc->logo_url
                     ? asset('storage/' . $newsletter->vc->logo_url)
-                    : asset('static/img/vc-no-logo.png') }}"
+                    : asset('static/img/no-vc-placeholder.png') }}"
                 alt="{{ $newsletter->vc->name ?? 'VC' }} Logo"
                 class="w-9 h-9 rounded-full border border-base-300 shadow-sm"
             />
