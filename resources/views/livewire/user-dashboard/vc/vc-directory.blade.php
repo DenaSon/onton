@@ -6,7 +6,7 @@
     <div class="mt-4 flex items-center gap-1 overflow-x-auto border-y border-base-200 py-2 px-3 bg-base-100 rounded-xl">
 {{--        wire:click="setLetter(null)"--}}
         <button
-            class="px-2 text-sm font-semibold rounded hover:text-primary focus:outline-none"
+            class="px-2 text-sm font-semibold rounded hover:text-primary focus:outline-none cursor-pointer"
             @class([
                 'text-primary underline' => empty($letter),
                 'opacity-80' => !empty($letter),
@@ -15,7 +15,7 @@
 {{--        wire:click="setLetter('#')"--}}
         <button
 
-            class="px-2 text-sm font-semibold rounded hover:text-primary focus:outline-none"
+            class="px-2 text-sm font-semibold rounded hover:text-primary focus:outline-none cursor-pointer"
             @class([
                 'text-primary underline' => ($letter === '#'),
                 'opacity-80' => ($letter !== '#'),
@@ -26,7 +26,7 @@
 {{--            wire:click="setLetter('{{ $L }}')"--}}
             <button
 
-                class="px-2 text-sm font-semibold rounded hover:text-primary focus:outline-none"
+                class="px-2 text-sm font-semibold rounded hover:text-primary focus:outline-none cursor-pointer"
                 @class([
                     'text-primary underline' => ($letter === $L),
                     'opacity-80' => ($letter !== $L),
