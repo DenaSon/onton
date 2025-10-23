@@ -24,6 +24,7 @@
             <p class="text-sm text-base-content/60 max-w-md mx-auto">
 
                 Once the VC firms you follow publish new newsletters, they'll appear here.
+
             </p>
 
 

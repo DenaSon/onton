@@ -4,17 +4,18 @@
 
     {{-- Alphabet bar (server-side) --}}
     <div class="mt-4 flex items-center gap-1 overflow-x-auto border-y border-base-200 py-2 px-3 bg-base-100 rounded-xl">
-{{--        wire:click="setLetter(null)"--}}
+
         <button
+            wire:click="setLetter(null)"
             class="px-2 text-sm font-semibold rounded hover:text-primary focus:outline-none cursor-pointer"
             @class([
                 'text-primary underline' => empty($letter),
                 'opacity-80' => !empty($letter),
             ])
         >All</button>
-{{--        wire:click="setLetter('#')"--}}
-        <button
 
+        <button
+            wire:click="setLetter('#')"
             class="px-2 text-sm font-semibold rounded hover:text-primary focus:outline-none cursor-pointer"
             @class([
                 'text-primary underline' => ($letter === '#'),
@@ -23,9 +24,9 @@
         >#</button>
 
         @foreach(range('A','Z') as $L)
-{{--            wire:click="setLetter('{{ $L }}')"--}}
-            <button
 
+            <button
+                wire:click="setLetter('{{ $L }}')"
                 class="px-2 text-sm font-semibold rounded hover:text-primary focus:outline-none cursor-pointer"
                 @class([
                     'text-primary underline' => ($letter === $L),
