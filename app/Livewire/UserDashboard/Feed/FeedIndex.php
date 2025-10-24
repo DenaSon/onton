@@ -13,10 +13,12 @@ use Livewire\WithPagination;
 
 #[Layout('components.layouts.user-dashboard')]
 #[Title('Feed Index')]
+
 class FeedIndex extends Component
 {
     use WithPagination;
 
+    public string $tabSelected = 'all-feed';
 
 
     public array $followedVcIds = [];
