@@ -2,13 +2,14 @@
     <div class="flex justify-center">
         <div class="w-full max-w-6xl">
             <x-tabs
+
                 wire:model="tabSelected"
-                active-class="bg-primary text-white rounded-lg"
-                label-class="font-semibold"
-                label-div-class="bg-base-200/70 rounded-lg w-fit p-1 mx-auto flex flex-wrap justify-center gap-2"
+                active-class="hover:text-white bg-primary text-white shadow-md scale-105 transition-all duration-200 rounded-xl"
+                label-class="font-semibold text-sm sm:text-base px-4 py-2 cursor-pointer transition-all duration-150 hover:text-primary"
+                label-div-class="bg-base-200/70 backdrop-blur-md rounded-2xl w-fit px-3 py-2 mx-auto flex flex-wrap justify-center gap-2 border border-base-300/40 shadow-sm"
             >
 
-                <x-tab name="all-feed" label="All feed">
+                <x-tab name="all-feed" label="All">
                     <div>
                         @if($newsletters->count())
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -51,7 +52,13 @@
 
 
                 <x-tab name="email-newsletters" label="Email Newsletters">
-                    <div class="py-6 text-center text-sm opacity-70">—</div>
+                    <div class="py-6 text-center text-sm opacity-70">
+
+
+
+
+
+                    </div>
                 </x-tab>
 
                 <x-tab name="substack" label="Substack newsletter">
