@@ -100,8 +100,8 @@
 
     {{-- Server-side paging per selected letter --}}
     @if ($vcs->hasPages())
-{{--        <x-card class="mt-4 p-3 rounded-box">--}}
-{{--            {{ $vcs->links() }}--}}
-{{--        </x-card>--}}
+        <x-card class="mt-4 p-3 rounded-box">
+            {{ $vcs->links() }}
+        </x-card>
     @endif
 </div>

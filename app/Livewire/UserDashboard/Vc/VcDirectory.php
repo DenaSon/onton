@@ -72,7 +72,7 @@ class VcDirectory extends Component
             )
             ->withCount(['newsletters', 'followers'])
             ->orderBy('name')
-            ->simplePaginate(20);
+            ->paginate(20);
 
         return view('livewire.user-dashboard.vc.vc-directory', [
             'vcs' => $vcs,
