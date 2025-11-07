@@ -27,7 +27,7 @@
 
 
 
-<x-main with-nav collapsible>
+<x-main with-nav collapsible full-width>
 
     <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-200">
 
