@@ -4805,16 +4805,16 @@
         },
         {
             "name": "robsontenorio/mary",
-            "version": "2.4.3",
+            "version": "2.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/robsontenorio/mary.git",
-                "reference": "6161751ac7dc3fa9100e12d0a7f5e1a2a94539be"
+                "reference": "da994de22f4c8926c511dc4590ff368c538e34f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/robsontenorio/mary/zipball/6161751ac7dc3fa9100e12d0a7f5e1a2a94539be",
-                "reference": "6161751ac7dc3fa9100e12d0a7f5e1a2a94539be",
+                "url": "https://api.github.com/repos/robsontenorio/mary/zipball/da994de22f4c8926c511dc4590ff368c538e34f4",
+                "reference": "da994de22f4c8926c511dc4590ff368c538e34f4",
                 "shasum": ""
             },
             "require": {
@@ -4880,7 +4880,7 @@
             ],
             "support": {
                 "issues": "https://github.com/robsontenorio/mary/issues",
-                "source": "https://github.com/robsontenorio/mary/tree/2.4.3"
+                "source": "https://github.com/robsontenorio/mary/tree/2.4.8"
             },
             "funding": [
                 {
@@ -4888,7 +4888,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-06-24T15:34:03+00:00"
+            "time": "2025-10-24T13:47:16+00:00"
         },
         {
             "name": "soundasleep/html2text",
