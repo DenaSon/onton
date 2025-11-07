@@ -19,19 +19,28 @@ class FeedIndex extends Component
     public ?int $selectedId = null;
     public ?Newsletter $selected = null;
 
-
+    public string $search = '';
 
     public function mount(): void
     {
         $this->followedVcIds = Auth::user()->followedVCs()->pluck('vcs.id')->toArray();
+
+
+        $latest = Newsletter::latest()->select('id')->first();
+
+
+        if ($latest) {
+            $this->select($latest->id);
+        }
     }
+
 
 
     public function select(int $id): void
     {
 
         $base = Newsletter::query()
-            ->whereIn('vc_id', $this->followedVcIds)
+
             ->where('id', $id);
 
 
@@ -46,14 +55,20 @@ class FeedIndex extends Component
 
     public function loadMore(): void
     {
-        $this->perPage += 20;
+        $this->perPage += 40;
     }
 
     public function render()
     {
         $newsletters = Newsletter::query()
-            ->whereIn('vc_id', $this->followedVcIds)
-            ->select(['id','vc_id','subject','received_at'])
+            //->whereIn('vc_id', $this->followedVcIds)
+            ->when($this->search, function ($query) {
+                $query->where(function ($q) {
+                    $q->where('subject', 'like', '%' . $this->search . '%');
+
+                });
+            })
+            ->select(['id', 'vc_id', 'subject', 'received_at'])
             ->with(['vc:id,name,logo_url'])
             ->orderByDesc('received_at')
             ->simplePaginate($this->perPage);
