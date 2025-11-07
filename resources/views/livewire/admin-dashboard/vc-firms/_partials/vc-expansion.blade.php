@@ -10,7 +10,9 @@
             <th>Website</th>
             <td>
                 @if ($vcFirm->website)
-                    <a href="{{ $vcFirm->website }}" target="_blank" class="link link-primary break-all">
+                    <a href="{{ Str::startsWith($vcFirm->website, ['http://', 'https://']) ? $vcFirm->website : 'https://' . $vcFirm->website }}"
+                       target="_blank"
+                       class="link link-primary break-all">
                         {{ $vcFirm->website ?? 'N/A' }}
                     </a>
                 @else
