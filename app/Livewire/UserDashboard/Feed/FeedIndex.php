@@ -7,36 +7,56 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
-use Livewire\WithPagination;
-
-
+use Mary\Traits\Toast;
 
 #[Layout('components.layouts.user-dashboard')]
 #[Title('Feed Index')]
-
 class FeedIndex extends Component
 {
-    use WithPagination;
-
-    public string $tabSelected = 'all-feed';
-
-
+    Use Toast;
     public array $followedVcIds = [];
+    public int $perPage = 20;
+    public ?int $selectedId = null;
+    public ?Newsletter $selected = null;
+
+
 
     public function mount(): void
     {
-
         $this->followedVcIds = Auth::user()->followedVCs()->pluck('vcs.id')->toArray();
+    }
+
+
+    public function select(int $id): void
+    {
+
+        $base = Newsletter::query()
+            ->whereIn('vc_id', $this->followedVcIds)
+            ->where('id', $id);
+
+
+        $this->selected = $base
+            ->select(['id','vc_id','subject','received_at','body_plain','body_html'])
+            ->with(['vc:id,name,logo_url'])
+            ->firstOrFail();
+
+        $this->selectedId = $this->selected->id;
+    }
+
+
+    public function loadMore(): void
+    {
+        $this->perPage += 20;
     }
 
     public function render()
     {
         $newsletters = Newsletter::query()
             ->whereIn('vc_id', $this->followedVcIds)
-            ->with('vc:id,name,logo_url')
+            ->select(['id','vc_id','subject','received_at'])
+            ->with(['vc:id,name,logo_url'])
             ->orderByDesc('received_at')
-            ->simplePaginate(18);
-
+            ->simplePaginate($this->perPage);
 
         return view('livewire.user-dashboard.feed.feed-index', [
             'newsletters' => $newsletters,
