@@ -56,6 +56,12 @@
             <x-input wire:model.defer="blog_url" label="Blog URL (optional)" placeholder="blog.vc.com">
                 <x-slot:prefix><span class="text-sm text-gray-500">https://</span></x-slot:prefix>
             </x-input>
+
+
+            <x-input hint="Company or personal profile" wire:model.defer="linkedin_url" label="LinkedIn URL (optional)" placeholder="linkedin.com/company/vcname">
+                <x-slot:prefix><span class="text-sm text-gray-500">https://</span></x-slot:prefix>
+            </x-input>
+
         </div>
 
         <div class="divider text-sm font-semibold text-base-content/70">Tags</div>

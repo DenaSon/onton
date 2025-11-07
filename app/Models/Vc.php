@@ -23,6 +23,7 @@ class Vc extends Model
         'substack_url',
         'medium_url',
         'blog_url',
+        'linkedin_url',
         'official_x_accounts',
         'staff_x_accounts',
         'logo_url',

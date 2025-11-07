@@ -10,7 +10,7 @@
         </div>
     </x-slot:trigger>
 
-    <div class="p-2 max-w-sm w-[90vw] break-words"> {{-- ⬅ اینجا break-words اضافه شده --}}
+    <div class="p-2 max-w-sm w-[90vw] break-words">
         <h3 class="text-sm font-semibold px-2 text-base-content mb-1">Notifications</h3>
 
         <ul class="space-y-1 max-h-80 overflow-auto">

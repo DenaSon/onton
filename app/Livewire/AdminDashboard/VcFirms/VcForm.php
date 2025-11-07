@@ -38,6 +38,9 @@ class VcForm extends Component
     public string $blog_url = '';
     public $countries = [];
 
+    public string $linkedin_url = '';
+
+
     #[Rule('nullable|image|mimes:jpg,jpeg,png,webp|max:2048')]
     public $logo;
 
@@ -58,6 +61,7 @@ class VcForm extends Component
         'official_x_accounts.*' => 'string|max:255',
         'staff_x_accounts' => 'array',
         'staff_x_accounts.*' => 'string|max:255',
+        'linkedin_url' => 'nullable|string|max:255',
     ];
 
     public function mount()
@@ -82,6 +86,7 @@ class VcForm extends Component
             $this->selectedVerticals = $vc->tags()->where('type', 'vertical')->pluck('tags.id')->toArray();
             $this->selectedStages = $vc->tags()->where('type', 'stage')->pluck('tags.id')->toArray();
             $this->whitelistEmails = $vc->whitelists()->pluck('email')->toArray();
+            $this->linkedin_url = $vc->linkedin_url ?? '';
         }
         $this->loadCountries();
     }
@@ -114,6 +119,7 @@ class VcForm extends Component
                     'substack_url' => $this->substack_url,
                     'medium_url' => $this->medium_url,
                     'blog_url' => $this->blog_url,
+                    'linkedin_url' => $this->linkedin_url,
                     'official_x_accounts' => $this->official_x_accounts,
                     'staff_x_accounts' => $this->staff_x_accounts,
                     'logo_url' => $logoUrl ?? $this->vc->logo_url,
@@ -163,6 +169,7 @@ class VcForm extends Component
             'substack_url' => $this->substack_url,
             'medium_url' => $this->medium_url,
             'blog_url' => $this->blog_url,
+            'linkedin_url' => $this->linkedin_url,
             'official_x_accounts' => $this->official_x_accounts,
             'staff_x_accounts' => $this->staff_x_accounts,
             'logo_url' => $logoUrl,
