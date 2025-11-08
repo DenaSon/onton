@@ -25,9 +25,7 @@ class FeedIndex extends Component
     {
         $this->followedVcIds = Auth::user()->followedVCs()->pluck('vcs.id')->toArray();
 
-
         $latest = Newsletter::latest()->select('id')->first();
-
 
         if ($latest) {
             $this->select($latest->id);
