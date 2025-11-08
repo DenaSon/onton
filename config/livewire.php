@@ -52,7 +52,6 @@ return [
 
     'lazy_placeholder' => 'livewire.partials.placeholder',
 
-
     /*
     |---------------------------------------------------------------------------
     | Temporary File Uploads

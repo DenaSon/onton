@@ -8,8 +8,5 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class QueuedVerifyEmail extends BaseVerifyEmail implements ShouldQueue
 {
-
     use Queueable;
-
-
 }

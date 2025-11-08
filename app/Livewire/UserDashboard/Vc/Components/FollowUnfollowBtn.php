@@ -3,7 +3,6 @@
 namespace App\Livewire\UserDashboard\Vc\Components;
 
 use App\Models\Vc;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -11,7 +10,9 @@ use Mary\Traits\Toast;
 class FollowUnfollowBtn extends Component
 {
     use Toast;
+
     public Vc $vc;
+
     public bool $isFollowing = false;
 
     public function mount(Vc $vc, array $followedVcIds = [])
@@ -20,22 +21,23 @@ class FollowUnfollowBtn extends Component
         $this->isFollowing = in_array($vc->id, $followedVcIds);
     }
 
-
     public function toggleFollow(): void
     {
 
         $user = auth()->user();
 
-        $vcKey = 'follow-vc:' . $user->id . ':' . $this->vc->id;
-        $globalKey = 'follow-vc:global:' . $user->id;
+        $vcKey = 'follow-vc:'.$user->id.':'.$this->vc->id;
+        $globalKey = 'follow-vc:global:'.$user->id;
 
         if (RateLimiter::tooManyAttempts($vcKey, 5)) {
             $this->info('Too fast', 'You are toggling follow on this VC too often. Wait a few seconds.');
+
             return;
         }
 
         if (RateLimiter::tooManyAttempts($globalKey, 12)) {
             $this->warning('Rate limited', 'You are following too many VC firms too quickly. Please slow down.');
+
             return;
         }
 
@@ -50,9 +52,7 @@ class FollowUnfollowBtn extends Component
             $this->isFollowing = true;
         }
 
-
     }
-
 
     public function render()
     {

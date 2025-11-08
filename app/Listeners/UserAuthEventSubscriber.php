@@ -15,14 +15,14 @@ class UserAuthEventSubscriber
 {
     protected function logActivity(?object $user, string $eventName, string $message): void
     {
-        $agent = new Agent();
+        $agent = new Agent;
 
         $activity = activity('authenticate')
             ->event($eventName)
             ->withProperties([
                 'ip' => request()->ip() ?? 'N/A',
                 'role' => method_exists($user, 'getRoleNames') ? $user->getRoleNames()->first() : null,
-                'referer' => request()->header('referer') ??'N/A',
+                'referer' => request()->header('referer') ?? 'N/A',
                 'url' => request()->fullUrl() ?? 'N/A',
                 'guard' => auth()->getDefaultDriver() ?? 'N/A',
                 'device' => $agent->device() ?? 'N/A',
@@ -41,7 +41,6 @@ class UserAuthEventSubscriber
 
         $activity->log($message);
     }
-
 
     public function handleUserLogin(Login $event): void
     {
@@ -109,6 +108,4 @@ class UserAuthEventSubscriber
             __('Email verified for user with email: :email', ['email' => $user->email])
         );
     }
-
-
 }

@@ -3,14 +3,14 @@
 namespace App\Livewire\Auth;
 
 use Illuminate\Support\Facades\Password;
-
 use Livewire\Component;
 use Mary\Traits\Toast;
 
 class ForgotPassword extends Component
 {
     use Toast;
-    public $class='';
+
+    public $class = '';
 
     public string $email = '';
 
@@ -27,12 +27,13 @@ class ForgotPassword extends Component
         ]);
 
         if ($status === Password::RESET_LINK_SENT) {
-           $this->success('Send Password Reset Link',__($status));
+            $this->success('Send Password Reset Link', __($status));
 
         } else {
-            $this->warning('Send Password Reset Link Failed',__($status));
+            $this->warning('Send Password Reset Link Failed', __($status));
         }
     }
+
     public function render()
     {
         return view('livewire.auth.forgot-password')->title('Forgot Password');

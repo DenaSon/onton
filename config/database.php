@@ -31,7 +31,6 @@ return [
 
     'connections' => [
 
-
         'logs' => [
             'driver' => 'mysql',
             'host' => env('DB_LOG_HOST', '127.0.0.1'),
@@ -42,7 +41,6 @@ return [
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
         ],
-
 
         'pulse' => [
             'driver' => 'mysql',
@@ -57,9 +55,6 @@ return [
             'strict' => true,
             'engine' => null,
         ],
-
-
-
 
         'sqlite' => [
             'driver' => 'sqlite',

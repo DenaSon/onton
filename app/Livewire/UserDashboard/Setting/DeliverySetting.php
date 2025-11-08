@@ -19,6 +19,7 @@ class DeliverySetting extends Component
 
     #[Validate('required|in:daily,weekly')]
     public string $frequency = 'daily';
+
     public ?Carbon $lastSentAt = null;
 
     public function mount(): void
@@ -31,11 +32,15 @@ class DeliverySetting extends Component
 
     public function save(): void
     {
-        if (! $this->rateLimit()) return;
+        if (! $this->rateLimit()) {
+            return;
+        }
 
         $this->validate();
 
-        if (! $this->checkSubscriptionAccess()) return;
+        if (! $this->checkSubscriptionAccess()) {
+            return;
+        }
 
         Auth::user()->notificationSetting()->updateOrCreate([], [
             'frequency' => $this->frequency,
@@ -46,14 +51,16 @@ class DeliverySetting extends Component
 
     protected function rateLimit(): bool
     {
-        $key = 'delivery-setting-save:' . Auth::id();
+        $key = 'delivery-setting-save:'.Auth::id();
 
         if (RateLimiter::tooManyAttempts($key, 6)) {
             $this->warning('Too Many Attempts', 'Please wait before trying again.');
+
             return false;
         }
 
         RateLimiter::hit($key, 80); // 80-second decay
+
         return true;
     }
 
@@ -61,6 +68,7 @@ class DeliverySetting extends Component
     {
         if (! Auth::user()?->hasActiveSubscription()) {
             $this->warning('Subscription Needed', 'This feature is available with an active subscription or free trial. Upgrade now to unlock it.');
+
             return false;
         }
 

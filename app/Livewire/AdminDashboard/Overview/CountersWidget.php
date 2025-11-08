@@ -8,8 +8,8 @@ use Livewire\Component;
 
 class CountersWidget extends Component
 {
-
     public int $totalUsers = 0;
+
     public ?float $growth = null;
 
     public int $weeklyActiveSubscriptions = 0;
@@ -17,9 +17,10 @@ class CountersWidget extends Component
     public ?float $subscriptionsGrowth = null;
 
     public int $newslettersLast24h = 0;
-    public int $vcFirmsTotal = 0;
-    public int $vcFirmsThisWeek = 0;
 
+    public int $vcFirmsTotal = 0;
+
+    public int $vcFirmsThisWeek = 0;
 
     public function mount(): void
     {
@@ -42,8 +43,6 @@ class CountersWidget extends Component
         $this->vcFirmsThisWeek = \App\Models\Vc::where('created_at', '>=', now()->startOfWeek())->count();
     }
 
-
-
     protected function calculateUserStats(): void
     {
         $this->totalUsers = User::count();
@@ -59,7 +58,6 @@ class CountersWidget extends Component
             $this->growth = (($usersThisMonth - $usersLastMonth) / $usersLastMonth) * 100;
         }
     }
-
 
     protected function calculateSubscriptionStats(): void
     {
@@ -86,12 +84,8 @@ class CountersWidget extends Component
         }
     }
 
-
-
     public function render()
     {
         return view('livewire.admin-dashboard.overview.counters-widget');
     }
-
-
 }

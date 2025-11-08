@@ -1,8 +1,9 @@
 <?php
+
 namespace App\Livewire\AdminDashboard\Analytics\Overview;
 
-use App\Models\User;
 use App\Models\Cashier\Subscription;
+use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Component;
 

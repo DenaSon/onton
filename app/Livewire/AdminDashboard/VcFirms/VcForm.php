@@ -20,26 +20,38 @@ class VcForm extends Component
     public ?Vc $vc = null;
 
     public array $selectedVerticals = [];
+
     public array $selectedStages = [];
+
     public array $portfolioIds = [];
+
     public array $whitelistEmails = [];
+
     public array $official_x_accounts = [];
+
     public array $staff_x_accounts = [];
 
     public $stageTags;
+
     public $verticalTags;
+
     public $vcOptions;
 
     public string $country = '';
+
     public string $name = '';
+
     public string $website = '';
+
     public string $substack_url = '';
+
     public string $medium_url = '';
+
     public string $blog_url = '';
+
     public $countries = [];
 
     public string $linkedin_url = '';
-
 
     #[Rule('nullable|image|mimes:jpg,jpeg,png,webp|max:2048')]
     public $logo;
@@ -91,11 +103,10 @@ class VcForm extends Component
         $this->loadCountries();
     }
 
-
     public function loadCountries()
     {
         $this->countries = cache()->rememberForever('countries_list_v1', function () {
-            return Country::select('name','code')->get()->map(fn($c) => [
+            return Country::select('name', 'code')->get()->map(fn ($c) => [
                 'label' => $c->name,
                 'code' => $c->code,
             ])->toArray();
@@ -128,7 +139,6 @@ class VcForm extends Component
 
                 $this->logActivity($vc, 'Updated');
 
-
             } else {
                 // Create new VC
                 $vc = $this->createVc($logoUrl);
@@ -149,7 +159,6 @@ class VcForm extends Component
             $this->error('An error occurred while saving the VC. Please try again.');
         }
     }
-
 
     protected function storeLogo(): ?string
     {
@@ -194,18 +203,16 @@ class VcForm extends Component
 
         $vc->whitelists()->delete();
 
-
         $validEmails = collect($this->whitelistEmails)
-            ->filter(fn($email) => !empty($email))
-            ->map(fn($email) => strtolower(trim($email)))
+            ->filter(fn ($email) => ! empty($email))
+            ->map(fn ($email) => strtolower(trim($email)))
             ->unique()
-            ->map(fn($email) => ['email' => $email]);
+            ->map(fn ($email) => ['email' => $email]);
 
         if ($validEmails->isNotEmpty()) {
             $vc->whitelists()->createMany($validEmails->toArray());
         }
     }
-
 
     protected function logActivity($vc, string $action): void
     {
@@ -217,7 +224,7 @@ class VcForm extends Component
                 ->causedBy(auth()->user())
                 ->performedOn($vc)
                 ->withProperties([
-                    'action' => 'User '.  $username. ' ' . $action . ' : VC: ' . $vc->name,
+                    'action' => 'User '.$username.' '.$action.' : VC: '.$vc->name,
                     'ip' => request()->ip() ?? 'N/A',
                 ])
                 ->log(" {$vc->name} {$action} by {$username}");
@@ -226,7 +233,6 @@ class VcForm extends Component
             logger()->error('Error  saving activitylog for VC', ['error' => $e->getMessage()]);
         }
     }
-
 
     public function render()
     {

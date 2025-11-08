@@ -11,12 +11,12 @@ use Mary\Traits\Toast;
 #[Layout('components.layouts.admin-dashboard')]
 class VcsIndex extends Component
 {
-    use WithPagination,Toast;
+    use Toast,WithPagination;
 
     public array $sortBy = ['column' => 'created_at', 'direction' => 'desc'];
 
-
     public string $search = '';
+
     public array $expanded = [];
 
     public int $perPage = 12;
@@ -30,6 +30,7 @@ class VcsIndex extends Component
     {
         if (auth()->user()->email !== 'info@byblos.digital') {
             $this->warning('You are not authorized to delete this.');
+
             return;
         }
 
@@ -49,8 +50,7 @@ class VcsIndex extends Component
             ->withCount([
                 'newsletters',
             ])
-            ->when($this->search, fn($query) =>
-            $query->where('name', 'like', "{$this->search}%")
+            ->when($this->search, fn ($query) => $query->where('name', 'like', "{$this->search}%")
                 ->orWhere('website', 'like', "{$this->search}%")
             )
            // ->orderByDesc('created_at')

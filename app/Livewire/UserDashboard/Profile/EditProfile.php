@@ -18,8 +18,11 @@ class EditProfile extends Component
     use Toast;
 
     public $name;
+
     public $password;
+
     public $password_confirmation;
+
     public $current_password;
 
     public function mount()
@@ -33,14 +36,13 @@ class EditProfile extends Component
             'name' => ['required', 'string', 'max:255'],
         ];
 
-        if (!empty($this->password)) {
+        if (! empty($this->password)) {
             $rules['password'] = ['nullable', Password::defaults(), 'confirmed'];
             $rules['current_password'] = ['required', 'current_password'];
         }
 
         return $rules;
     }
-
 
     public function updated($propertyName)
     {
@@ -54,7 +56,7 @@ class EditProfile extends Component
         $user = auth()->user();
         $user->name = $this->name;
 
-        if (!empty($this->password)) {
+        if (! empty($this->password)) {
             $user->password = Hash::make($this->password);
         }
 

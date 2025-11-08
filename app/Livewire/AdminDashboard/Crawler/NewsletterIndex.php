@@ -15,8 +15,6 @@ class NewsletterIndex extends Component
 
     protected $paginationTheme = 'tailwind';
 
-
-
     public function render()
     {
         $newsletters = Newsletter::query()

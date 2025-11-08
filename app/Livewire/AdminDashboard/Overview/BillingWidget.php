@@ -8,13 +8,15 @@ use Livewire\Component;
 class BillingWidget extends Component
 {
     public int $activeSubscriptions = 0;
+
     public int $cancelledSubscriptions = 0;
+
     public float $estimatedRevenue = 0.0;
+
     public ?string $lastSubscriptionDateDiff = null;
 
     public function loadBillingData(): void
     {
-
 
         $this->activeSubscriptions = CustomSubscription::whereIn('stripe_status', ['active', 'trialing'])->count();
 

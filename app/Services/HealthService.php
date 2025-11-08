@@ -2,9 +2,8 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\DB;
 
 class HealthService
 {
@@ -12,6 +11,7 @@ class HealthService
     {
         try {
             DB::connection()->getPdo();
+
             return ['status' => true, 'message' => 'Connected'];
         } catch (\Throwable $e) {
             return ['status' => false, 'message' => $e->getMessage()];
@@ -27,7 +27,7 @@ class HealthService
             'status' => true,
             'total' => formatBytes($total),
             'free' => formatBytes($free),
-            'used_percent' => round(100 - ($free / $total * 100), 2) . '%',
+            'used_percent' => round(100 - ($free / $total * 100), 2).'%',
         ];
     }
 
@@ -35,9 +35,10 @@ class HealthService
     {
         try {
             Cache::put('health_test', 'ok', 10);
+
             return [
                 'status' => Cache::get('health_test') === 'ok',
-                'message' => 'Cache is working'
+                'message' => 'Cache is working',
             ];
         } catch (\Throwable $e) {
             return ['status' => false, 'message' => $e->getMessage()];
@@ -47,14 +48,14 @@ class HealthService
     public static function laravel(): array
     {
         return [
-            'version' => app()->version()
+            'version' => app()->version(),
         ];
     }
 
     public static function php(): array
     {
         return [
-            'version' => PHP_VERSION
+            'version' => PHP_VERSION,
         ];
     }
 
@@ -77,12 +78,12 @@ class HealthService
             return [
                 'status' => 'Running',
                 'connection' => $connection,
-                'pending_jobs' => $pending
+                'pending_jobs' => $pending,
             ];
         } catch (\Throwable $e) {
             return [
                 'status' => 'Down',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ];
         }
     }

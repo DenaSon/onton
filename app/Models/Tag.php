@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\VC;
-use App\Models\Newsletter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\Cache;
@@ -11,12 +9,10 @@ use Illuminate\Support\Facades\Cache;
 /**
  * Class Tag
  *
- * @package App\Models
  *
  * @property int $id
  * @property string $name
  * @property string $type
- *
  * @property-read \Illuminate\Database\Eloquent\Collection|VC[] $vcs
  * @property-read \Illuminate\Database\Eloquent\Collection|Newsletter[] $newsletters
  */
@@ -52,9 +48,6 @@ class Tag extends Model
         return $this->morphedByMany(Newsletter::class, 'taggable');
     }
 
-
-
-
     protected static function booted(): void
     {
         static::saved(function () {
@@ -67,7 +60,4 @@ class Tag extends Model
             Cache::forget('tags.stage');
         });
     }
-
-
-
 }

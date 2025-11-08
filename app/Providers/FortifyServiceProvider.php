@@ -18,10 +18,7 @@ class FortifyServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
-    {
-
-    }
+    public function register(): void {}
 
     /**
      * Bootstrap any application services.
@@ -31,35 +28,33 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::registerView(function () {
             return view('components.ui.auth.register', [
-                'title' => 'Sign Up | ' . config('app.name'),
+                'title' => 'Sign Up | '.config('app.name'),
             ]);
         });
 
         Fortify::loginView(function () {
             return view('components.ui.auth.login', [
-                'title' => 'Sign In | ' . config('app.name'),
+                'title' => 'Sign In | '.config('app.name'),
             ]);
         });
 
         Fortify::requestPasswordResetLinkView(function () {
             return view('components.ui.auth.forgot-password', [
-                'title' => 'Forgot Password | ' . config('app.name'),
+                'title' => 'Forgot Password | '.config('app.name'),
             ]);
         });
 
         Fortify::resetPasswordView(function () {
             return view('components.ui.auth.reset-password', [
-                'title' => 'Reset Password | ' . config('app.name'),
+                'title' => 'Reset Password | '.config('app.name'),
             ]);
         });
 
         Fortify::verifyEmailView(function () {
             return view('components.ui.auth.verify-email', [
-                'title' => 'Verify Email | ' . config('app.name'),
+                'title' => 'Verify Email | '.config('app.name'),
             ]);
         });
-
-
 
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
@@ -76,12 +71,9 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
-
         RateLimiter::for('register', function (Request $request) {
             return Limit::perMinute(2)->by($request->ip());
         });
-
-
 
     }
 }

@@ -21,7 +21,6 @@ return new class extends Migration
                 ->on('tags')
                 ->onDelete('cascade');
 
-
             $table->index(['taggable_id', 'taggable_type']);
             $table->index(['tag_id']);
             $table->index(['tag_id', 'taggable_type']);

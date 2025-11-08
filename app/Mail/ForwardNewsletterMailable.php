@@ -11,14 +11,13 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ForwardNewsletterMailable extends Mailable  implements ShouldQueue
+class ForwardNewsletterMailable extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-
     public Newsletter $newsletter;
 
     public function __construct(Newsletter $newsletter)
@@ -32,7 +31,7 @@ class ForwardNewsletterMailable extends Mailable  implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: config('app.name') .': '. $this->newsletter->subject ?? 'Newsletter',
+            subject: config('app.name').': '.$this->newsletter->subject ?? 'Newsletter',
         );
     }
 
@@ -46,12 +45,9 @@ class ForwardNewsletterMailable extends Mailable  implements ShouldQueue
             with: [
                 'newsletter' => $this->newsletter,
 
-
             ]
         );
     }
-
-
 
     /**
      * Get the attachments for the message.

@@ -9,7 +9,7 @@ class FailedPayment extends Component
 {
     public function mount()
     {
-        if (!session()->pull('payment_in_progress')) {
+        if (! session()->pull('payment_in_progress')) {
             abort(403, 'Unauthorized access');
         }
 
@@ -23,6 +23,7 @@ class FailedPayment extends Component
         ));
 
     }
+
     public function render()
     {
         return view('livewire.user-dashboard.payment.failed-payment')->layout('components.layouts.user-dashboard')->title('Activation Failed');

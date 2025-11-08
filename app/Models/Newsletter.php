@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
@@ -11,7 +10,7 @@ class Newsletter extends Model
     protected $fillable = [
         'vc_id', 'subject', 'from_email', 'to_email',
         'body_plain', 'body_html', 'sent_at', 'received_at',
-        'message_id', 'hash', 'processing_status', 'is_forwarded', 'forwarded_at'
+        'message_id', 'hash', 'processing_status', 'is_forwarded', 'forwarded_at',
     ];
 
     protected $casts = [
@@ -22,12 +21,10 @@ class Newsletter extends Model
         'forwarded_at' => 'datetime',
     ];
 
-
     public function tags(): MorphToMany
     {
         return $this->morphToMany(Tag::class, 'taggable');
     }
-
 
     public function categories(): MorphToMany
     {
@@ -44,7 +41,6 @@ class Newsletter extends Model
         return $this->belongsTo(Vc::class);
     }
 
-
     public function sentToUsers()
     {
         return $this->belongsToMany(User::class, 'newsletter_user_sends')
@@ -56,26 +52,20 @@ class Newsletter extends Model
     {
         $text = $this->body_plain ?? '';
 
-
         $text = strip_tags($text);
 
-
         $paragraphs = collect(preg_split('/\r\n|\r|\n/', $text))
-            ->map(fn($p) => trim($p))
+            ->map(fn ($p) => trim($p))
             ->filter(function ($p) {
 
                 return $p !== ''
-                    && !preg_match('/^\[image.*\]$/i', $p)
-                    && !preg_match('/^https?:\/\/\S+$/i', $p)
+                    && ! preg_match('/^\[image.*\]$/i', $p)
+                    && ! preg_match('/^https?:\/\/\S+$/i', $p)
                     && strlen(strip_tags($p)) > 10;
             });
-
 
         $body = $paragraphs->first() ?? '';
 
         return \Str::limit($body, $limit);
     }
-
-
-
 }

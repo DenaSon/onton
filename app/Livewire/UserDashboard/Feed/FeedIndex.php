@@ -13,10 +13,14 @@ use Mary\Traits\Toast;
 #[Title('Feed Index')]
 class FeedIndex extends Component
 {
-    Use Toast;
+    use Toast;
+
     public array $followedVcIds = [];
+
     public int $perPage = 20;
+
     public ?int $selectedId = null;
+
     public ?Newsletter $selected = null;
 
     public string $search = '';
@@ -32,8 +36,6 @@ class FeedIndex extends Component
         }
     }
 
-
-
     public function select(int $id): void
     {
 
@@ -41,15 +43,13 @@ class FeedIndex extends Component
 
             ->where('id', $id);
 
-
         $this->selected = $base
-            ->select(['id','vc_id','subject','received_at','body_plain','body_html'])
+            ->select(['id', 'vc_id', 'subject', 'received_at', 'body_plain', 'body_html'])
             ->with(['vc:id,name,logo_url'])
             ->firstOrFail();
 
         $this->selectedId = $this->selected->id;
     }
-
 
     public function loadMore(): void
     {
@@ -59,10 +59,10 @@ class FeedIndex extends Component
     public function render()
     {
         $newsletters = Newsletter::query()
-            //->whereIn('vc_id', $this->followedVcIds)
+            // ->whereIn('vc_id', $this->followedVcIds)
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
-                    $q->where('subject', 'like', '%' . $this->search . '%');
+                    $q->where('subject', 'like', '%'.$this->search.'%');
 
                 });
             })

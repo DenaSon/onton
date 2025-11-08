@@ -14,8 +14,6 @@ use Webklex\PHPIMAP\Support\MessageCollection;
  *
  * Service for crawling emails using IMAP and the Webklex package.
  * Provides functionality to fetch emails, filter, parse, mark as read, and save attachments.
- *
- * @package App\Services\Crawler
  */
 class MailCrawlerService
 {
@@ -24,16 +22,12 @@ class MailCrawlerService
      *
      * Before calling parse(), this is a MessageCollection.
      * After parse(), it becomes an array of processed message data.
-     *
-     * @var MessageCollection|array
      */
     protected MessageCollection|array $messages = [];
 
     /**
      * Flag indicating whether to mark messages as read.
      * Currently used for internal state only.
-     *
-     * @var bool
      */
     protected bool $markAsRead = false;
 
@@ -42,8 +36,7 @@ class MailCrawlerService
     /**
      * Establish an IMAP connection for the given account.
      *
-     * @param string $account IMAP account name configured in Webklex config
-     * @return \Webklex\PHPIMAP\Client
+     * @param  string  $account  IMAP account name configured in Webklex config
      *
      * @throws RuntimeException If connection to the IMAP server fails
      */
@@ -61,32 +54,30 @@ class MailCrawlerService
 
             $client->connect();
 
-
-            if (!$client->isConnected()) {
-                \Log::error("[MailCrawlerService] connection failed: client is not connected after connect() call", [
+            if (! $client->isConnected()) {
+                \Log::error('[MailCrawlerService] connection failed: client is not connected after connect() call', [
                     'account' => $account,
                 ]);
                 throw new RuntimeException("[MailCrawlerService] connection failed for account '{$account}'. Client not connected.");
             }
 
-
             $client->checkConnection();
 
             \Log::info('[MailCrawlerService] OK | All connections successfully');
+
             return $client;
 
         } catch (\Throwable $e) {
-            \Log::error("[MailCrawlerService] IMAP connection exception on account '{$account}': " . $e->getMessage(), [
+            \Log::error("[MailCrawlerService] IMAP connection exception on account '{$account}': ".$e->getMessage(), [
                 'exception' => get_class($e),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
 
             throw new RuntimeException("[MailCrawlerService] failed to connect to  account: '{$account}'", previous: $e);
         }
     }
-
 
     /**
      * Crawls emails from a specified folder and account, optionally applying a query callback.
@@ -94,14 +85,14 @@ class MailCrawlerService
      * If no callback is provided, it fetches unseen emails from the last 7 days,
      * in descending order, limiting to 10 messages.
      *
-     * @param string $account IMAP account name
-     * @param string $folder Folder name (e.g., 'INBOX')
-     * @param Closure|null $queryCallback Optional callback to customize the query, receives and returns QueryBuilder
+     * @param  string  $account  IMAP account name
+     * @param  string  $folder  Folder name (e.g., 'INBOX')
+     * @param  Closure|null  $queryCallback  Optional callback to customize the query, receives and returns QueryBuilder
      * @return $this
      *
      * @throws RuntimeException If connection or fetching emails fails
      */
-    public function crawl(string $account = 'default', string $folder = 'INBOX', Closure $queryCallback = null): self
+    public function crawl(string $account = 'default', string $folder = 'INBOX', ?Closure $queryCallback = null): self
     {
         $client = $this->imapConnection($account);
 
@@ -115,7 +106,7 @@ class MailCrawlerService
                 $folderName = $folder; // keep the original folder name for logging
             }
 
-            if (!$folderObj) {
+            if (! $folderObj) {
                 throw new RuntimeException("IMAP folder '{$folderName}' not found.");
             }
 
@@ -132,21 +123,20 @@ class MailCrawlerService
             $this->messages = $query->get();
             $errors = $query->errors();
 
-            if (!empty($errors)) {
+            if (! empty($errors)) {
                 \Log::warning('[MailCrawlerService] query returned with soft errors [END]', [
                     'errors' => $errors,
                 ]);
             }
 
-            //$this->logAllFolders('default');
-
+            // $this->logAllFolders('default');
 
         } catch (\Throwable $e) {
-            \Log::error("[MailCrawlerService] crawling failed for account '{$account}', folder '{$folderName}': " . $e->getMessage(), [
-                'trace' => $e->getTraceAsString()
+            \Log::error("[MailCrawlerService] crawling failed for account '{$account}', folder '{$folderName}': ".$e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
             ]);
 
-            throw new RuntimeException("[MailCrawlerService ] Mail crawling failed.", 0, $e);
+            throw new RuntimeException('[MailCrawlerService ] Mail crawling failed.', 0, $e);
         } finally {
             // Always attempt to disconnect, but handle any errors gracefully
             try {
@@ -169,7 +159,6 @@ class MailCrawlerService
 
         return $this;
     }
-
 
     /**
      * Parses raw email messages into an array format with extracted data.
@@ -208,7 +197,7 @@ class MailCrawlerService
      *
      * Case-insensitive search.
      *
-     * @param string $keyword Keyword to search for
+     * @param  string  $keyword  Keyword to search for
      * @return $this
      */
     public function filterByKeyword(string $keyword): self
@@ -224,33 +213,35 @@ class MailCrawlerService
     /**
      * Filters parsed messages by a whitelist of sender email addresses.
      *
-     * @param string[] $whiteListEmails Array of allowed sender email addresses
+     * @param  string[]  $whiteListEmails  Array of allowed sender email addresses
      * @return $this
      */
     public function filterByWhitelistFrom(array $whiteListEmails): self
     {
 
-
         if (empty($whiteListEmails)) {
             \Log::warning('[MailCrawlerService] Whitelist is empty. Skipping whitelist filtering.');
+
             return $this;
         }
 
-        if (empty($this->messages) || !is_array($this->messages)) {
+        if (empty($this->messages) || ! is_array($this->messages)) {
             \Log::warning('[MailCrawlerService] No messages available to apply whitelist filtering.');
+
             return $this;
         }
 
         // Normalize whitelist emails
         $whiteListEmails = array_map(
-            fn($email) => strtolower(trim($email)),
-            array_filter($whiteListEmails, fn($email) => !empty($email))
+            fn ($email) => strtolower(trim($email)),
+            array_filter($whiteListEmails, fn ($email) => ! empty($email))
         );
 
         $beforeCount = count($this->messages);
 
         $this->messages = collect($this->messages)->filter(function ($message) use ($whiteListEmails) {
             $from = strtolower(trim($message['from'] ?? ''));
+
             return $from && in_array($from, $whiteListEmails);
         })->values()->toArray();
 
@@ -261,20 +252,18 @@ class MailCrawlerService
         return $this;
     }
 
-
     /**
      * Saves attachments from the parsed messages to the specified path.
      *
      * Note: This method currently only returns the attachment names as placeholders.
      * Real implementation should save the files physically using $attachment->save($path).
      *
-     * @param string|null $basePath
      * @return MailCrawlerService List of saved attachment file names
      */
     public function saveAttachments(?string $basePath = null): self
     {
 
-        $basePath = $basePath ?? storage_path('app/attachments/' . date('Ymd'));
+        $basePath = $basePath ?? storage_path('app/attachments/'.date('Ymd'));
         $baseUrl = str_replace(storage_path('app'), '/storage', $basePath);
 
         $totalMessages = count($this->messages);
@@ -283,13 +272,13 @@ class MailCrawlerService
         $errorCount = 0;
 
         foreach ($this->messages as &$message) {
-            if (!isset($message['__raw']) || !($message['__raw'] instanceof Message)) {
+            if (! isset($message['__raw']) || ! ($message['__raw'] instanceof Message)) {
                 continue;
             }
 
             $rawMessage = $message['__raw'];
 
-            if (!$rawMessage->hasAttachments()) {
+            if (! $rawMessage->hasAttachments()) {
                 continue;
             }
 
@@ -304,8 +293,8 @@ class MailCrawlerService
 
                     $attachments[] = [
                         'name' => $filename,
-                        'path' => $basePath . DIRECTORY_SEPARATOR . $filename,
-                        'url' => $baseUrl . '/' . $filename,
+                        'path' => $basePath.DIRECTORY_SEPARATOR.$filename,
+                        'url' => $baseUrl.'/'.$filename,
                         'size' => $attachment->getSize(),
                         'type' => $attachment->getMimeType(),
                     ];
@@ -327,7 +316,6 @@ class MailCrawlerService
         return $this;
     }
 
-
     /**
      * Marks all fetched raw messages as read (sets the 'Seen' flag).
      *
@@ -339,7 +327,6 @@ class MailCrawlerService
      */
     public function markAsRead(): self
     {
-
 
         $total = $this->messages->count();
         $successCount = 0;
@@ -362,12 +349,9 @@ class MailCrawlerService
         return $this;
     }
 
-
     /**
      * Returns the current set of messages.
      * Could be raw MessageCollection or parsed array depending on the state.
-     *
-     * @return array
      */
     public function get(): array
     {
@@ -383,9 +367,6 @@ class MailCrawlerService
      * Logs all available folders for the given IMAP account.
      *
      * Useful for discovering the correct folder names (e.g., [Gmail]/Spam).
-     *
-     * @param string $account
-     * @return void
      */
     public function logAllFolders(string $account = 'default'): void
     {
@@ -396,17 +377,15 @@ class MailCrawlerService
             \Log::info("[MailCrawlerService] Folders found for account '{$account}':");
 
             foreach ($folders as $folder) {
-                \Log::info(" - " . $folder->name);
+                \Log::info(' - '.$folder->name);
             }
 
             $client->disconnect();
         } catch (\Throwable $e) {
-            \Log::error("[MailCrawlerService] Failed to list folders: " . $e->getMessage(), [
+            \Log::error('[MailCrawlerService] Failed to list folders: '.$e->getMessage(), [
                 'exception' => get_class($e),
                 'trace' => $e->getTraceAsString(),
             ]);
         }
     }
-
-
 }

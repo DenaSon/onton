@@ -19,15 +19,16 @@ class VerifyEmail extends Component
             return redirect()->intended(config('fortify.home'));
         }
 
-        if (RateLimiter::tooManyAttempts('resend-verification:' . $user->id, 1)) {
+        if (RateLimiter::tooManyAttempts('resend-verification:'.$user->id, 1)) {
             $this->error('Too many attempts', 'Please wait a few minutes before trying again.');
+
             return null;
         }
 
         try {
             $user->sendEmailVerificationNotification();
 
-            RateLimiter::hit('resend-verification:' . $user->id);
+            RateLimiter::hit('resend-verification:'.$user->id);
             $this->success('Verification email sent', 'Please check your inbox.');
         } catch (\Throwable $e) {
             activity()

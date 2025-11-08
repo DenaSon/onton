@@ -5,7 +5,6 @@ namespace App\Policies;
 use App\Models\Newsletter;
 use App\Models\User;
 
-
 class NewsletterPolicy
 {
     /**
@@ -75,7 +74,4 @@ class NewsletterPolicy
             ->where('vcs.id', $newsletter->vc_id)
             ->exists();
     }
-
-
-
 }

@@ -21,7 +21,6 @@ use Spatie\Permission\Traits\HasRoles;
 /**
  * Class User
  *
- * @package App\Models
  *
  * @property int $id
  * @property string $name
@@ -30,14 +29,13 @@ use Spatie\Permission\Traits\HasRoles;
  * @property bool $is_suspended
  * @property \DateTime|null $email_verified_at
  * @property string|null $remember_token
- *
  * @property-read Collection|Subscription[] $subscriptions
  * @property-read Subscription|null $activeSubscription
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasRoles, Billable;
+    use Billable, HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -71,7 +69,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
-
     public function sendEmailVerificationNotification()
     {
         $this->notify(new QueuedVerifyEmail);
@@ -82,7 +79,6 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new QueuedResetPassword($token));
     }
 
-
     /**
      * Get the initials of the user's name.
      *
@@ -92,7 +88,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Str::of($this->name)
             ->explode(' ')
-            ->map(fn(string $name) => Str::of($name)->substr(0, 1))
+            ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
     }
 
@@ -136,7 +132,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isSuspended(): bool
     {
-        return (bool)$this->getAttribute('is_suspended');
+        return (bool) $this->getAttribute('is_suspended');
     }
 
     public function followedVCs()
@@ -149,7 +145,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->followedVCs()->where('vc_id', $vcId)->exists();
     }
-
 
     public function notificationSetting()
     {
@@ -168,7 +163,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->subscribed($plan) || $this->onTrial($plan);
     }
 
-
     public function scopeSubscribedOrOnTrial($query): void
     {
         $query->whereHas('subscriptions', function ($sub) {
@@ -184,10 +178,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public static function notifyAdminsByRoleId(int $roleId, Notification $notification): void
     {
-        self::whereHas('roles', fn($q) => $q->where('id', $roleId))
-            ->each(fn($admin) => $admin->notify($notification));
+        self::whereHas('roles', fn ($q) => $q->where('id', $roleId))
+            ->each(fn ($admin) => $admin->notify($notification));
     }
-
 
     protected static function booted()
     {
@@ -198,6 +191,4 @@ class User extends Authenticatable implements MustVerifyEmail
             ]);
         });
     }
-
-
 }

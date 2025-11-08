@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->index();
-            $table->string('type')->nullable()->index();//like vertical and stages etc..
+            $table->string('type')->nullable()->index(); // like vertical and stages etc..
             $table->timestamps();
         });
     }

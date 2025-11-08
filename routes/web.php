@@ -9,12 +9,11 @@ use App\Livewire\UserDashboard\Setting\DeliverySetting;
 use Illuminate\Support\Facades\Route;
 use Laravel\Cashier\Http\Controllers\WebhookController;
 
-
 Route::get('/', Index::class)->name('home');
 
 Route::prefix('core')
     ->as('core.')
-    ->middleware(['web', 'auth', 'verified', RoleMiddleware::class . ':admin'])
+    ->middleware(['web', 'auth', 'verified', RoleMiddleware::class.':admin'])
     ->group(function () {
         Route::get('/', \App\Livewire\AdminDashboard\Index::class)->name('index');
 
@@ -30,19 +29,18 @@ Route::prefix('core')
         Route::get('crawler/newsletters', NewsletterIndex::class)->name('newsletters.index');
         Route::get('crawler/newsletter-{newsletter}', \App\Livewire\AdminDashboard\Crawler\NewsletterShowDetails::class)->name('newsletter.show');
 
-        //Render newsletters
+        // Render newsletters
         Route::get('crawler/newsletters/{id}/html', function ($id) {
             $newsletter = \App\Models\Newsletter::findOrFail($id);
+
             return response($newsletter->body_html)->header('Content-Type', 'text/html');
         })->name('newsletter.html');
 
-
     });
-
 
 Route::prefix('panel')
     ->as('panel.')
-    ->middleware(['web', 'auth', 'verified', RoleMiddleware::class . ':admin,user'])
+    ->middleware(['web', 'auth', 'verified', RoleMiddleware::class.':admin,user'])
     ->group(function () {
         Route::get('/', \App\Livewire\UserDashboard\Index::class)->name('index');
         Route::get('/profile', \App\Livewire\UserDashboard\Profile\EditProfile::class)->name('profile.edit');
@@ -63,6 +61,3 @@ Route::prefix('panel')
 Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
 
 Route::get('logout', Logout::class);
-
-
-

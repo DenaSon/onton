@@ -7,8 +7,6 @@ use Illuminate\Console\Command;
 
 class CrawlEmailsCommand extends Command
 {
-
-
     /**
      * The name and signature of the console command.
      *
@@ -22,7 +20,6 @@ class CrawlEmailsCommand extends Command
      * @var string
      */
     protected $description = 'Dispatch the email crawler job to fetch unseen emails.';
-
 
     /**
      * Execute the console command.

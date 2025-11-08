@@ -11,11 +11,9 @@ use Mockery;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Tests\TestCase;
 
-
 class SubscribeUserActionTest extends TestCase
 {
     use RefreshDatabase;
-
 
     protected function tearDown(): void
     {
@@ -28,12 +26,12 @@ class SubscribeUserActionTest extends TestCase
 
         $rateLimiter = Mockery::mock(RateLimiter::class);
 
-
         $rateLimiter->shouldReceive('attempt')
             ->once()
             ->andReturnUsing(function ($key, $maxAttempts, $callback, $decaySeconds) {
 
                 $callback();
+
                 return true;
             });
 
@@ -41,7 +39,6 @@ class SubscribeUserActionTest extends TestCase
             ->never();
 
         $ip = '123.456.789.000';
-
 
         $action = new SubscribeUserAction($rateLimiter, $ip);
 
@@ -65,7 +62,6 @@ class SubscribeUserActionTest extends TestCase
         $this->assertNotNull($contact->subscribed_at);
     }
 
-
     public function test_user_cannot_subscribe_if_rate_limited()
     {
         $rateLimiter = Mockery::mock(RateLimiter::class);
@@ -88,10 +84,6 @@ class SubscribeUserActionTest extends TestCase
         $this->expectExceptionMessage('Please try again in 180 Seconds.');
         $this->assertDatabaseMissing('email_contacts', ['email' => $email]);
 
-
         $action->handle($email);
     }
-
-
-
 }
