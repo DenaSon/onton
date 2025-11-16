@@ -3,12 +3,31 @@
 
         <!-- Left: Filter -->
         <div class="flex-shrink-0">
-            <x-dropdown label="Filter" class="min-w-[8rem]">
-                <x-menu-item title="Filter 1"/>
-                <x-menu-item title="Filter 2"/>
-                <x-menu-item title="Filter 3"/>
+            <x-dropdown
+                label="{{ ucfirst($filter) }} "
+                class="min-w-[10rem]"
+                color="primary"
+            >
+                <x-menu-item
+                    title="All Newsletters"
+                    icon="o-rectangle-stack"
+                    wire:click="$set('filter', 'all')"
+                />
+
+                <x-menu-item
+                    title="Substack"
+                    icon="o-document-text"
+                    wire:click="$set('filter', 'substack')"
+                />
+
+                <x-menu-item
+                    title="Medium"
+                    icon="o-document-duplicate"
+                    wire:click="$set('filter', 'medium')"
+                />
             </x-dropdown>
         </div>
+
 
         <!-- Center: Search -->
         <div class="w-full max-w-full flex">

@@ -1,7 +1,6 @@
 @php
     $subscribeRoute = route('panel.payment.management');
 
-    // یک بار و کاملاً منطبق با اسکوپ مدل User شما
     $canAct = false;
     if (Auth::check()) {
         $canAct = \App\Models\User::query()

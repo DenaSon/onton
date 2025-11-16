@@ -30,6 +30,7 @@ Route::prefix('core')
         Route::get('crawler/newsletters', NewsletterIndex::class)->name('newsletters.index');
         Route::get('crawler/newsletter-{newsletter}', \App\Livewire\AdminDashboard\Crawler\NewsletterShowDetails::class)->name('newsletter.show');
 
+
         //Render newsletters
         Route::get('crawler/newsletters/{id}/html', function ($id) {
             $newsletter = \App\Models\Newsletter::findOrFail($id);

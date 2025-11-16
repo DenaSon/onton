@@ -21,6 +21,9 @@ class FeedIndex extends Component
 
     public string $search = '';
 
+    public string $filter = 'all';
+
+
     public function mount(): void
     {
         $this->followedVcIds = Auth::user()->followedVCs()->pluck('vcs.id')->toArray();
@@ -61,12 +64,17 @@ class FeedIndex extends Component
     public function render()
     {
         $newsletters = Newsletter::query()
-            //->whereIn('vc_id', $this->followedVcIds)
-            ->when($this->search, function ($query) {
-                $query->where(function ($q) {
-                    $q->where('subject', 'like', '%' . $this->search . '%');
+            ->when($this->filter === 'substack', function ($q) {
+                $q->where('from_email', 'like', '%@substack.com');
+            })
+            ->when($this->filter === 'medium', function ($q) {
+                $q->where('from_email', 'like', '%@medium.com');
+            })
+            ->when($this->filter === 'all', function ($q) {
 
-                });
+            })
+            ->when($this->search, function ($query) {
+                $query->where('subject', 'like', '%' . $this->search . '%');
             })
             ->select(['id', 'vc_id', 'subject', 'received_at'])
             ->with(['vc:id,name,logo_url'])
@@ -77,4 +85,5 @@ class FeedIndex extends Component
             'newsletters' => $newsletters,
         ]);
     }
+
 }
