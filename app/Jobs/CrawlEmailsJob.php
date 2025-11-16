@@ -36,13 +36,13 @@ class CrawlEmailsJob implements ShouldQueue
 
     protected function getWhitelistedEmails(): array
     {
-        return Cache::remember('whitelist:emails', now()->addHours(8), function () {
-            return Whitelist::whereNotNull('email')
-                ->pluck('email')
-                ->map(fn($email) => strtolower(trim($email)))
-                ->unique()
-                ->toArray();
-        });
+
+        return Whitelist::whereNotNull('email')
+            ->pluck('email')
+            ->map(fn($email) => strtolower(trim($email)))
+            ->unique()
+            ->toArray();
+
     }
 
     protected function crawlFolder(string $folder, array $whitelist, int $limit, int $lookbackHours): array
