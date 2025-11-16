@@ -21,7 +21,7 @@ class CrawlEmailsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $tries = 5;
+    public $tries = 9;
     public $backoff = [30, 60, 120];
 
     public function viaQueue(): string
@@ -100,7 +100,7 @@ class CrawlEmailsJob implements ShouldQueue
             Log::info('[CrawlEmailsJob] Loaded ' . count($whiteListEmails) . ' whitelisted emails.');
 
             if (count($emails) > 0) {
-                StoreNewsletterJob::dispatch($emails)->delay(now()->addSeconds(4))->onQueue('storenewsletter');
+                StoreNewsletterJob::dispatch($emails)->delay(now()->addSeconds(8))->onQueue('storenewsletter');
                 Log::info('[CrawlEmailsJob] Dispatching StoreNewsletterJob with ' . count($emails) . ' emails.');
                 Log::notice('[CrawlEmailsJob] {MISSION_COMPLETE} >>> Operation Crawl complete. Emails delivered. Next Mission Start.');
             } else {
