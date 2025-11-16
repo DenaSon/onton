@@ -13,7 +13,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Cache;
+
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -21,8 +21,9 @@ class CrawlEmailsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $tries = 9;
-    public $backoff = [30, 60, 120];
+    public $timeout = 120;
+    public $tries = 5;
+    public $backoff = [60, 180];
 
     public function viaQueue(): string
     {
@@ -87,8 +88,8 @@ class CrawlEmailsJob implements ShouldQueue
                 return;
             }
 
-            $limit = 100;
-            $lookbackHours = 1000;
+            $limit = 30;
+            $lookbackHours = 500;
 
             // Crawl inbox and spam folders separately
             $inboxEmails = $this->crawlFolder('INBOX', $whiteListEmails, $limit, $lookbackHours);
