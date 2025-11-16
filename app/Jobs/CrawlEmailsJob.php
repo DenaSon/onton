@@ -57,7 +57,7 @@ class CrawlEmailsJob implements ShouldQueue
             ->markAsRead()
             ->parse()
             ->filterByWhitelistFrom($whitelist)
-            ->saveAttachments()
+            //->saveAttachments()
             ->get();
     }
 
