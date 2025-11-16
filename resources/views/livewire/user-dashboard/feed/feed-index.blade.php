@@ -85,12 +85,34 @@
         <div class="lg:col-span-1 bg-base-100 p-4 rounded-r-2xl">
             @if($selected)
                 <iframe
+                    id="newsletter-frame"
                     class="w-full h-full border-0 rounded-r-2xl"
                     referrerpolicy="no-referrer"
                     srcdoc="{{ $selected->body_html }}"
+                    onload="fixIframeLinks()"
                 ></iframe>
             @endif
+
+
         </div>
 
     </div>
+
+    <script>
+        function fixIframeLinks() {
+            const iframe = document.getElementById('newsletter-frame');
+            const doc = iframe.contentDocument || iframe.contentWindow.document;
+
+            if (!doc) return;
+
+            const links = doc.querySelectorAll('a');
+
+            links.forEach(link => {
+                link.setAttribute('target', '_blank');
+                link.setAttribute('rel', 'noopener noreferrer');
+            });
+        }
+    </script>
+
+
 </div>
