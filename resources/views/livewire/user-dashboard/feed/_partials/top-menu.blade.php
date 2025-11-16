@@ -4,7 +4,7 @@
         <!-- Left: Filter -->
         <div class="flex-shrink-0">
             <x-dropdown
-                label="{{ ucfirst($filter) }} "
+                label="{{ ucfirst($filter) }}"
                 class="min-w-[10rem]"
                 color="primary"
             >
