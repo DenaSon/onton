@@ -105,12 +105,26 @@
 
             if (!doc) return;
 
-            const links = doc.querySelectorAll('a');
 
+            const links = doc.querySelectorAll('a');
             links.forEach(link => {
                 link.setAttribute('target', '_blank');
                 link.setAttribute('rel', 'noopener noreferrer');
             });
+
+
+            //     const style = doc.createElement('style');
+            //     style.textContent = `
+            //     body {
+            //         font-size: 0.9rem !important;
+            //         line-height: 1.45 !important;
+            //     }
+            //
+            //     p, span, div, li, a, h1, h2, h3, h4, h5, h6 {
+            //         font-size: 0.9rem !important;
+            //     }
+            // `;
+            //     doc.head.appendChild(style);
         }
     </script>
 
