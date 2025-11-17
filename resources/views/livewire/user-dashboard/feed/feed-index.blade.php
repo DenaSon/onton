@@ -6,6 +6,7 @@
         {{-- Left: Feed list (scrollable) --}}
         <div
             class="lg:col-span-1 bg-base-100 p-5 border-r border-base-300 overflow-y-auto scroll-slim h-full"
+            data-feed-scroll
         >
             <div class="divide-y divide-base-300">
                 <div class="divide-y divide-y-[0.5px] divide-base-300" wire:poll.30s>
@@ -66,9 +67,12 @@
                 </div>
             </div>
 
-            {{-- Load more button --}}
+            {{-- Load more button + infinite scroll sentinel --}}
             @if($newsletters->hasMorePages())
-                <div class="flex justify-center py-4">
+                <div
+                    class="flex justify-center py-4"
+                    data-feed-sentinel
+                >
                     <x-button
                         wire:click="loadMore"
                         class="btn-sm btn-outline rounded-lg"
@@ -99,7 +103,7 @@
     <script>
         function fixIframeLinks() {
             const iframe = document.getElementById('newsletter-frame');
-            const doc = iframe.contentDocument || iframe.contentWindow.document;
+            const doc = iframe?.contentDocument || iframe?.contentWindow?.document;
 
             if (!doc) return;
 
@@ -108,8 +112,49 @@
                 link.setAttribute('target', '_blank');
                 link.setAttribute('rel', 'noopener noreferrer');
             });
-
-
         }
+
+        function setupInfiniteScroll() {
+            const container = document.querySelector('[data-feed-scroll]');
+            const sentinel = document.querySelector('[data-feed-sentinel]');
+
+            if (!container || !sentinel) return;
+
+
+            if (sentinel._observerAttached) return;
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Livewire v3
+                            if (window.Livewire && Livewire.dispatch) {
+                                Livewire.dispatch('feed-load-more');
+                            }
+                            // fallback برای v2
+                            else if (window.Livewire && Livewire.emit) {
+                                Livewire.emit('feed-load-more');
+                            }
+                        }
+                    });
+                },
+                {
+                    root: container,
+                    threshold: 1.0, // وقتی sentinel کامل داخل viewport ستون چپ دیده شود
+                }
+            );
+
+            observer.observe(sentinel);
+            sentinel._observerAttached = true;
+        }
+
+        document.addEventListener('livewire:load', () => {
+            setupInfiniteScroll();
+        });
+
+        // برای Livewire 3 و navigate بین کامپوننت‌ها
+        document.addEventListener('livewire:navigated', () => {
+            setupInfiniteScroll();
+        });
     </script>
 </div>

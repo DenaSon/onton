@@ -5,6 +5,7 @@ namespace App\Livewire\UserDashboard\Feed;
 use App\Models\Newsletter;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -55,7 +56,7 @@ class FeedIndex extends Component
         $this->selectedId = $this->selected->id;
     }
 
-
+    #[On('feed-load-more')]
     public function loadMore(): void
     {
         $this->perPage += 40;
