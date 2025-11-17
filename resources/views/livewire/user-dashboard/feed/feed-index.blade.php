@@ -4,8 +4,9 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 h-[calc(100vh-8rem)] mt-4">
 
         {{-- Left: Feed list (scrollable) --}}
-        <div class="lg:col-span-1 bg-base-100 p-5 border-r border-base-300 overflow-y-auto">
-
+        <div
+            class="lg:col-span-1 bg-base-100 p-5 border-r border-base-300 overflow-y-auto scroll-slim h-full"
+        >
             <div class="divide-y divide-base-300">
                 <div class="divide-y divide-y-[0.5px] divide-base-300" wire:poll.30s>
                     @forelse($newsletters as $newsletter)
@@ -32,7 +33,6 @@
                             class="group flex items-center gap-3 p-2 hover:bg-base-200/40 transition rounded-lg cursor-pointer"
                             wire:click="select({{ $newsletter->id }})"
                         >
-
                             @if($receivedAt)
                                 <time
                                     datetime="{{ $receivedAt->toIso8601String() }}"
@@ -42,7 +42,6 @@
                                 </time>
                             @endif
 
-
                             <div class="min-w-0 flex-1">
                                 <div class="text-[11px] text-gray-400 truncate">
                                     {{ $newsletter->vc?->name ?? 'VC' }}
@@ -51,7 +50,6 @@
                                     {{ $newsletter->subject ?? '—' }}
                                 </h3>
                             </div>
-
 
                             <button
                                 class="shrink-0 opacity-60 hover:opacity-100"
@@ -81,8 +79,10 @@
             @endif
         </div>
 
-        {{-- Right: Selected content (fixed) --}}
-        <div class="lg:col-span-1 bg-base-100 p-4 rounded-r-2xl">
+        {{-- Right: Selected content (fixed, scrollable if needed) --}}
+        <div
+            class="lg:col-span-1 bg-base-100 p-4 rounded-r-2xl overflow-y-auto scroll-slim h-full"
+        >
             @if($selected)
                 <iframe
                     id="newsletter-frame"
@@ -92,8 +92,6 @@
                     onload="fixIframeLinks()"
                 ></iframe>
             @endif
-
-
         </div>
 
     </div>
@@ -105,7 +103,6 @@
 
             if (!doc) return;
 
-
             const links = doc.querySelectorAll('a');
             links.forEach(link => {
                 link.setAttribute('target', '_blank');
@@ -113,20 +110,6 @@
             });
 
 
-            //     const style = doc.createElement('style');
-            //     style.textContent = `
-            //     body {
-            //         font-size: 0.9rem !important;
-            //         line-height: 1.45 !important;
-            //     }
-            //
-            //     p, span, div, li, a, h1, h2, h3, h4, h5, h6 {
-            //         font-size: 0.9rem !important;
-            //     }
-            // `;
-            //     doc.head.appendChild(style);
         }
     </script>
-
-
 </div>

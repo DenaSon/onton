@@ -13,3 +13,28 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+
+.scroll-slim {
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--bc) / 0.1) transparent;
+}
+
+.scroll-slim::-webkit-scrollbar {
+    width: 3px;
+}
+
+.scroll-slim::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scroll-slim::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--bc) / 0.1);
+    border-radius: 9999px;
+}
+
+
+.scroll-slim:hover::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--bc) / 0.3);
+}
+
