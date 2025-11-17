@@ -13,21 +13,7 @@
                     @forelse($newsletters as $newsletter)
                         @php
                             $receivedAt = $newsletter->received_at;
-                            $shortTime = '';
-                            if ($receivedAt) {
-                                $minutes = $receivedAt->diffInMinutes();
-                                if ($minutes < 60) {
-                                    $shortTime = $minutes . 'min';
-                                } elseif ($minutes < 60 * 24) {
-                                    $hours = floor($minutes / 60);
-                                    $shortTime = $hours . 'h';
-                                } elseif ($minutes < 60 * 24 * 30) {
-                                    $days = floor($minutes / (60 * 24));
-                                    $shortTime = $days . 'd';
-                                } else {
-                                    $shortTime = $receivedAt->format('M j');
-                                }
-                            }
+                            $shortTime = $receivedAt?->shortAbsoluteDiffForHumans() ?? '';
                         @endphp
 
                         <article
