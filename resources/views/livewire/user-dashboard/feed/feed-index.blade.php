@@ -75,10 +75,20 @@
                 >
                     <x-button
                         wire:click="loadMore"
+                        wire:loading.attr="disabled"
+                        wire:target="loadMore"
                         class="btn-sm btn-outline rounded-lg"
-                        label="Load More"
-                        spinner
-                    ></x-button>
+                    >
+    <span wire:loading.remove wire:target="loadMore">
+        Load More
+    </span>
+
+                        <span wire:loading wire:target="loadMore" class="flex items-center gap-1">
+        <x-icon name="o-arrow-path" class="w-4 h-4 animate-spin"/>
+        Loading...
+    </span>
+                    </x-button>
+
                 </div>
             @endif
         </div>
