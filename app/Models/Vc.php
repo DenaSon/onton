@@ -161,6 +161,51 @@ class Vc extends Model
     }
 
 
+    public function getMediumFeedUrlAttribute(): ?string
+    {
+        $raw = $this->medium_url;
+
+        $raw = rtrim(trim(strtolower($raw)), '/');
+
+
+        if (!$raw) {
+            return null;
+        }
+
+
+        $raw = trim(strtolower($raw));
+
+        // اگر فقط @username بود
+        if (str_starts_with($raw, '@')) {
+            return "https://medium.com/feed/{$raw}";
+        }
+
+
+        if (str_contains($raw, 'medium.com/@')) {
+            $segment = substr($raw, strpos($raw, '@'));
+            return "https://medium.com/feed/{$segment}";
+        }
+
+
+        if (str_contains($raw, '.medium.com')) {
+            return "https://{$raw}/feed";
+        }
+
+        if (str_contains($raw, 'medium.com/')) {
+            $parts = explode('medium.com/', $raw);
+            $slug = $parts[1] ?? null;
+            return $slug ? "https://medium.com/feed/{$slug}" : null;
+        }
+
+
+        if (!str_contains($raw, 'http')) {
+            return "https://medium.com/feed/{$raw}";
+        }
+
+        return null;
+    }
+
+
 
 
     protected static function booted()
