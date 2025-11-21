@@ -1,4 +1,4 @@
-<div>
+<div class="overflow-hidden">
     @include('livewire.user-dashboard.feed._partials.top-menu')
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 h-[calc(100vh-8rem)] mt-4">
@@ -83,7 +83,14 @@
         <div
             class="lg:col-span-1 bg-base-100 p-4 rounded-r-2xl overflow-y-auto scroll-slim h-full"
         >
+
+
             @if($selected)
+
+                <button wire:click="loadMedium" class="btn" onclick="my_modal_4.showModal()">open modal</button>
+
+
+
                 <iframe
                     id="newsletter-frame"
                     class="w-full h-full border-0 rounded-r-2xl"
@@ -91,10 +98,19 @@
                     srcdoc="{{ $selected->body_html }}"
                     onload="fixIframeLinks()"
                 ></iframe>
+
             @endif
         </div>
 
     </div>
+
+
+    <div>
+
+        @include('livewire.user-dashboard.feed.components.mediumModal')
+
+    </div>
+
 
     <script>
         function fixIframeLinks() {

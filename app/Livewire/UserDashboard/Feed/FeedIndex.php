@@ -8,6 +8,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Log;
 use Mary\Traits\Toast;
 
 #[Layout('components.layouts.user-dashboard')]
@@ -23,6 +24,9 @@ class FeedIndex extends Component
     public string $search = '';
 
     public string $filter = 'all';
+
+
+    public array $mediumItems = [];
 
 
     public function mount(): void
@@ -44,7 +48,6 @@ class FeedIndex extends Component
     {
 
         $base = Newsletter::query()
-
             ->where('id', $id);
 
 
@@ -61,6 +64,41 @@ class FeedIndex extends Component
     {
         $this->perPage += 40;
     }
+
+    public function loadMedium(): void
+    {
+
+
+        if (!$this->selected?->vc?->medium_feed_url) {
+            $this->mediumItems = [];
+            return;
+        }
+
+        try {
+            $rss = app(\App\Services\Crawler\Rss2JsonService::class);
+
+            $result = $rss->fetch($this->selected->vc->medium_feed_url, [
+                'order_by' => 'pubDate',
+                'order_dir' => 'desc',
+                'count' => 10,
+            ]);
+
+            $this->mediumItems = $result['items'] ?? [];
+        } catch (\Throwable $e) {
+            Log::warning('Medium RSS load failed', [
+                'vc' => $this->selected->vc->id ?? null,
+                'error' => $e->getMessage(),
+            ]);
+
+            $this->mediumItems = [];
+        }
+    }
+
+
+
+
+
+
 
     public function render()
     {
