@@ -86,12 +86,10 @@
 
 
             @if($selected)
-
-                <button wire:click="loadMedium" class="btn" onclick="my_modal_4.showModal()">open modal</button>
-
-
-
+                @include('livewire.user-dashboard.feed.components.mediumModal')
                 <iframe
+
+
                     id="newsletter-frame"
                     class="w-full h-full border-0 rounded-r-2xl"
                     referrerpolicy="no-referrer"
@@ -107,7 +105,6 @@
 
     <div>
 
-        @include('livewire.user-dashboard.feed.components.mediumModal')
 
     </div>
 

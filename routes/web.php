@@ -12,6 +12,9 @@ use Laravel\Cashier\Http\Controllers\WebhookController;
 
 Route::get('/', Index::class)->name('home');
 
+Route::get('/feed', \App\Livewire\UserDashboard\Feed\FeedIndex::class)->name('feed.index');
+
+
 Route::prefix('core')
     ->as('core.')
     ->middleware(['web', 'auth', 'verified', RoleMiddleware::class . ':admin'])
@@ -53,7 +56,7 @@ Route::prefix('panel')
         Route::get('/payment/success', \App\Livewire\UserDashboard\Payment\SuccessPayment::class)->name('payment.success');
         Route::get('/payment/failed', \App\Livewire\UserDashboard\Payment\FailedPayment::class)->name('payment.failed');
         Route::get('/payment/subscription', \App\Livewire\UserDashboard\Payment\SubscriptionManagement::class)->name('payment.management');
-        Route::get('/feed', \App\Livewire\UserDashboard\Feed\FeedIndex::class)->name('feed.index');
+
         Route::get('/help', \App\Livewire\UserDashboard\Documents\DocIndex::class)->name('help.index');
 
         Route::get('newsletters/{id}/html', [\App\Http\Controllers\User\NewsletterHtmlController::class, 'show'])
@@ -66,5 +69,8 @@ Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
 Route::get('logout', Logout::class);
 
 
-
+Route::get('/rss', function () {
+    $rss = app(\App\Services\Crawler\Rss2JsonService::class);
+    return $rss->fetch('https://medium.com/feed/@ekin.tuna');
+});
 

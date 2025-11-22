@@ -16,7 +16,7 @@
 
     <x-slot:actions>
 
-        <x-button label="Feed" icon="o-rss" link="{{ route('panel.feed.index') }}" class="btn-ghost btn-sm" responsive/>
+        <x-button label="Feed" icon="o-rss" link="{{ route('feed.index') }}" class="btn-ghost btn-sm" responsive/>
 
 
         <x-theme-toggle/>
@@ -35,7 +35,6 @@
             <x-menu-separator/>
 
             <x-menu-item title="Help Center" link="{{ route('panel.help.index') }}" icon="o-question-mark-circle"/>
-
 
             <x-menu-separator/>
 

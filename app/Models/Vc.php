@@ -161,54 +161,54 @@ class Vc extends Model
     }
 
 
-    public function getMediumFeedUrlAttribute(): ?string
-    {
-        $raw = trim(strtolower($this->medium_url ?? ''));
-        if (!$raw) {
-            return null;
-        }
-
-        // حذف http/https و www
-        $raw = preg_replace('#^https?://#', '', $raw);
-        $raw = preg_replace('#^www\.#', '', $raw);
-
-        // اگر کاربر خودش مستقیماً medium.com/feed/... داده باشد → همان را برگردان
-        if (str_starts_with($raw, 'medium.com/feed/')) {
-            return "https://{$raw}";
-        }
-
-        // حذف /feed یا /feed/ در انتهای URL
-        $raw = preg_replace('#/feed/?$#', '', $raw);
-
-        // حالت فقط @username
-        if (str_starts_with($raw, '@')) {
-            return "https://medium.com/feed/{$raw}";
-        }
-
-        // حالت username.medium.com
-        if (str_ends_with($raw, '.medium.com')) {
-            return "https://{$raw}/feed";
-        }
-
-        // حالت medium.com/@username
-        if (str_starts_with($raw, 'medium.com/@')) {
-            $username = substr($raw, strlen('medium.com/'));
-            return "https://medium.com/feed/{$username}";
-        }
-
-        // حالت medium.com/slug
-        if (str_starts_with($raw, 'medium.com/')) {
-            $slug = substr($raw, strlen('medium.com/'));
-            return $slug ? "https://medium.com/feed/{$slug}" : null;
-        }
-
-        // حالت username ساده بدون @ و بدون دامین
-        if (!str_contains($raw, 'medium.com') && !str_contains($raw, '.medium.com')) {
-            return "https://medium.com/feed/{$raw}";
-        }
-
-        return null;
-    }
+//    public function getMediumFeedUrlAttribute(): ?string
+//    {
+//        $raw = trim(strtolower($this->medium_url ?? ''));
+//        if (!$raw) {
+//            return null;
+//        }
+//
+//        // حذف http/https و www
+//        $raw = preg_replace('#^https?://#', '', $raw);
+//        $raw = preg_replace('#^www\.#', '', $raw);
+//
+//        // اگر کاربر خودش مستقیماً medium.com/feed/... داده باشد → همان را برگردان
+//        if (str_starts_with($raw, 'medium.com/feed/')) {
+//            return "https://{$raw}";
+//        }
+//
+//        // حذف /feed یا /feed/ در انتهای URL
+//        $raw = preg_replace('#/feed/?$#', '', $raw);
+//
+//        // حالت فقط @username
+//        if (str_starts_with($raw, '@')) {
+//            return "https://medium.com/feed/{$raw}";
+//        }
+//
+//        // حالت username.medium.com
+//        if (str_ends_with($raw, '.medium.com')) {
+//            return "https://{$raw}/feed";
+//        }
+//
+//        // حالت medium.com/@username
+//        if (str_starts_with($raw, 'medium.com/@')) {
+//            $username = substr($raw, strlen('medium.com/'));
+//            return "https://medium.com/feed/{$username}";
+//        }
+//
+//        // حالت medium.com/slug
+//        if (str_starts_with($raw, 'medium.com/')) {
+//            $slug = substr($raw, strlen('medium.com/'));
+//            return $slug ? "https://medium.com/feed/{$slug}" : null;
+//        }
+//
+//        // حالت username ساده بدون @ و بدون دامین
+//        if (!str_contains($raw, 'medium.com') && !str_contains($raw, '.medium.com')) {
+//            return "https://medium.com/feed/{$raw}";
+//        }
+//
+//        return null;
+//    }
 
 
     protected static function booted()

@@ -16,7 +16,7 @@
     <x-menu-item
         title="Feed"
         icon="o-rss"
-        link="{{ route('panel.feed.index') }}"
+        link="{{ route('feed.index') }}"
     />
 
     <x-menu-sub title="Settings" icon="o-cog-6-tooth">

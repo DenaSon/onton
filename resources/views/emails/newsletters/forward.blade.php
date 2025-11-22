@@ -44,7 +44,7 @@
                 visit your personalized feed:
             </p>
 
-            <a href="{{ route('panel.feed.index') }}"
+            <a href="{{ route('feed.index') }}"
                style="display: inline-block; margin-top: 8px; padding: 8px 16px; background-color: #3b82f6; color: white; text-decoration: none; font-weight: 500; border-radius: 4px;">
                 Go to My Feed
             </a>

@@ -11,7 +11,7 @@ use Livewire\Component;
 use Log;
 use Mary\Traits\Toast;
 
-#[Layout('components.layouts.user-dashboard')]
+#[Layout('components.layouts.app')]
 #[Title('Feed Index')]
 class FeedIndex extends Component
 {
@@ -31,11 +31,10 @@ class FeedIndex extends Component
 
     public function mount(): void
     {
-        $this->followedVcIds = Auth::user()->followedVCs()->pluck('vcs.id')->toArray();
+        // $this->followedVcIds = Auth::user()->followedVCs()->pluck('vcs.id')->toArray();
 
 
         $latest = Newsletter::latest()->select('id')->first();
-
 
         if ($latest) {
             $this->select($latest->id);
@@ -110,10 +109,17 @@ class FeedIndex extends Component
                 $q->where('from_email', 'like', '%@medium.com');
             })
             ->when($this->filter === 'all', function ($q) {
-
+                // no-op
             })
             ->when($this->search, function ($query) {
-                $query->where('subject', 'like', '%' . $this->search . '%');
+                $search = '%' . $this->search . '%';
+
+                $query->where(function ($q) use ($search) {
+                    $q->where('subject', 'like', $search)
+                        ->orWhereHas('vc', function ($vc) use ($search) {
+                            $vc->where('name', 'like', $search);
+                        });
+                });
             })
             ->select(['id', 'vc_id', 'subject', 'received_at'])
             ->with(['vc:id,name,logo_url'])
@@ -124,5 +130,6 @@ class FeedIndex extends Component
             'newsletters' => $newsletters,
         ]);
     }
+
 
 }
