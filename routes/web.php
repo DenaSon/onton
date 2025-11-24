@@ -13,7 +13,7 @@ use Laravel\Cashier\Http\Controllers\WebhookController;
 Route::get('/', Index::class)->name('home');
 
 Route::get('/feed', \App\Livewire\UserDashboard\Feed\FeedIndex::class)->name('feed.index');
-
+Route::get('/vc/{slug}/{vcid}', \App\Livewire\UserDashboard\Vc\DedicatePage::class)->name('vc.dedicate');
 
 Route::prefix('core')
     ->as('core.')
@@ -58,7 +58,6 @@ Route::prefix('panel')
 
         Route::get('/vc/directory', \App\Livewire\UserDashboard\Vc\VcDirectory::class)->name('vc.directory');
 
-        Route::get('/vc/{slug}/{vcid}', \App\Livewire\UserDashboard\Vc\DedicatePage::class)->name('vc.dedicate');
 
         Route::get('/payment/success', \App\Livewire\UserDashboard\Payment\SuccessPayment::class)->name('payment.success');
         Route::get('/payment/failed', \App\Livewire\UserDashboard\Payment\FailedPayment::class)->name('payment.failed');
