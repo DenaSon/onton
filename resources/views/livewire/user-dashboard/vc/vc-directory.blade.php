@@ -63,8 +63,16 @@
 
                 <x-slot:value>
                     <div class="flex items-center gap-2 text-base font-semibold text-base-content">
-                        {{ $vc->name }}
-                        @if ($vc->newsletters_count)
+
+                        <a wire:navigate.hover
+                           href="{{ route('panel.vc.dedicate', [
+                   'slug' => Str::slug($vc->name),
+                   'vcid' => $vc->id
+               ]) }}">
+                            {{ $vc->name }}
+                        </a>
+
+                    @if ($vc->newsletters_count)
                             <span class="hidden sm:inline text-xs badge badge-ghost border border-gray-300">
                                 <x-icon name="o-envelope" class="w-4 h-4 mr-1 text-gray-500" />
                                 {{ $vc->newsletters_count }}
