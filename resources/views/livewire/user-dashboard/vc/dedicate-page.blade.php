@@ -13,14 +13,14 @@
 
 <div class="max-w-6xl mx-auto px-4 py-10 space-y-10">
 
-    <!-- Breadcrumb -->
-    <div class="text-sm text-base-content/60">
-        <a href="/feed" class="link">Feed</a>
-        <span class="mx-1">/</span>
-        <a href="/vc-directory" class="link">VC Directory</a>
-        <span class="mx-1">/</span>
-        <span>{{ $vc->name }}</span>
-    </div>
+    {{--    <!-- Breadcrumb -->--}}
+    {{--    <div class="text-sm text-base-content/60">--}}
+    {{--        <a href="/feed" class="link">Feed</a>--}}
+    {{--        <span class="mx-1">/</span>--}}
+    {{--        <a href="/vc-directory" class="link">VC Directory</a>--}}
+    {{--        <span class="mx-1">/</span>--}}
+    {{--        <span>{{ $vc->name }}</span>--}}
+    {{--    </div>--}}
 
     <!-- VC Header -->
     <div class="card bg-base-100/80 backdrop-blur shadow-lg border border-base-200 rounded-2xl p-8 space-y-4">
