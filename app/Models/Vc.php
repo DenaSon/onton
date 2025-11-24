@@ -51,6 +51,12 @@ class Vc extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
+    public function getWebsiteUrlAttribute()
+    {
+        $url = $this->website;
+        return $url && !str_starts_with($url, 'http') ? 'https://' . $url : $url;
+    }
+
     /**
      * Get all tags of type 'stage' associated with this VC.
      *

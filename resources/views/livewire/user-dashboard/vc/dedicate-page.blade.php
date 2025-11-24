@@ -1,4 +1,17 @@
-<div class="max-w-6xl mx-auto px-4 py-8 space-y-6">
+@php
+    /**
+     * Normalize external URLs so they always open correctly.
+     */
+    function external_url(?string $url): ?string {
+        if (! $url) return null;
+
+        return preg_match('~^https?://~i', $url)
+            ? $url
+            : 'https://' . $url;
+    }
+@endphp
+
+<div class="max-w-6xl mx-auto px-4 py-10 space-y-10">
 
     <!-- Breadcrumb -->
     <div class="text-sm text-base-content/60">
@@ -6,170 +19,149 @@
         <span class="mx-1">/</span>
         <a href="/vc-directory" class="link">VC Directory</a>
         <span class="mx-1">/</span>
-        <span>VC Name</span>
+        <span>{{ $vc->name }}</span>
     </div>
 
     <!-- VC Header -->
-    <div class="card bg-base-100 shadow-md p-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+    <div class="card bg-base-100/80 backdrop-blur shadow-lg border border-base-200 rounded-2xl p-8 space-y-4">
 
-        <!-- Left: Logo + Name + Description -->
-        <div class="flex items-start gap-4">
-            <img src="{{ asset($vc->logo) }}"/>
-            class="w-16 h-16 rounded-xl object-cover"
-            alt="VC Logo">
+        <div class="flex items-start gap-6 flex-col lg:flex-row lg:items-center lg:justify-between">
 
-            <div class="space-y-1">
-                <div class="flex items-center gap-2 flex-wrap">
-                    <h1 class="text-2xl font-bold">VC Firm Name</h1>
-                    <span class="badge badge-outline">Country</span>
+            <!-- Left: Logo + Name -->
+            <div class="flex items-start gap-5">
+                <img src="{{ asset($vc->logo_url ?? 'static/img/no-vc-placeholder.png') }}"
+                     class="w-20 h-20 rounded-2xl object-cover shadow-sm"
+                     alt="VC Logo">
+
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <h1 class="text-3xl font-bold leading-tight">{{ $vc->name }}</h1>
+                        <span class="badge badge-outline badge-lg">{{ $vc->country }}</span>
+                    </div>
+
+                    <!-- Tags Below Name (Chip Bar) -->
+                    @if($vc->tags->isNotEmpty())
+                        <div class="flex flex-wrap gap-2 text-xs mt-2">
+                            @foreach($vc->tags as $tag)
+                                <span class="badge badge-outline badge-sm rounded-full">
+                                    {{ $tag->name }}
+                                </span>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
-                <p class="text-sm text-base-content/70 max-w-xl">
-                    Short description of the VC firm. This text explains what the company does
-                    and what kind of startups they invest in.
-                </p>
             </div>
-        </div>
-
-        <!-- Right: Links (horizontal) -->
-        <div class="flex flex-wrap gap-2 justify-start lg:justify-end">
-            <button class="btn btn-sm btn-ghost">Website</button>
-            <button class="btn btn-sm btn-ghost">Substack</button>
-            <button class="btn btn-sm btn-ghost">Medium</button>
-            <button class="btn btn-sm btn-ghost">Blog</button>
-            <button class="btn btn-sm btn-ghost">LinkedIn</button>
-            <button class="btn btn-sm btn-ghost">X</button>
         </div>
 
     </div>
 
+    <div class="divider my-0"></div>
+
     <!-- Main Layout -->
-    <div class="grid gap-6 lg:grid-cols-[2fr,3fr]">
+    <div class="grid gap-8 lg:grid-cols-[1.8fr,2.2fr] items-start">
 
-        <!-- Left: Company Info -->
-        <div class="space-y-4">
+        <!-- LEFT SECTION -->
+        <div class="space-y-6">
 
-            <!-- Company info block -->
-            <div class="card bg-base-100 shadow-sm p-4 space-y-3">
-                <h2 class="text-lg font-semibold">Company information</h2>
+            <!-- Company Info -->
+            <div class="card bg-base-100 shadow-sm border border-base-200 rounded-2xl p-6 space-y-4">
+                <h2 class="text-lg font-semibold">Company Information</h2>
 
-                <dl class="text-sm space-y-2">
-                    <div class="flex justify-between gap-4">
-                        <dt class="text-base-content/60">Website</dt>
-                        <dd class="text-right">
-                            <a href="#" class="link link-hover">https://vcwebsite.com</a>
-                        </dd>
-                    </div>
-                    <div class="flex justify-between gap-4">
-                        <dt class="text-base-content/60">Substack</dt>
-                        <dd class="text-right">
-                            <a href="#" class="link link-hover">substack.com/@vcname</a>
-                        </dd>
-                    </div>
-                    <div class="flex justify-between gap-4">
-                        <dt class="text-base-content/60">Medium</dt>
-                        <dd class="text-right">
-                            <a href="#" class="link link-hover">medium.com/@vcname</a>
-                        </dd>
-                    </div>
-                    <div class="flex justify-between gap-4">
-                        <dt class="text-base-content/60">LinkedIn</dt>
-                        <dd class="text-right">
-                            <a href="#" class="link link-hover">linkedin.com/company/vcname</a>
-                        </dd>
-                    </div>
+                <dl class="text-sm">
+
+                    @if($vc->website)
+                        <div class="flex items-center justify-between py-1.5 border-b border-base-200/60">
+                            <dt class="text-xs uppercase tracking-wide text-base-content/50">Website</dt>
+                            <dd class="text-right font-medium max-w-[240px] truncate">
+                                <a href="{{ external_url($vc->website) }}" class="link link-hover" target="_blank">
+                                    {{ external_url($vc->website) }}
+                                </a>
+                            </dd>
+                        </div>
+                    @endif
+
+                    @if($vc->substack_url)
+                        <div class="flex items-center justify-between py-1.5 border-b border-base-200/60">
+                            <dt class="text-xs uppercase tracking-wide text-base-content/50">Substack</dt>
+                            <dd class="text-right font-medium max-w-[240px] truncate">
+                                <a href="{{ external_url($vc->substack_url) }}" class="link link-hover" target="_blank">
+                                    {{ external_url($vc->substack_url) }}
+                                </a>
+                            </dd>
+                        </div>
+                    @endif
+
+                    @if($vc->medium_url)
+                        <div class="flex items-center justify-between py-1.5 border-b border-base-200/60">
+                            <dt class="text-xs uppercase tracking-wide text-base-content/50">Medium</dt>
+                            <dd class="text-right font-medium max-w-[240px] truncate">
+                                <a href="{{ external_url($vc->medium_url) }}" class="link link-hover" target="_blank">
+                                    {{ external_url($vc->medium_url) }}
+                                </a>
+                            </dd>
+                        </div>
+                    @endif
+
+                    @if($vc->blog_url)
+                        <div class="flex items-center justify-between py-1.5 border-b border-base-200/60">
+                            <dt class="text-xs uppercase tracking-wide text-base-content/50">Blog</dt>
+                            <dd class="text-right font-medium max-w-[240px] truncate">
+                                <a href="{{ external_url($vc->blog_url) }}" class="link link-hover" target="_blank">
+                                    {{ external_url($vc->blog_url) }}
+                                </a>
+                            </dd>
+                        </div>
+                    @endif
+
+                    @if($vc->linkedin_url)
+                        <div class="flex items-center justify-between py-1.5 border-b border-base-200/60">
+                            <dt class="text-xs uppercase tracking-wide text-base-content/50">LinkedIn</dt>
+                            <dd class="text-right font-medium max-w-[240px] truncate">
+                                <a href="{{ external_url($vc->linkedin_url) }}" class="link link-hover" target="_blank">
+                                    {{ external_url($vc->linkedin_url) }}
+                                </a>
+                            </dd>
+                        </div>
+                    @endif
+
+                    @if(!empty($vc->official_x_accounts) || !empty($vc->staff_x_accounts))
+                        <div class="flex items-center justify-between py-1.5">
+                            <dt class="text-xs uppercase tracking-wide text-base-content/50">X Accounts</dt>
+                            <dd class="text-right flex flex-wrap gap-1 justify-end">
+
+                                @if(!empty($vc->official_x_accounts))
+                                    @foreach($vc->official_x_accounts as $acc)
+                                        @php $handle = ltrim($acc, '@'); @endphp
+                                        <a href="https://twitter.com/{{ $handle }}"
+                                           target="_blank"
+                                           class="badge badge-outline badge-sm rounded-full hover:bg-base-200 transition">
+                                            {{ '@'.$handle }}
+                                        </a>
+                                    @endforeach
+                                @endif
+
+                                @if(!empty($vc->staff_x_accounts))
+                                    @foreach($vc->staff_x_accounts as $acc)
+                                        @php $handle = ltrim($acc, '@'); @endphp
+                                        <a href="https://twitter.com/{{ $handle }}"
+                                           target="_blank"
+                                           class="badge badge-outline badge-sm rounded-full hover:bg-base-200 transition">
+                                            {{ '@'.$handle }}
+                                        </a>
+                                    @endforeach
+                                @endif
+
+                            </dd>
+                        </div>
+                    @endif
+
                 </dl>
             </div>
 
-            <!-- Tags -->
-            <div class="card bg-base-100 shadow-sm p-4 space-y-3">
-                <h3 class="text-sm font-semibold">Tags</h3>
-                <div class="flex flex-wrap gap-2 text-xs">
-                    <span class="badge badge-outline">Fintech</span>
-                    <span class="badge badge-outline">Seed</span>
-                    <span class="badge badge-outline">Europe</span>
-                </div>
-            </div>
-
-            <!-- Portfolio preview (optional) -->
-            <div class="card bg-base-100 shadow-sm p-4 space-y-3">
-                <h3 class="text-sm font-semibold">Selected portfolio</h3>
-                <ul class="text-sm space-y-1 list-disc list-inside">
-                    <li>Startup One</li>
-                    <li>Startup Two</li>
-                    <li>Startup Three</li>
-                </ul>
-            </div>
-
         </div>
 
-        <!-- Right: Latest Content -->
-        <div class="space-y-4">
-
-            <div class="card bg-base-100 shadow-sm p-4">
-                <div class="flex items-center justify-between mb-3">
-                    <div>
-                        <h2 class="text-lg font-semibold">Latest content</h2>
-                        <p class="text-xs text-base-content/60">
-                            Newsletter titles related to this VC.
-                            Full content requires a trial or subscription.
-                        </p>
-                    </div>
-                    <span class="badge badge-outline text-xs">Public view</span>
-                </div>
-
-                <!-- Table-style list -->
-                <div class="overflow-x-auto">
-                    <table class="table table-sm">
-                        <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Date</th>
-                            <th>Source</th>
-                            <th class="text-right">Access</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="opacity-80">
-                            <td>Q4 Market Update: AI & Infra</td>
-                            <td>2025-11-10</td>
-                            <td>Substack</td>
-                            <td class="text-right">
-                                <span class="badge badge-outline badge-sm">Locked</span>
-                            </td>
-                        </tr>
-                        <tr class="opacity-80">
-                            <td>Why we invested in ExampleCorp</td>
-                            <td>2025-11-05</td>
-                            <td>Email</td>
-                            <td class="text-right">
-                                <span class="badge badge-outline badge-sm">Locked</span>
-                            </td>
-                        </tr>
-                        <tr class="opacity-80">
-                            <td>State of European Seed 2025</td>
-                            <td>2025-10-30</td>
-                            <td>Medium</td>
-                            <td class="text-right">
-                                <span class="badge badge-outline badge-sm">Locked</span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- CTA -->
-                <div class="mt-4 flex items-center justify-between gap-3">
-                    <p class="text-xs text-base-content/60">
-                        Start a free trial to read full newsletters from this VC.
-                    </p>
-                    <button class="btn btn-primary btn-sm">
-                        Start trial
-                    </button>
-                </div>
-            </div>
-
-        </div>
+        <!-- RIGHT SECTION -->
+        @include('livewire.user-dashboard.vc._partials.newsletters-trials')
 
     </div>
-
 </div>

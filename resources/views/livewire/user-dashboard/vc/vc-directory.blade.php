@@ -101,7 +101,9 @@
         @empty
             <div class="flex flex-col items-center justify-center py-16 text-center text-sm text-gray-500">
                 <x-icon name="o-inbox-stack" class="w-10 h-10 mb-4 text-primary/70 group-hover:scale-105 transition duration-300" />
+
                 No VC firms to display.
+
             </div>
         @endforelse
     </x-card>
