@@ -65,7 +65,7 @@
                     <div class="flex items-center gap-2 text-base font-semibold text-base-content">
 
                         <a wire:navigate.hover
-                           href="{{ route('panel.vc.dedicate', [
+                           href="{{ route('vc.dedicate', [
                    'slug' => Str::slug($vc->name),
                    'vcid' => $vc->id
                ]) }}">
