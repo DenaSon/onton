@@ -29,7 +29,8 @@
 
             <!-- Left: Logo + Name -->
             <div class="flex items-start gap-5">
-                <img src="{{ asset($vc->logo_url ?? 'static/img/no-vc-placeholder.png') }}"
+                <img
+                    src="{{ $vc->logo_url ? asset('storage/' . $vc->logo_url) : asset('static/img/no-vc-placeholder.png') }}"
                      class="w-20 h-20 rounded-2xl object-cover shadow-sm"
                      alt="VC Logo">
 
