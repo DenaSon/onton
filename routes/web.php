@@ -10,17 +10,18 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Cashier\Http\Controllers\WebhookController;
 
 
-Route::get('/', Index::class)->name('home');
+Route::get('/home', Index::class)->name('home');
 
-Route::get('/feed', \App\Livewire\UserDashboard\Feed\FeedIndex::class)->name('feed.index');
+Route::get('/', \App\Livewire\UserDashboard\Feed\FeedIndex::class)->name('feed.index');
+Route::get('/vc/directory', \App\Livewire\UserDashboard\Vc\VcDirectory::class)->name('vc.directory');
 Route::get('/vc/{slug}/{vcid}', \App\Livewire\UserDashboard\Vc\DedicatePage::class)->name('vc.dedicate');
 
 Route::prefix('core')
     ->as('core.')
     ->middleware(['web', 'auth', 'verified', RoleMiddleware::class . ':admin'])
     ->group(function () {
-        Route::get('/', \App\Livewire\AdminDashboard\Index::class)->name('index');
 
+        Route::get('/', \App\Livewire\AdminDashboard\Index::class)->name('index');
 
         Route::get('/users', \App\Livewire\AdminDashboard\Users\UserIndex::class)->name('users.index');
         Route::get('log-viewer', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('log-viewer.index');
@@ -55,8 +56,6 @@ Route::prefix('panel')
         Route::get('/profile', \App\Livewire\UserDashboard\Profile\EditProfile::class)->name('profile.edit');
 
         Route::get('/setting/delivery', DeliverySetting::class)->name('setting.delivery');
-
-        Route::get('/vc/directory', \App\Livewire\UserDashboard\Vc\VcDirectory::class)->name('vc.directory');
 
 
         Route::get('/payment/success', \App\Livewire\UserDashboard\Payment\SuccessPayment::class)->name('payment.success');

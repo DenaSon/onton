@@ -10,7 +10,7 @@
 
         title="VC Directory"
         icon="o-inbox-stack"
-        link="{{ route('panel.vc.directory') }}"
+        link="{{ route('vc.directory') }}"
     />
 
     <x-menu-item

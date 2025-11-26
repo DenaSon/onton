@@ -17,11 +17,11 @@
 
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    @include('components.layouts.inc.google-tag-manager')
 </head>
 
 <body class="font-sans bg-base-200">
-
+@include('components.layouts.inc.google-tag-manager-noscript')
 
 @include('components.layouts.navbar.user-navbar')
 

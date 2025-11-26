@@ -39,7 +39,7 @@
         </div>
 
         <div class="mt-2 text-center sm:text-right">
-            <a href="{{ route('panel.vc.directory') }}" class="text-xs text-secondary hover:underline font-semibold">
+            <a href="{{ route('vc.directory') }}" class="text-xs text-secondary hover:underline font-semibold">
                 Explore more VC firms →
             </a>
         </div>

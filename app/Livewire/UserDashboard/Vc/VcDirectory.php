@@ -10,7 +10,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
-#[Layout('components.layouts.user-dashboard')]
+#[Layout('components.layouts.app')]
 #[Title('VC Directory')]
 class VcDirectory extends Component
 {
@@ -55,8 +55,11 @@ class VcDirectory extends Component
 
     public function render()
     {
+
         $user = auth()->user();
-        $this->followedVcIds = $user->followedVCs()->pluck('vcs.id')->toArray();
+        if ($user) {
+            $this->followedVcIds = $user->followedVCs()->pluck('vcs.id')->toArray();
+        }
 
         $vcs = Vc::query()
             ->select('vcs.id', 'vcs.name', 'vcs.logo_url')

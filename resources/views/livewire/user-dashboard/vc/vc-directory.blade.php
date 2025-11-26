@@ -90,13 +90,15 @@
                     </div>
                 </x-slot:sub-value>
 
-                <x-slot:actions>
-                    <livewire:user-dashboard.vc.components.follow-unfollow-btn
-                        :vc="$vc"
-                        :followedVcIds="$this->followedVcIds"
-                        :wire:key="'follow-btn-' . $vc->id"
-                    />
-                </x-slot:actions>
+                @auth
+                    <x-slot:actions>
+                        <livewire:user-dashboard.vc.components.follow-unfollow-btn
+                            :vc="$vc"
+                            :followedVcIds="$this->followedVcIds"
+                            :wire:key="'follow-btn-' . $vc->id"
+                        />
+                    </x-slot:actions>
+                @endauth
             </x-list-item>
         @empty
             <div class="flex flex-col items-center justify-center py-16 text-center text-sm text-gray-500">

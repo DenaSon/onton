@@ -35,16 +35,15 @@
 
         <section aria-labelledby="footer-subscribe">
             <h3 id="footer-subscribe" class="font-semibold text-base-content mb-3">Subscribe</h3>
-            <p class="text-sm mb-3 text-base-content/60">Get curated updates</p>
+            <p class="text-sm mb-3 text-base-content/60">
+                Join our Substack newsletter
+            </p>
 
             @livewire('home.subscribe-form')
-
         </section>
 
-    </div>
 
-
-    <div class="mt-12 border-t border-base-300 pt-6 text-sm text-center text-base-content/60">
+        <div class="mt-12 border-t border-base-300 pt-6 text-sm text-center text-base-content/60">
         <small>
             © <span x-data="{ year: new Date().getFullYear() }" x-text="year"></span>
             {{ config('app.name') }}. All rights reserved.

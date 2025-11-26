@@ -1,14 +1,52 @@
 <section class="p-4 bg-base-200 min-h-screen" id="vcFirmsIndex">
-    <x-card title="All VC Firms" subtitle="Manage all listed VC firms" separator>
+    <x-card title="All VC Firms" subtitle="Manage all listed VC firms" separator progress-indicator="setLetters">
 
         {{-- Top Filters --}}
-        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
             <x-input class="input-sm w-full sm:w-64"
                      inline
                      label="Search"
                      wire:model.live.debounce.100ms="search"
                      placeholder="Search by name or website"
                      icon="o-magnifying-glass"/>
+        </div>
+
+        {{-- Alphabet navigation --}}
+        <div class="mb-4 flex flex-wrap items-center gap-1 bg-base-100 border border-base-300 rounded-xl px-3 py-2">
+            <button
+                wire:click="setLetter(null)"
+                class="px-2 py-1 text-xs font-semibold rounded cursor-pointer hover:text-primary"
+                @class([
+                    'bg-primary text-primary-content' => empty($letter),
+                    'opacity-80' => !empty($letter),
+                ])
+            >
+                All
+            </button>
+
+            <button
+                wire:click="setLetter('#')"
+                class="px-2 py-1 text-xs font-semibold rounded cursor-pointer hover:text-primary"
+                @class([
+                    'bg-primary text-primary-content' => $letter === '#',
+                    'opacity-80' => $letter !== '#',
+                ])
+            >
+                #
+            </button>
+
+            @foreach(range('A','Z') as $L)
+                <button
+                    wire:click="setLetter('{{ $L }}')"
+                    class="px-2 py-1 text-xs font-semibold rounded cursor-pointer hover:text-primary"
+                    @class([
+                        'bg-primary text-primary-content' => $letter === $L,
+                        'opacity-80' => $letter !== $L,
+                    ])
+                >
+                    {{ $L }}
+                </button>
+            @endforeach
         </div>
 
         @php
@@ -31,15 +69,10 @@
             :rows="$vcFirms"
             empty-text="No records found."
             empty="No records found."
-
         >
-
-
             {{-- Expandable Section --}}
             @scope('expansion', $vcFirm)
-
             @include('livewire.admin-dashboard.vc-firms._partials.vc-expansion')
-
             @endscope
 
             {{-- Status Badge --}}
@@ -69,7 +102,6 @@
                 />
             </div>
             @endscope
-
         </x-table>
 
         <div class="mt-4">

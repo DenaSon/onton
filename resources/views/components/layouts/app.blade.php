@@ -14,10 +14,14 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+
+    @include('components.layouts.inc.google-tag-manager')
+
+
 </head>
 
 <body class="font-sans antialiased">
-
+@include('components.layouts.inc.google-tag-manager-noscript')
     <x-ui.home.navbar/>
 
 <x-main with-nav>

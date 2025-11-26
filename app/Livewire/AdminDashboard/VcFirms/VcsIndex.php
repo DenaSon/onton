@@ -11,19 +11,29 @@ use Mary\Traits\Toast;
 #[Layout('components.layouts.admin-dashboard')]
 class VcsIndex extends Component
 {
-    use WithPagination,Toast;
+    use WithPagination, Toast;
 
     public array $sortBy = ['column' => 'created_at', 'direction' => 'desc'];
 
-
     public string $search = '';
     public array $expanded = [];
-
     public int $perPage = 12;
+
+    public ?string $letter = null; // A-Z or '#'
 
     public function updatingSearch(): void
     {
         $this->resetPage();
+    }
+
+    public function setLetter(?string $letter = null): void
+    {
+        $letter = $letter ? strtoupper($letter) : null;
+
+        if ($letter === null || preg_match('/^[A-Z]$/', $letter) || $letter === '#') {
+            $this->letter = $letter;
+            $this->resetPage();
+        }
     }
 
     public function delete($id): void
@@ -49,11 +59,19 @@ class VcsIndex extends Component
             ->withCount([
                 'newsletters',
             ])
-            ->when($this->search, fn($query) =>
-            $query->where('name', 'like', "{$this->search}%")
-                ->orWhere('website', 'like', "{$this->search}%")
-            )
-           // ->orderByDesc('created_at')
+            ->when($this->letter, function ($query) {
+                if ($this->letter === '#') {
+                    $query->whereRaw("LEFT(name,1) NOT REGEXP '^[A-Za-z]'");
+                } else {
+                    $query->where('name', 'like', $this->letter . '%');
+                }
+            })
+            ->when($this->search, function ($query) {
+                $query->where(function ($q) {
+                    $q->where('name', 'like', "{$this->search}%")
+                        ->orWhere('website', 'like', "{$this->search}%");
+                });
+            })
             ->orderBy(...array_values($this->sortBy))
             ->paginate($this->perPage);
 

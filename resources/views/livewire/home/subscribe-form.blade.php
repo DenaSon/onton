@@ -1,30 +1,9 @@
-<x-form
-    wire:submit="saveNewsletterEmail"
-    class="flex flex-row sm:flex-row items-start sm:items-center gap-2"
-    aria-label="Subscribe form"
->
-    {{-- Input --}}
-    <x-input
-        wire:model="email"
-        type="email"
-        placeholder="you@example.com"
-        label="Email"
+<div class="flex items-center">
+    <x-button
+        external
+        link="https://www.byblos.digital/subscribe?utm_source=menu&simple=true&next=https%3A%2F%2Fwww.byblos.digital%2F"
+        class="btn-primary"
+        label="Subscribe"
         icon="o-envelope"
-        class="w-full sm:flex-1"
-        inline
-
-    >
-        <x-slot:append>
-
-            <x-button
-                type="submit"
-                class="join-item btn-primary"
-                label="Join"
-                spinner="saveNewsletterEmail"
-            />
-
-        </x-slot:append>
-
-    </x-input>
-
-</x-form>
+    />
+</div>
