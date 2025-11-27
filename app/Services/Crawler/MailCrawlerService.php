@@ -320,39 +320,7 @@ class MailCrawlerService
         return $this->messages;
     }
 
-    public function folderIsEmpty(): bool
-    {
-        return $this->emptyFolder;
-    }
 
-    /**
-     * Logs all available folders for the given IMAP account.
-     *
-     * Useful for discovering the correct folder names (e.g., [Gmail]/Spam).
-     *
-     * @param string $account
-     * @return void
-     */
-    public function logAllFolders(string $account = 'default'): void
-    {
-        try {
-            $client = $this->imapConnection($account);
-            $folders = $client->getFolders(false); // false = non-recursive
-
-            \Log::info("[MailCrawlerService] Folders found for account '{$account}':");
-
-            foreach ($folders as $folder) {
-                \Log::info(" - " . $folder->name);
-            }
-
-            $client->disconnect();
-        } catch (\Throwable $e) {
-            \Log::error("[MailCrawlerService] Failed to list folders: " . $e->getMessage(), [
-                'exception' => get_class($e),
-                'trace' => $e->getTraceAsString(),
-            ]);
-        }
-    }
 
 
 }
