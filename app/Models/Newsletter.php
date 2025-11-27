@@ -4,6 +4,8 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Newsletter extends Model
@@ -39,42 +41,13 @@ class Newsletter extends Model
         return $this->tags()->where('type', 'industry');
     }
 
-    public function vc()
+    public function vc(): BelongsTo
     {
         return $this->belongsTo(Vc::class);
     }
 
 
-    public function sentToUsers()
-    {
-        return $this->belongsToMany(User::class, 'newsletter_user_sends')
-            ->withPivot('sent_at')
-            ->withTimestamps();
-    }
 
-    public function getBodyPreview(int $limit = 250): string
-    {
-        $text = $this->body_plain ?? '';
-
-
-        $text = strip_tags($text);
-
-
-        $paragraphs = collect(preg_split('/\r\n|\r|\n/', $text))
-            ->map(fn($p) => trim($p))
-            ->filter(function ($p) {
-
-                return $p !== ''
-                    && !preg_match('/^\[image.*\]$/i', $p)
-                    && !preg_match('/^https?:\/\/\S+$/i', $p)
-                    && strlen(strip_tags($p)) > 10;
-            });
-
-
-        $body = $paragraphs->first() ?? '';
-
-        return \Str::limit($body, $limit);
-    }
 
 
 
