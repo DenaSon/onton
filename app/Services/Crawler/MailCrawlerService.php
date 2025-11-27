@@ -271,61 +271,7 @@ class MailCrawlerService
      * @param string|null $basePath
      * @return MailCrawlerService List of saved attachment file names
      */
-    public function saveAttachments(?string $basePath = null): self
-    {
 
-        $basePath = $basePath ?? storage_path('app/attachments/' . date('Ymd'));
-        $baseUrl = str_replace(storage_path('app'), '/storage', $basePath);
-
-        $totalMessages = count($this->messages);
-        $totalAttachments = 0;
-        $savedCount = 0;
-        $errorCount = 0;
-
-        foreach ($this->messages as &$message) {
-            if (!isset($message['__raw']) || !($message['__raw'] instanceof Message)) {
-                continue;
-            }
-
-            $rawMessage = $message['__raw'];
-
-            if (!$rawMessage->hasAttachments()) {
-                continue;
-            }
-
-            $attachments = [];
-
-            foreach ($rawMessage->getAttachments() as $attachment) {
-                $totalAttachments++;
-
-                try {
-                    $filename = $attachment->getName();
-                    $attachment->save($basePath);
-
-                    $attachments[] = [
-                        'name' => $filename,
-                        'path' => $basePath . DIRECTORY_SEPARATOR . $filename,
-                        'url' => $baseUrl . '/' . $filename,
-                        'size' => $attachment->getSize(),
-                        'type' => $attachment->getMimeType(),
-                    ];
-
-                    $savedCount++;
-                } catch (\Throwable $e) {
-                    $errorCount++;
-                    \Log::error("[MailCrawlerService] Failed to save attachment '{$attachment->getName()}'", [
-                        'error' => $e->getMessage(),
-                    ]);
-                }
-            }
-
-            $message['attachments'] = $attachments;
-        }
-
-        \Log::info("[MailCrawlerService] Attachments processing completed. Messages: {$totalMessages}, Attachments found: {$totalAttachments}, Saved: {$savedCount}, Failed: {$errorCount}");
-
-        return $this;
-    }
 
 
     /**
