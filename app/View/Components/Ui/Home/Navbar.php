@@ -17,21 +17,24 @@ class Navbar extends Component
 
     public function render(): View|Closure|string
     {
-
         $mainMenuItems = [
-            ['title' => 'Home', 'route' => route('home'),'class' => 'font-bold'],
-            ['title' => 'Features', 'route' => '#1'],
-            ['title' => 'About Us', 'route' => '#3'],
-            ['title' => 'Contact Us', 'route' => '#4'],
-            ['title' => 'FAQ', 'route' => '#5'],
-            ['title' => 'Terms of Service', 'route' => '#'],
-            ['title' => 'Privacy Policy', 'route' => '#'],
+            ['title' => 'Home', 'route' => 'https://www.byblos.digital/', 'external' => true],
+            ['title' => 'Investor Digest', 'route' => 'https://www.byblos.digital/s/investor-digest', 'external' => true],
+            ['title' => 'The Tranches', 'route' => 'https://www.byblos.digital/s/the-tranches', 'external' => true],
+
+            // Internal Laravel routes
+            ['title' => 'VC Newsletter Aggregator', 'route' => route('feed.index'), 'external' => false],
+            ['title' => 'VC Directory', 'route' => route('vc.directory'), 'external' => false],
+
+            ['title' => 'Resources', 'route' => 'https://www.byblos.digital/s/resources', 'external' => true],
+            ['title' => 'Contact', 'route' => 'https://www.byblos.digital/p/contact', 'external' => true],
+            ['title' => 'About', 'route' => 'https://www.byblos.digital/about', 'external' => true],
         ];
-
-
 
         return view('components.ui.home.navbar', [
             'mainMenuItems' => $mainMenuItems,
         ]);
     }
+
+
 }
