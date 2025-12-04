@@ -44,13 +44,17 @@ class Index extends Component
             //->where('source', 'email')
             ->count();
 
-        $this->substackNewslettersLastWeek = (clone $baseQuery)
-            //->where('source', 'substack')
-            ->count();
+        $this->substackNewslettersLastWeek =
 
-        $this->mediumUpdatesLastWeek = (clone $baseQuery)
-            //->where('source', 'medium')
-            ->count();
+            Newsletter::query()
+                ->where('received_at', '>=', $oneWeekAgo)
+                ->whereRaw("SUBSTRING_INDEX(from_email, '@', -1) = 'substack.com'")->count();
+
+
+        $this->mediumUpdatesLastWeek = 0;
+//            (clone $baseQuery)
+//            //->where('source', 'medium')
+//            ->count();
 
         // Trial logic
         $subscription = $user?->subscription('default');

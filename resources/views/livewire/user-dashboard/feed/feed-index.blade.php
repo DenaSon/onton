@@ -9,12 +9,14 @@
             data-feed-scroll
         >
             <div class="divide-y divide-base-300">
-                <div class="divide-y divide-y-[0.5px] divide-base-300" wire:poll.30s>
+                <div class="divide-y divide-y-[0.5px] divide-base-300">
                     @forelse($newsletters as $newsletter)
                         @php
                             $receivedAt = $newsletter->received_at;
                             $shortTime = $receivedAt?->shortAbsoluteDiffForHumans() ?? '';
                         @endphp
+
+
 
                         <article
                             class="group flex items-center gap-3 p-2 hover:bg-base-200/40 transition rounded-lg cursor-pointer"
@@ -45,6 +47,11 @@
                             >
                                 <x-icon name="o-chevron-right" class="w-4 h-4"/>
                             </button>
+
+                                <x-button spinner icon="o-rss" class="btn btn-xs"
+                                          wire:click="showMediumModal({{ $newsletter->id }})"/>
+
+
                         </article>
 
                     @empty
@@ -166,4 +173,6 @@
             setupInfiniteScroll();
         });
     </script>
+    <livewire:user-dashboard.feed.components.medium/>
+
 </div>

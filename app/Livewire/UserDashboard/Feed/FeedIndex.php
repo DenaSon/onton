@@ -42,6 +42,19 @@ class FeedIndex extends Component
     }
 
 
+    public function showMediumModal($newsletterId)
+    {
+        $newsletter = Newsletter::select('id', 'vc_id')
+            ->with(['vc:id,medium_url'])
+            ->findOrFail($newsletterId);
+
+        $mediumUsername = $newsletter->vc->medium_url;
+
+        $this->dispatch('openMediumModal', $mediumUsername);
+    }
+
+
+
 
     public function select(int $id): void
     {
