@@ -5,9 +5,12 @@
                 {{-- Header مودال --}}
                 <div class="flex items-center justify-between px-5 py-3 border-b border-base-200">
                     <div>
-                        <h3 class="font-semibold text-base">
-                            Medium posts
-                        </h3>
+                        <div class="flex items-center gap-2">
+                            <x-icon name="o-rss" class="w-5 h-5 text-primary"/>
+                            <h3 class="text-lg font-semibold tracking-tight text-base-content">
+                                Medium posts
+                            </h3>
+                        </div>
                         @if(!empty($items))
                             <p class="text-[11px] text-base-content/60 mt-0.5">
                                 Showing {{ count($items) }} recent articles from this VC’s Medium feed.
@@ -16,16 +19,16 @@
                     </div>
 
                     <button
-                        class="btn btn-xs btn-ghost"
                         wire:click="close"
                         type="button"
+                        class="p-1.5 rounded-lg hover:bg-base-200 transition text-base-content/70 hover:text-base-content"
                     >
-                        ✕
+                        <x-icon name="o-x-mark" class="w-4 h-4"/>
                     </button>
                 </div>
 
                 {{-- Body مودال --}}
-                <div class="px-5 py-4">
+                <div class="px-5 py-4 max-h-[70vh] overflow-y-auto">
                     {{-- وضعیت لودینگ --}}
                     @if($loading)
                         <div class="flex items-center justify-center py-10">
@@ -40,12 +43,16 @@
 
                         {{-- محتوا --}}
                     @elseif(!empty($items))
-                        <div class="grid gap-4 md:grid-cols-5 max-h-[70vh]">
-                            {{-- ستون چپ: لیست پست‌ها --}}
+                        <div class="grid gap-4 md:grid-cols-5">
+                            {{-- ستون چپ: لیست پست‌ها (sticky) --}}
                             <div
-                                class="md:col-span-2 border border-base-300 rounded-xl bg-base-100 flex flex-col overflow-hidden">
+                                class="md:col-span-2 border border-base-300 rounded-xl bg-base-100 flex flex-col
+                                       sticky top-0 self-start"
+                            >
                                 <div
-                                    class="px-3 py-2 border-b border-base-200 text-[11px] text-base-content/60 flex items-center justify-between">
+                                    class="px-3 py-2 border-b border-base-200 text-[11px] text-base-content/60
+                                           flex items-center justify-between"
+                                >
                                     <span class="font-medium">
                                         Posts
                                     </span>
@@ -98,7 +105,6 @@
                                                             </span>
                                                         @endif
                                                     </div>
-
                                                 </button>
                                             </li>
                                         @endforeach
@@ -135,7 +141,7 @@
                                             : null;
                                     @endphp
 
-
+                                    {{-- Header پست (چسبان داخل ستون راست) --}}
                                     <div class="sticky top-0 z-10 bg-base-100 border-b border-base-200 px-4 pt-3 pb-3">
                                         <a
                                             href="{{ $link }}"
@@ -177,19 +183,10 @@
                                             </div>
                                         @endif
 
-                                        <div class="mt-2">
-                                            <a
-                                                href="{{ $link }}"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                class="btn btn-xxs btn-outline"
-                                            >
-                                                Read on Medium
-                                            </a>
-                                        </div>
+
                                     </div>
 
-
+                                    {{-- محتوای کامل HTML --}}
                                     <div class="flex-1 overflow-y-auto px-4 pb-4 pt-2">
                                         <div class="prose prose-sm max-w-none">
                                             {!! $contentHtml !!}
@@ -210,8 +207,6 @@
                         </p>
                     @endif
                 </div>
-
-
             </div>
         </div>
     @endif
