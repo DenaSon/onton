@@ -49,8 +49,16 @@
 
                                 {{--                            <x-button spinner icon="o-rss" class="btn btn-xs"  wire:click="showMediumModal({{ $newsletter->id }})"/> --}}
 
-                                <a target="_blank" href="{{ $newsletter->vc?->medium_url ?? 'VC' }}" class="btn btn-xs">
-                                    Posts </a>
+                                @php
+                                    $mediumUrl = $newsletter->vc?->medium_url;
+                                    if ($mediumUrl && !str_starts_with($mediumUrl, 'http')) {
+                                        $mediumUrl = 'https://' . $mediumUrl;
+                                    }
+                                @endphp
+
+                                <a target="_blank" href="{{ $mediumUrl }}" class="btn btn-xs">
+                                    Posts
+                                </a>
 
 
                         </article>
