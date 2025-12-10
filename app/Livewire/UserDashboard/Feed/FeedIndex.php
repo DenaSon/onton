@@ -134,8 +134,8 @@ class FeedIndex extends Component
                         });
                 });
             })
-            ->select(['id', 'vc_id', 'subject', 'received_at'])
-            ->with(['vc:id,name,logo_url'])
+            ->select('*')
+            ->with(['vc'])
             ->orderByDesc('received_at')
             ->simplePaginate($this->perPage);
 

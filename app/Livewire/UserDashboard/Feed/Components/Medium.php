@@ -23,7 +23,7 @@ class Medium extends Component
     #[On('openMediumModal')]
     public function openMediumModal(string $mediumUrl): void
     {
-        // ریست وضعیت
+
         $this->resetErrorBag();
         $this->resetValidation();
 

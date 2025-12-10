@@ -1,1 +1,3 @@
-{{ $selected->vc()->first()->medium_url  }}
+<di>
+
+</di>

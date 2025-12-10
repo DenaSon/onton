@@ -16,8 +16,6 @@
                             $shortTime = $receivedAt?->shortAbsoluteDiffForHumans() ?? '';
                         @endphp
 
-
-
                         <article
                             class="group flex items-center gap-3 p-2 hover:bg-base-200/40 transition rounded-lg cursor-pointer"
                             wire:click="select({{ $newsletter->id }})"
@@ -46,10 +44,13 @@
                                 title="Open"
                             >
                                 <x-icon name="o-chevron-right" class="w-4 h-4"/>
+
                             </button>
 
-                                <x-button spinner icon="o-rss" class="btn btn-xs"
-                                          wire:click="showMediumModal({{ $newsletter->id }})"/>
+                                {{--                            <x-button spinner icon="o-rss" class="btn btn-xs"  wire:click="showMediumModal({{ $newsletter->id }})"/> --}}
+
+                                <a target="_blank" href="{{ $newsletter->vc?->medium_url ?? 'VC' }}" class="btn btn-xs">
+                                    Posts </a>
 
 
                         </article>
@@ -95,7 +96,6 @@
             @if($selected)
                 @include('livewire.user-dashboard.feed.components.mediumModal')
                 <iframe
-
 
                     id="newsletter-frame"
                     class="w-full h-full border-0 rounded-r-2xl"

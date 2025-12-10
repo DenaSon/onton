@@ -2,8 +2,8 @@
     @if($open)
         <div class="modal modal-open sm:modal-middle" role="dialog">
             <div class="modal-box max-w-5xl p-0 bg-base-100">
-                {{-- Header مودال --}}
-                <div class="flex items-center justify-between px-5 py-3 border-b border-base-200">
+
+            <div class="flex items-center justify-between px-5 py-3 border-b border-base-200">
                     <div>
                         <div class="flex items-center gap-2">
                             <x-icon name="o-rss" class="w-5 h-5 text-primary"/>
