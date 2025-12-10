@@ -63,6 +63,7 @@ class VcDirectory extends Component
 
         $vcs = Vc::query()
             ->select('vcs.id', 'vcs.name', 'vcs.logo_url')
+            ->whereHas('newsletters')
             ->when($this->letter, function ($q) {
                 if ($this->letter === '#') {
                     $q->whereRaw("LEFT(name,1) NOT REGEXP '^[A-Za-z]'");

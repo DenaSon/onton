@@ -14,15 +14,21 @@ class VcsIndex extends Component
     use WithPagination, Toast;
 
     public array $sortBy = ['column' => 'created_at', 'direction' => 'desc'];
-
     public string $search = '';
     public array $expanded = [];
     public int $perPage = 12;
 
     public ?string $letter = null; // A-Z or '#'
+    public bool $onlyWithoutWhitelist = false; // ✅ فیلتر جدید
 
     public function updatingSearch(): void
     {
+        $this->resetPage();
+    }
+
+    public function toggleOnlyWithoutWhitelist(): void
+    {
+        $this->onlyWithoutWhitelist = !$this->onlyWithoutWhitelist;
         $this->resetPage();
     }
 
@@ -36,18 +42,7 @@ class VcsIndex extends Component
         }
     }
 
-    public function delete($id): void
-    {
-        if (auth()->user()->email !== 'info@byblos.digital') {
-            $this->warning('You are not authorized to delete this.');
-            return;
-        }
-
-        $vc = Vc::findOrFail($id);
-        $vc->delete();
-
-        $this->info('VC deleted successfully.');
-    }
+    // ...
 
     public function render()
     {
@@ -71,6 +66,10 @@ class VcsIndex extends Component
                     $q->where('name', 'like', "{$this->search}%")
                         ->orWhere('website', 'like', "{$this->search}%");
                 });
+            })
+            ->when($this->onlyWithoutWhitelist, function ($query) {
+
+                $query->whereDoesntHave('whitelists');
             })
             ->orderBy(...array_values($this->sortBy))
             ->paginate($this->perPage);

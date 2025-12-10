@@ -9,6 +9,14 @@
                      wire:model.live.debounce.100ms="search"
                      placeholder="Search by name or website"
                      icon="o-magnifying-glass"/>
+
+            <x-button
+                wire:click="toggleOnlyWithoutWhitelist"
+                class="btn-sm {{ $onlyWithoutWhitelist ? 'btn-warning' : 'btn-ghost' }} gap-2"
+                icon="o-exclamation-triangle"
+            >
+                No whitelist emails
+            </x-button>
         </div>
 
         {{-- Alphabet navigation --}}

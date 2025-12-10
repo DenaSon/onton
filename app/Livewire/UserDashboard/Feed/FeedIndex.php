@@ -3,7 +3,6 @@
 namespace App\Livewire\UserDashboard\Feed;
 
 use App\Models\Newsletter;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
@@ -15,7 +14,8 @@ use Mary\Traits\Toast;
 #[Title('Feed Index')]
 class FeedIndex extends Component
 {
-    Use Toast;
+    use Toast;
+
     public array $followedVcIds = [];
     public int $perPage = 20;
     public ?int $selectedId = null;
@@ -54,8 +54,6 @@ class FeedIndex extends Component
     }
 
 
-
-
     public function select(int $id): void
     {
 
@@ -64,7 +62,7 @@ class FeedIndex extends Component
 
 
         $this->selected = $base
-            ->select(['id','vc_id','subject','received_at','body_plain','body_html'])
+            ->select(['id', 'vc_id', 'subject', 'received_at', 'body_plain', 'body_html'])
             ->with(['vc:id,name,logo_url'])
             ->firstOrFail();
 
@@ -105,11 +103,6 @@ class FeedIndex extends Component
             $this->mediumItems = [];
         }
     }
-
-
-
-
-
 
 
     public function render()

@@ -40,12 +40,12 @@
         </tr>
 
         <tr>
-            <th>Whitelist Emails</th>
+            <th> Whitelist Emails</th>
             <td class="flex flex-wrap gap-1">
                 @forelse($vcFirm->whitelists as $email)
                     <span class="badge badge-outline badge-sm">{{ $email->email }}</span>
                 @empty
-                    <span class="text-gray-400">No whitelisted emails</span>
+                    <span class="text-red-600 font-black">No whitelisted emails</span>
                 @endforelse
             </td>
         </tr>

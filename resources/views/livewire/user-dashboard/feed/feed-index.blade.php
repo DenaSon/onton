@@ -185,7 +185,7 @@
             setupInfiniteScroll();
         });
 
-        // برای Livewire 3 و navigate بین کامپوننت‌ها
+
         document.addEventListener('livewire:navigated', () => {
             setupInfiniteScroll();
         });
