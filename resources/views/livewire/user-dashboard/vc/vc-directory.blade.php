@@ -44,7 +44,7 @@
 
     {{-- VC list (no client grouping; server-side filters handle letter) --}}
     <x-card
-        title="VC List"
+        title="VC Directory"
         shadow
         separator
         progress-indicator
