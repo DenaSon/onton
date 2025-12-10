@@ -51,14 +51,23 @@
 
                                 @php
                                     $mediumUrl = $newsletter->vc?->medium_url;
-                                    if ($mediumUrl && !str_starts_with($mediumUrl, 'http')) {
-                                        $mediumUrl = 'https://' . $mediumUrl;
+
+                                    if ($mediumUrl) {
+                                        // اگر با http یا https شروع نمی‌شود
+                                        if (
+                                            !str_starts_with($mediumUrl, 'http://') &&
+                                            !str_starts_with($mediumUrl, 'https://')
+                                        ) {
+                                            $mediumUrl = 'https://' . $mediumUrl;
+                                        }
                                     }
                                 @endphp
 
-                                <a target="_blank" href="{{ $mediumUrl }}" class="btn btn-xs">
-                                    Posts
-                                </a>
+                                @if ($mediumUrl)
+                                    <a target="_blank" href="{{ $mediumUrl }}" class="btn btn-xs">
+                                        Posts
+                                    </a>
+                                @endif
 
 
                         </article>
