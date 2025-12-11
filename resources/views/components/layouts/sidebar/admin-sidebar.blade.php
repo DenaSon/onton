@@ -2,6 +2,9 @@
 
     <x-menu-item title="Dashboard" icon="o-chart-pie" link="{{ route('core.index') }}" exact/>
 
+    <x-menu-item title="Newsletters" icon="o-newspaper" link="{{ route('core.newsletters.index') }}"/>
+
+
     <x-menu-sub title="Users" icon="o-users">
         <x-menu-item title="All Users" icon="o-user-circle" link="{{ route('core.users.index') }}"/>
         <x-menu-item title="Suspended Users" icon="o-user-minus"
@@ -13,16 +16,6 @@
         <x-menu-item title="Add New VC" icon="o-plus-circle" link="{{ route('core.vc-firms.create') }}"/>
     </x-menu-sub>
 
-    <x-menu-sub title="Crawler" icon="o-globe-alt">
-        <x-menu-item title="Newsletters" icon="o-newspaper" link="{{ route('core.newsletters.index') }}"/>
-        {{--        <x-menu-item title="Job Status" icon="o-play-circle" link="#" />--}}
-        {{--        <x-menu-item title="Error Logs" icon="o-exclamation-triangle" link="" />--}}
-    </x-menu-sub>
-
-    {{--    <x-menu-sub title="Notifications" icon="o-bell">--}}
-    {{--        <x-menu-item title="Notification Log" icon="o-list-bullet" link="#" />--}}
-    {{--        <x-menu-item title="Send Notification" icon="o-paper-airplane" link="#" />--}}
-    {{--    </x-menu-sub>--}}
 
     <x-menu-sub title="System Monitoring" icon="o-cpu-chip">
         <x-menu-item title="SystemPulse" icon="o-computer-desktop" link="{{ url('/pulse') }}" external/>
