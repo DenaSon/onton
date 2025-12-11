@@ -1,4 +1,4 @@
-<x-card title="Newsletters Hub" subtitle="Latest crawled newsletters" separator progress-indicator>
+<x-card title="Newsletters" subtitle="Latest crawled newsletters" separator progress-indicator>
 
     @foreach($newsletters as $key => $newsletter)
 
@@ -25,8 +25,9 @@
 
             <x-slot:actions>
 
-                <x-button class="btn-sm tooltip btn-error" wire:click="deleteNewsletter" label="Delete"
-                          data-tip="Delete Newsletter"/>
+                <x-button spinner class="btn-sm tooltip btn-error" wire:click="deleteNewsletter({{$newsletter}})"
+                          label="Delete"
+                          data-tip="Delete Newsletter" wire:confirm="Delete newsletter?"/>
 
                 <a target="_blank" href="{{ route('core.newsletter.show', ['newsletter' => $newsletter->id]) }}">
                     <x-button data-tip="Show" icon="o-eye" class="btn-xs btn-primary tooltip" spinner/>

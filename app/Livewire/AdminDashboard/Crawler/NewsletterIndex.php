@@ -6,15 +6,25 @@ use App\Models\Newsletter;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
 #[Layout('components.layouts.admin-dashboard')]
 
 class NewsletterIndex extends Component
 {
-    use WithPagination;
+    use WithPagination, Toast;
 
     protected $paginationTheme = 'tailwind';
 
+
+    public function deleteNewsletter(Newsletter $newsletter)
+    {
+        if ($newsletter->delete()) {
+
+            $this->success('Deleted Successfully');
+        }
+
+    }
 
 
     public function render()
