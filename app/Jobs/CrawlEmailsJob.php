@@ -87,8 +87,8 @@ class CrawlEmailsJob implements ShouldQueue
                 return;
             }
 
-            $limit = 30;
-            $lookbackHours = 500;
+            $limit = 50;
+            $lookbackHours = 1000;
 
             // Crawl inbox and spam folders separately
             $inboxEmails = $this->crawlFolder('INBOX', $whiteListEmails, $limit, $lookbackHours);
@@ -100,7 +100,7 @@ class CrawlEmailsJob implements ShouldQueue
             Log::info('[CrawlEmailsJob] Loaded ' . count($whiteListEmails) . ' whitelisted emails.');
 
             if (count($emails) > 0) {
-                StoreNewsletterJob::dispatch($emails)->delay(now()->addSeconds(8))->onQueue('storenewsletter');
+                StoreNewsletterJob::dispatch($emails)->delay(now()->addSeconds(16))->onQueue('storenewsletter');
                 Log::info('[CrawlEmailsJob] Dispatching StoreNewsletterJob with ' . count($emails) . ' emails.');
                 Log::notice('[CrawlEmailsJob] {MISSION_COMPLETE} >>> Operation Crawl complete. Emails delivered. Next Mission Start.');
             } else {

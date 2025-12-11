@@ -124,14 +124,14 @@ class StoreNewsletterJob implements ShouldQueue
         ]);
 
 
-        \App\Models\User::notifyAdminsByRoleId(1, new \App\Notifications\UserSystemNotification(
-            subject: 'Newsletter Storage Failed',
-            title: 'Newsletter Storage Job Failed',
-            message: 'The StoreNewsletterJob failed while processing a batch of emails. Exception: ' . $exception->getMessage(),
-            actionUrl: url('core/log-viewer'),
-            actionText: 'View Logs',
-            footerText: 'Automated system notification from Byblos Bot.'
-        ));
+//        \App\Models\User::notifyAdminsByRoleId(1, new \App\Notifications\UserSystemNotification(
+//            subject: 'Newsletter Storage Failed',
+//            title: 'Newsletter Storage Job Failed',
+//            message: 'The StoreNewsletterJob failed while processing a batch of emails. Exception: ' . $exception->getMessage(),
+//            actionUrl: url('core/log-viewer'),
+//            actionText: 'View Logs',
+//            footerText: 'Automated system notification from Byblos Bot.'
+//        ));
     }
 
 }
