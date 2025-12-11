@@ -53,7 +53,7 @@
                                     $mediumUrl = $newsletter->vc?->medium_url;
 
                                     if ($mediumUrl) {
-                                        // اگر با http یا https شروع نمی‌شود
+
                                         if (
                                             !str_starts_with($mediumUrl, 'http://') &&
                                             !str_starts_with($mediumUrl, 'https://')
