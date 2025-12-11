@@ -24,8 +24,12 @@
 
 
             <x-slot:actions>
+
+                <x-button class="btn-sm tooltip btn-error" wire:click="deleteNewsletter" label="Delete"
+                          data-tip="Delete Newsletter"/>
+
                 <a target="_blank" href="{{ route('core.newsletter.show', ['newsletter' => $newsletter->id]) }}">
-                    <x-button data-tip="Show" icon="o-eye" class="btn-xs btn-primary tooltip" spinner />
+                    <x-button data-tip="Show" icon="o-eye" class="btn-xs btn-primary tooltip" spinner/>
                 </a>
 
             </x-slot:actions>
