@@ -88,7 +88,7 @@ class CrawlEmailsJob implements ShouldQueue
             }
 
             $limit = 50;
-            $lookbackHours = 3500;
+            $lookbackHours = 2500;
 
             // Crawl inbox and spam folders separately
             $inboxEmails = $this->crawlFolder('INBOX', $whiteListEmails, $limit, $lookbackHours);
