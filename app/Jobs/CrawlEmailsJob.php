@@ -87,8 +87,8 @@ class CrawlEmailsJob implements ShouldQueue
                 return;
             }
 
-            $limit = 50;
-            $lookbackHours = 2000;
+            $limit = 55;
+            $lookbackHours = 4500;
 
             // Crawl inbox and spam folders separately
             $inboxEmails = $this->crawlFolder('INBOX', $whiteListEmails, $limit, $lookbackHours);
@@ -127,13 +127,13 @@ class CrawlEmailsJob implements ShouldQueue
             'exception' => $exception->getMessage(),
         ]);
 
-//        User::notifyAdminsByRoleId(1, new UserSystemNotification(
-//            subject: 'Email Crawling Failed',
-//            title: 'Crawler Failure Alert',
-//            message: 'The email crawling job failed permanently due to an error: ' . $exception->getMessage(),
-//            actionUrl: url('core/log-viewer'),
-//            actionText: 'View Logs',
-//            footerText: 'This is an automated system alert from Byblos Crawler Bot.'
-//        ));
+        User::notifyAdminsByRoleId(1, new UserSystemNotification(
+            subject: 'Email Crawling Failed',
+            title: 'Crawler Failure Alert',
+            message: 'The email crawling job failed permanently due to an error: ' . $exception->getMessage(),
+            actionUrl: url('core/log-viewer'),
+            actionText: 'View Logs',
+            footerText: 'This is an automated system alert from Byblos Crawler Bot.'
+        ));
     }
 }
