@@ -3,7 +3,7 @@
     <x-menu-item title="Dashboard" icon="o-chart-pie" link="{{ route('core.index') }}" exact/>
 
     <x-menu-item title="Newsletters" icon="o-newspaper" link="{{ route('core.newsletters.index') }}"/>
-    <x-menu-item title="Whitelists" icon="o-list-bullet" link="{{ route('core.whitelist-index') }}"/>
+    {{--    <x-menu-item title="Whitelists" icon="o-list-bullet" link="{{ route('core.whitelist-index') }}"/>--}}
 
 
     <x-menu-sub title="Users" icon="o-users">
