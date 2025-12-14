@@ -11,7 +11,7 @@ use Log;
 use Mary\Traits\Toast;
 
 #[Layout('components.layouts.app')]
-#[Title('Feed Index')]
+#[Title('VC Newsletter Aggregator')]
 class FeedIndex extends Component
 {
     use Toast;
@@ -42,7 +42,7 @@ class FeedIndex extends Component
     }
 
 
-    public function showMediumModal($newsletterId)
+    public function showMediumModal($newsletterId): void
     {
         $newsletter = Newsletter::select('id', 'vc_id')
             ->with(['vc:id,medium_url'])

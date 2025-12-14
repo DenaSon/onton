@@ -73,9 +73,12 @@
                         </a>
 
                     @if ($vc->newsletters_count)
-                            <span class="hidden sm:inline text-xs badge badge-ghost border border-gray-300">
+                            <span class=" text-xs badge badge-ghost border border-gray-300">{{--  hidden sm:inline--}}
+
                                 <x-icon name="o-envelope" class="w-4 h-4 mr-1 text-gray-500" />
+
                                 {{ $vc->newsletters_count }}
+
                             </span>
                         @endif
                     </div>
