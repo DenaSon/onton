@@ -9,12 +9,12 @@ use Mary\Traits\Toast;
 
 class WhitelistIndex extends Component
 {
-    use WithPagination;
     use Toast;
+    use WithPagination;
 
     public string $search = '';
-    public int $perPage = 20;
 
+    public int $perPage = 20;
 
     public function updatedSearch(): void
     {

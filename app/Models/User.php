@@ -21,7 +21,6 @@ use Spatie\Permission\Traits\HasRoles;
 /**
  * Class User
  *
- * @package App\Models
  *
  * @property int $id
  * @property string $name
@@ -30,14 +29,13 @@ use Spatie\Permission\Traits\HasRoles;
  * @property bool $is_suspended
  * @property \DateTime|null $email_verified_at
  * @property string|null $remember_token
- *
  * @property-read Collection|Subscription[] $subscriptions
  * @property-read Subscription|null $activeSubscription
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, HasRoles, Billable;
+    use Billable, HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -71,7 +69,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
-
     public function sendEmailVerificationNotification()
     {
         $this->notify(new QueuedVerifyEmail);
@@ -81,7 +78,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new QueuedResetPassword($token));
     }
-
 
     /**
      * Get the initials of the user's name.
@@ -150,7 +146,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->followedVCs()->where('vc_id', $vcId)->exists();
     }
 
-
     public function notificationSetting()
     {
         return $this->hasOne(UserNotificationSetting::class);
@@ -167,7 +162,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->subscribed($plan) || $this->onTrial($plan);
     }
-
 
     public function scopeSubscribedOrOnTrial($query): void
     {
@@ -188,7 +182,6 @@ class User extends Authenticatable implements MustVerifyEmail
             ->each(fn($admin) => $admin->notify($notification));
     }
 
-
     protected static function booted()
     {
         static::created(function (User $user) {
@@ -198,6 +191,4 @@ class User extends Authenticatable implements MustVerifyEmail
             ]);
         });
     }
-
-
 }

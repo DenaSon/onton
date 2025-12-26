@@ -15,7 +15,6 @@ class DispatchNewsletterForwardingJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-
     public function __construct()
     {
         //
@@ -71,7 +70,6 @@ class DispatchNewsletterForwardingJob implements ShouldQueue
                 'exception' => $e,
             ]);
 
-
         }
     }
 
@@ -90,5 +88,4 @@ class DispatchNewsletterForwardingJob implements ShouldQueue
             footerText: 'System notification'
         ));
     }
-
 }

@@ -14,8 +14,6 @@ use Webklex\PHPIMAP\Support\MessageCollection;
  *
  * Service for crawling emails using IMAP and the Webklex package.
  * Provides functionality to fetch emails, filter, parse, mark as read, and save attachments.
- *
- * @package App\Services\Crawler
  */
 class MailCrawlerService
 {
@@ -24,16 +22,12 @@ class MailCrawlerService
      *
      * Before calling parse(), this is a MessageCollection.
      * After parse(), it becomes an array of processed message data.
-     *
-     * @var MessageCollection|array
      */
     protected MessageCollection|array $messages = [];
 
     /**
      * Flag indicating whether to mark messages as read.
      * Currently used for internal state only.
-     *
-     * @var bool
      */
     protected bool $markAsRead = false;
 
@@ -43,7 +37,6 @@ class MailCrawlerService
      * Establish an IMAP connection for the given account.
      *
      * @param string $account IMAP account name configured in Webklex config
-     * @return \Webklex\PHPIMAP\Client
      *
      * @throws RuntimeException If connection to the IMAP server fails
      */
@@ -61,18 +54,17 @@ class MailCrawlerService
 
             $client->connect();
 
-
             if (!$client->isConnected()) {
-                \Log::error("[MailCrawlerService] connection failed: client is not connected after connect() call", [
+                \Log::error('[MailCrawlerService] connection failed: client is not connected after connect() call', [
                     'account' => $account,
                 ]);
                 throw new RuntimeException("[MailCrawlerService] connection failed for account '{$account}'. Client not connected.");
             }
 
-
             $client->checkConnection();
 
             \Log::info('[MailCrawlerService] OK | All connections successfully');
+
             return $client;
 
         } catch (\Throwable $e) {
@@ -80,13 +72,12 @@ class MailCrawlerService
                 'exception' => get_class($e),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
 
             throw new RuntimeException("[MailCrawlerService] failed to connect to  account: '{$account}'", previous: $e);
         }
     }
-
 
     /**
      * Crawls emails from a specified folder and account, optionally applying a query callback.
@@ -101,7 +92,7 @@ class MailCrawlerService
      *
      * @throws RuntimeException If connection or fetching emails fails
      */
-    public function crawl(string $account = 'default', string $folder = 'INBOX', Closure $queryCallback = null): self
+    public function crawl(string $account = 'default', string $folder = 'INBOX', ?Closure $queryCallback = null): self
     {
         $client = $this->imapConnection($account);
 
@@ -138,15 +129,14 @@ class MailCrawlerService
                 ]);
             }
 
-            //$this->logAllFolders('default');
-
+            // $this->logAllFolders('default');
 
         } catch (\Throwable $e) {
             \Log::error("[MailCrawlerService] crawling failed for account '{$account}', folder '{$folderName}': " . $e->getMessage(), [
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
 
-            throw new RuntimeException("[MailCrawlerService ] Mail crawling failed.", 0, $e);
+            throw new RuntimeException('[MailCrawlerService ] Mail crawling failed.', 0, $e);
         } finally {
             // Always attempt to disconnect, but handle any errors gracefully
             try {
@@ -169,7 +159,6 @@ class MailCrawlerService
 
         return $this;
     }
-
 
     /**
      * Parses raw email messages into an array format with extracted data.
@@ -230,14 +219,15 @@ class MailCrawlerService
     public function filterByWhitelistFrom(array $whiteListEmails): self
     {
 
-
         if (empty($whiteListEmails)) {
             \Log::warning('[MailCrawlerService] Whitelist is empty. Skipping whitelist filtering.');
+
             return $this;
         }
 
         if (empty($this->messages) || !is_array($this->messages)) {
             \Log::warning('[MailCrawlerService] No messages available to apply whitelist filtering.');
+
             return $this;
         }
 
@@ -251,6 +241,7 @@ class MailCrawlerService
 
         $this->messages = collect($this->messages)->filter(function ($message) use ($whiteListEmails) {
             $from = strtolower(trim($message['from'] ?? ''));
+
             return $from && in_array($from, $whiteListEmails);
         })->values()->toArray();
 
@@ -261,7 +252,6 @@ class MailCrawlerService
         return $this;
     }
 
-
     /**
      * Saves attachments from the parsed messages to the specified path.
      *
@@ -271,8 +261,6 @@ class MailCrawlerService
      * @param string|null $basePath
      * @return MailCrawlerService List of saved attachment file names
      */
-
-
 
     /**
      * Marks all fetched raw messages as read (sets the 'Seen' flag).
@@ -285,7 +273,6 @@ class MailCrawlerService
      */
     public function markAsRead(): self
     {
-
 
         $total = $this->messages->count();
         $successCount = 0;
@@ -308,19 +295,12 @@ class MailCrawlerService
         return $this;
     }
 
-
     /**
      * Returns the current set of messages.
      * Could be raw MessageCollection or parsed array depending on the state.
-     *
-     * @return array
      */
     public function get(): array
     {
         return $this->messages;
     }
-
-
-
-
 }

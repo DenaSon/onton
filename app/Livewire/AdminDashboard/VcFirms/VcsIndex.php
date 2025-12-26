@@ -11,14 +11,18 @@ use Mary\Traits\Toast;
 #[Layout('components.layouts.admin-dashboard')]
 class VcsIndex extends Component
 {
-    use WithPagination, Toast;
+    use Toast, WithPagination;
 
     public array $sortBy = ['column' => 'created_at', 'direction' => 'desc'];
+
     public string $search = '';
+
     public array $expanded = [];
+
     public int $perPage = 12;
 
     public ?string $letter = null; // A-Z or '#'
+
     public bool $onlyWithoutWhitelist = false; // ✅ فیلتر جدید
 
     public function updatingSearch(): void

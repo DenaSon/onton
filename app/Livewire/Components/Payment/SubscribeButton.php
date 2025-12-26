@@ -12,9 +12,10 @@ class SubscribeButton extends Component
     use Toast;
 
     public $label;
-    public $icon;
-    public $class;
 
+    public $icon;
+
+    public $class;
 
     /**
      * @throws \Exception
@@ -23,11 +24,13 @@ class SubscribeButton extends Component
     {
         if (!Auth::check()) {
             $this->redirectRoute('login');
+
             return;
         }
 
         if (!Auth::user()->hasVerifiedEmail()) {
             $this->error('Payment Error', 'Please verify your email before subscribing.');
+
             return;
         }
 
@@ -37,11 +40,13 @@ class SubscribeButton extends Component
 
         if ($subscription && $subscription->active()) {
             $this->info('Subscription Active', 'You already have an active subscription until: ' . optional($subscription->nextBillingDate())->diffForHumans());
+
             return;
         }
 
         if ($subscription && ($subscription->onTrial() || $subscription->onGracePeriod())) {
             $this->info('Subscription Pending', 'You already have a subscription in trial or grace period.');
+
             return;
         }
 
@@ -55,7 +60,6 @@ class SubscribeButton extends Component
                 'cancel_url' => route('panel.payment.failed') . '?subscribed=false',
             ]);
     }
-
 
     public function render()
     {

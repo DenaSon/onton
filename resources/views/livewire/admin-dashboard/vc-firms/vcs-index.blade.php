@@ -17,6 +17,11 @@
             >
                 No whitelist emails
             </x-button>
+
+            <label class="label text-sm font-black">
+                Whitelisted VC: {{ \App\Models\Vc::query()->whereHas('whitelists')->count() }}
+            </label>
+
         </div>
 
         {{-- Alphabet navigation --}}

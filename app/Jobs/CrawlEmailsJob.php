@@ -13,7 +13,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
-
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -22,7 +21,9 @@ class CrawlEmailsJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $timeout = 120;
+
     public $tries = 5;
+
     public $backoff = [60, 180];
 
     public function viaQueue(): string
@@ -65,9 +66,9 @@ class CrawlEmailsJob implements ShouldQueue
     {
         Log::info('[CrawlEmailsJob] {MISSION_START} >>> ByblosCrawlerBot has entered the target zone. Crawling initiated.');
 
-
         if (Vc::count() === 0) {
             Log::warning('[CrawlEmailsJob] No VC entries found. Job cancelled before crawling.');
+
             return;
         }
 
@@ -75,15 +76,16 @@ class CrawlEmailsJob implements ShouldQueue
 
         if (! $vcWithWhitelistExists) {
             Log::warning('[CrawlEmailsJob] No VC with whitelist entries found. Job cancelled.');
+
             return;
         }
-
 
         try {
             $whiteListEmails = $this->getWhitelistedEmails();
 
             if (empty($whiteListEmails)) {
                 Log::warning('[CrawlEmailsJob] Whitelist is empty. Job cancelled.');
+
                 return;
             }
 

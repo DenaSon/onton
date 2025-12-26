@@ -15,9 +15,12 @@ class UserIndex extends Component
     use Toast, WithPagination;
 
     public array $sortBy = ['column' => 'created_at', 'direction' => 'asc'];
+
     public array $expanded = [];
+
     #[Validate('string|in:suspended,active')]
     public string $filter = '';
+
     #[Validate('string|max:100')]
     public string $search = '';
 
@@ -48,7 +51,6 @@ class UserIndex extends Component
         }
     }
 
-
     public function active(User $user)
     {
         try {
@@ -61,7 +63,6 @@ class UserIndex extends Component
             $this->info('cannot active user', $e->getMessage());
         }
     }
-
 
     public function render()
     {
@@ -78,7 +79,6 @@ class UserIndex extends Component
             ->orderBy(...array_values($this->sortBy))
             ->with('subscriptions')
             ->paginate(10);
-
 
         $headers = [
             ['key' => 'id', 'label' => '#', 'class' => 'w-12'],

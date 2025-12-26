@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Services\Crawler;
 
 use Illuminate\Support\Facades\Cache;
@@ -11,8 +10,11 @@ use InvalidArgumentException;
 class Rss2JsonService
 {
     protected string $baseUrl;
+
     protected ?string $apiKey;
+
     protected int $timeout;
+
     protected int $cacheTtl;
 
     public function __construct()
@@ -26,7 +28,6 @@ class Rss2JsonService
     /**
      * Fetch and normalize feed items from rss2json API.
      *
-     * @param string $rssUrl
      * @param array $options [order_by, order_dir, count]
      * @return array{feed: array|null, items: array<int, array>}
      */
@@ -38,7 +39,6 @@ class Rss2JsonService
 
         // flag
         $cacheEnabled = config('services.rss2json.cache_enabled');
-
 
         if (!$cacheEnabled) {
             return $this->requestAndNormalize($rssUrl, $options);

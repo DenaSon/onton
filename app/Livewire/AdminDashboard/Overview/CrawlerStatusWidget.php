@@ -7,7 +7,6 @@ use Livewire\Component;
 
 class CrawlerStatusWidget extends Component
 {
-
     public $newsletters;
 
     public function mount()
@@ -21,10 +20,8 @@ class CrawlerStatusWidget extends Component
         $this->newsletters = Newsletter::with('vc')
             ->orderByDesc('received_at')
             ->limit(10)
-            ->get(['newsletters.id','newsletters.from_email', 'newsletters.subject', 'newsletters.processing_status', 'newsletters.received_at', 'newsletters.vc_id']);
+            ->get(['newsletters.id', 'newsletters.from_email', 'newsletters.subject', 'newsletters.processing_status', 'newsletters.received_at', 'newsletters.vc_id']);
     }
-
-
 
     public function render()
     {

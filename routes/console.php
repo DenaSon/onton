@@ -10,4 +10,3 @@ Artisan::command('inspire', function () {
 Schedule::command('emails:crawl')->everyTenMinutes();
 
 Schedule::command('newsletters:dispatch')->everyTenMinutes();
-

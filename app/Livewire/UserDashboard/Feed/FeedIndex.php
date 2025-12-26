@@ -17,22 +17,22 @@ class FeedIndex extends Component
     use Toast;
 
     public array $followedVcIds = [];
+
     public int $perPage = 20;
+
     public ?int $selectedId = null;
+
     public ?Newsletter $selected = null;
 
     public string $search = '';
 
     public string $filter = 'all';
 
-
     public array $mediumItems = [];
-
 
     public function mount(): void
     {
         // $this->followedVcIds = Auth::user()->followedVCs()->pluck('vcs.id')->toArray();
-
 
         $latest = Newsletter::latest()->select('id')->first();
 
@@ -40,7 +40,6 @@ class FeedIndex extends Component
             $this->select($latest->id);
         }
     }
-
 
     public function showMediumModal($newsletterId): void
     {
@@ -53,13 +52,11 @@ class FeedIndex extends Component
         $this->dispatch('openMediumModal', $mediumUsername);
     }
 
-
     public function select(int $id): void
     {
 
         $base = Newsletter::query()
             ->where('id', $id);
-
 
         $this->selected = $base
             ->select(['id', 'vc_id', 'subject', 'received_at', 'body_plain', 'body_html'])
@@ -78,9 +75,9 @@ class FeedIndex extends Component
     public function loadMedium(): void
     {
 
-
         if (!$this->selected?->vc?->medium_feed_url) {
             $this->mediumItems = [];
+
             return;
         }
 
@@ -103,7 +100,6 @@ class FeedIndex extends Component
             $this->mediumItems = [];
         }
     }
-
 
     public function render()
     {
@@ -136,6 +132,4 @@ class FeedIndex extends Component
             'newsletters' => $newsletters,
         ]);
     }
-
-
 }

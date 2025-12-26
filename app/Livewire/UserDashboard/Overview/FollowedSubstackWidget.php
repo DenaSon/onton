@@ -11,9 +11,7 @@ class FollowedSubstackWidget extends Component
     {
         $user = auth()->user();
 
-
         $followedVcIds = $user->followedVCs()->pluck('vcs.id');
-
 
         $substackNewsletters = Newsletter::query()
             ->whereIn('vc_id', $followedVcIds)

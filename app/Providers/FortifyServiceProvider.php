@@ -20,7 +20,6 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
     }
 
     /**
@@ -59,8 +58,6 @@ class FortifyServiceProvider extends ServiceProvider
             ]);
         });
 
-
-
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
@@ -76,12 +73,9 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
-
         RateLimiter::for('register', function (Request $request) {
             return Limit::perMinute(2)->by($request->ip());
         });
-
-
 
     }
 }

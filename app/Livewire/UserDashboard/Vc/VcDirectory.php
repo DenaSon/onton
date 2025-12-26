@@ -14,13 +14,16 @@ use Mary\Traits\Toast;
 #[Title('VC Directory')]
 class VcDirectory extends Component
 {
-    use WithPagination, Toast;
+    use Toast, WithPagination;
 
     public array $followedVcIds = [];
+
     public bool $details = false;
+
     public bool $show = false;
 
     public string $search = '';
+
     public ?string $letter = null; // A-Z or '#'
 
     public function setLetter(?string $letter = null): void
@@ -47,6 +50,7 @@ class VcDirectory extends Component
                 description: 'We’re updating your results. Please wait a moment...'
             );
             $this->reset('search');
+
             return;
         }
 
@@ -71,8 +75,7 @@ class VcDirectory extends Component
                     $q->where('name', 'like', $this->letter . '%');
                 }
             })
-            ->when($this->search, fn($q) =>
-            $q->where('name', 'like', '%' . $this->search . '%')
+            ->when($this->search, fn($q) => $q->where('name', 'like', '%' . $this->search . '%')
             )
             ->withCount(['newsletters', 'followers'])
             ->orderBy('name')

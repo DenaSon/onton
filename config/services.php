@@ -4,8 +4,8 @@ return [
 
     'openai' => [
         'key' => env('OPENAI_API_KEY'),
-        'organization' => env('OPENAI_ORG_ID'),     //Optional
-        'project' => env('OPENAI_PROJECT_ID'),  //Optional
+        'organization' => env('OPENAI_ORG_ID'),     // Optional
+        'project' => env('OPENAI_PROJECT_ID'),  // Optional
     ],
 
     'rss2json' => [
@@ -16,6 +16,5 @@ return [
         'cache_enabled' => env('RSS2JSON_CACHE', true),
 
     ],
-
 
 ];

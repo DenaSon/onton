@@ -14,14 +14,15 @@ use Mary\Traits\Toast;
 class NewsletterShowDetails extends Component
 {
     use Toast;
+
     public Newsletter $newsletter;
+
     public string $email = '';
 
     public function mount(Newsletter $newsletter)
     {
         $this->newsletter = $newsletter->load('vc');
     }
-
 
     public function forwardEmail()
     {
@@ -33,7 +34,6 @@ class NewsletterShowDetails extends Component
 
             Mail::to($this->email)->queue(new ForwardNewsletterMailable($this->newsletter));
 
-
             $this->success('Send Newsletter Email', 'Email has been sent to ' . $this->email);
 
         } catch (\Exception $e) {
@@ -41,13 +41,11 @@ class NewsletterShowDetails extends Component
 
             $this->addError('email', 'Sending failed. Please try again later.');
 
-           $this->warning('Forward failed','Please try again later.');
+            $this->warning('Forward failed', 'Please try again later.');
         }
 
         $this->reset('email');
     }
-
-
 
     public function render()
     {

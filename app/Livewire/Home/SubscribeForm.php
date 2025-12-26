@@ -19,7 +19,6 @@ class SubscribeForm extends Component
             'email' => 'required|email|max:255|unique:email_contacts,email',
         ]);
 
-
         try {
             $source = 'newsletter';
             $email = $this->email;
@@ -27,11 +26,10 @@ class SubscribeForm extends Component
             $this->info('Subscribed successfully.');
             $this->reset('email');
         } catch (TooManyRequestsHttpException $e) {
-            $this->error('Something went wrong.', $e->getMessage() );
+            $this->error('Something went wrong.', $e->getMessage());
         }
 
     }
-
 
     public function render()
     {

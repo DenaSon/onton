@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Livewire\AdminDashboard\Analytics\Overview;
+
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Lazy;
 use Livewire\Component;
+
 #[Layout('components.layouts.admin-dashboard')]
 
 class AnalysisIndex extends Component

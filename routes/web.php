@@ -9,7 +9,6 @@ use App\Livewire\UserDashboard\Setting\DeliverySetting;
 use Illuminate\Support\Facades\Route;
 use Laravel\Cashier\Http\Controllers\WebhookController;
 
-
 Route::get('/home', Index::class)->name('home');
 
 Route::get('/', \App\Livewire\UserDashboard\Feed\FeedIndex::class)->name('feed.index');
@@ -38,16 +37,14 @@ Route::prefix('core')
 
         Route::get('crawler/whitelists', \App\Livewire\AdminDashboard\Crawler\WhitelistIndex::class)->name('whitelist-index');
 
-
-        //Render newsletters
+        // Render newsletters
         Route::get('crawler/newsletters/{id}/html', function ($id) {
             $newsletter = \App\Models\Newsletter::findOrFail($id);
+
             return response($newsletter->body_html)->header('Content-Type', 'text/html');
         })->name('newsletter.html');
 
-
     });
-
 
 Route::prefix('panel')
     ->as('panel.')
@@ -58,7 +55,6 @@ Route::prefix('panel')
         Route::get('/profile', \App\Livewire\UserDashboard\Profile\EditProfile::class)->name('profile.edit');
 
         Route::get('/setting/delivery', DeliverySetting::class)->name('setting.delivery');
-
 
         Route::get('/payment/success', \App\Livewire\UserDashboard\Payment\SuccessPayment::class)->name('payment.success');
         Route::get('/payment/failed', \App\Livewire\UserDashboard\Payment\FailedPayment::class)->name('payment.failed');
@@ -75,9 +71,8 @@ Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
 
 Route::get('logout', Logout::class);
 
-
 Route::get('/rss', function () {
     $rss = app(\App\Services\Crawler\Rss2JsonService::class);
+
     return $rss->fetch('https://medium.com/feed/@ekin.tuna');
 });
-

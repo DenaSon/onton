@@ -32,6 +32,7 @@ class SendNewsletterToUserJob implements ShouldQueue
 
             if (!$setting) {
                 logger()->warning("[SendNewsletterToUserJob] User #{$user->id} has no notification setting.");
+
                 return;
             }
 
@@ -52,6 +53,7 @@ class SendNewsletterToUserJob implements ShouldQueue
 
             if ($newsletters->isEmpty()) {
                 logger()->info("[SendNewsletterToUserJob] No new newsletters for user #{$user->id}");
+
                 return;
             }
 
@@ -73,7 +75,6 @@ class SendNewsletterToUserJob implements ShouldQueue
                 }
             }
 
-
             $lastSentAt = $newsletters->whereNotNull('sent_at')->max('sent_at');
 
             if ($lastSentAt) {
@@ -86,10 +87,9 @@ class SendNewsletterToUserJob implements ShouldQueue
                 logger()->warning("[SendNewsletterToUserJob] No valid sent_at found in newsletters for user #{$user->id}, last_sent_at not updated.");
             }
 
-
         } catch (\Throwable $e) {
             logger()->error("[SendNewsletterToUserJob] Exception for user #{$this->user->id}: {$e->getMessage()}", [
-                'exception' => $e
+                'exception' => $e,
             ]);
         }
     }
@@ -107,5 +107,4 @@ class SendNewsletterToUserJob implements ShouldQueue
             footerText: 'Automated notification from newsletter dispatch system.'
         ));
     }
-
 }

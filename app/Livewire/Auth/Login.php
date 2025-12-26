@@ -3,19 +3,20 @@
 namespace App\Livewire\Auth;
 
 use App\Actions\Auth\LoginAction;
-
 use Livewire\Component;
 use Mary\Traits\Toast;
 use Throwable;
 
-
 class Login extends Component
 {
     use Toast;
-    public $class ='';
 
-    public $email ='';
-    public $password ='';
+    public $class = '';
+
+    public $email = '';
+
+    public $password = '';
+
     public $remember = false;
 
     public function login(LoginAction $action)
@@ -34,9 +35,7 @@ class Login extends Component
                     : redirect()->intended(route('feed.index'));
             }
 
-
-        }
-        catch (Throwable $e) {
+        } catch (Throwable $e) {
             $this->warning('Sign In failed', 'These credentials do not match our records.', timeout: 5500);
             logger()->warning('Login exception: '.$e->getMessage(), [
                 'email' => $this->email,
@@ -45,7 +44,6 @@ class Login extends Component
 
             $this->addError('password', __('These credentials do not match our records.'));
 
-
         }
     }
 
@@ -53,7 +51,4 @@ class Login extends Component
     {
         return view('livewire.auth.login')->title('Sign In');
     }
-
-
-
 }

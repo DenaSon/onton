@@ -5,15 +5,11 @@ namespace App\Livewire\AdminDashboard\Notification;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-
 class DrawerNotification extends Component
 {
-
     public $notifications = [];
 
-
     public $notifyDrawer = false;
-
 
     public function mount()
     {
@@ -28,7 +24,6 @@ class DrawerNotification extends Component
             ->take(10)
             ->get();
     }
-
 
     public function render()
     {

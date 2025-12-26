@@ -8,7 +8,6 @@ return new class extends Migration {
     /**
      * Run the migrations.
      */
-
     public function up(): void
     {
         Schema::create('user_vc_follows', function (Blueprint $table) {
@@ -20,7 +19,6 @@ return new class extends Migration {
             $table->unique(['user_id', 'vc_id']);
         });
     }
-
 
     /**
      * Reverse the migrations.

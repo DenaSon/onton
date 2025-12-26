@@ -8,15 +8,18 @@ use Illuminate\Support\Facades\Http;
 class OpenAIService
 {
     protected string $apiKey;
+
     protected string $baseUrl;
+
     protected ?string $orgId;
+
     protected ?string $projectId;
 
     public function __construct()
     {
-        $this->apiKey    = config('services.openai.key');
-        $this->baseUrl   = 'https://api.openai.com/v1';
-        $this->orgId     = config('services.openai.organization');
+        $this->apiKey = config('services.openai.key');
+        $this->baseUrl = 'https://api.openai.com/v1';
+        $this->orgId = config('services.openai.organization');
         $this->projectId = config('services.openai.project');
     }
 
@@ -24,7 +27,7 @@ class OpenAIService
     {
         $headers = [
             'Authorization' => 'Bearer ' . $this->apiKey,
-            'Content-Type'  => 'application/json',
+            'Content-Type' => 'application/json',
         ];
 
         if ($this->orgId) {
@@ -45,16 +48,16 @@ class OpenAIService
     {
         $response = Http::withHeaders($this->headers())
             ->timeout(60)
-            ->retry(2,100)
+            ->retry(2, 100)
             ->post("{$this->baseUrl}/chat/completions", [
-            'model'       => $model,
-            'messages'    => $messages,
-            'temperature' => $temperature,
-            'max_tokens'  => $maxTokens,
-        ]);
+                'model' => $model,
+                'messages' => $messages,
+                'temperature' => $temperature,
+                'max_tokens' => $maxTokens,
+            ]);
 
         if ($response->failed()) {
-            throw new \Exception("OpenAI API Error: " . $response->body());
+            throw new \Exception('OpenAI API Error: ' . $response->body());
         }
 
         return $response->json('choices.0.message.content');
@@ -65,7 +68,7 @@ class OpenAIService
         $response = Http::withHeaders($this->headers())->get("{$this->baseUrl}/models");
 
         if ($response->failed()) {
-            throw new \Exception("Model list error: " . $response->body());
+            throw new \Exception('Model list error: ' . $response->body());
         }
 
         return $response->json()['data'];

@@ -12,10 +12,9 @@ use Mary\Traits\Toast;
 
 class NewsletterIndex extends Component
 {
-    use WithPagination, Toast;
+    use Toast, WithPagination;
 
     protected $paginationTheme = 'tailwind';
-
 
     public function deleteNewsletter(Newsletter $newsletter)
     {
@@ -25,7 +24,6 @@ class NewsletterIndex extends Component
         }
 
     }
-
 
     public function render()
     {

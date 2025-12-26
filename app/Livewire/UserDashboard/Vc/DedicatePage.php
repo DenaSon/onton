@@ -11,6 +11,7 @@ class DedicatePage extends Component
     use WithPagination;
 
     public Vc $vc;
+
     public bool $isPremiumView = false; // آیا کاربر دسترسی کامل دارد؟
 
     public function mount($slug, Vc $vcid)
@@ -32,7 +33,6 @@ class DedicatePage extends Component
         }
 
         $user = auth()->user();
-
 
         if ($user->onTrial('default')) {
             return true;

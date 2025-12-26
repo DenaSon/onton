@@ -7,7 +7,6 @@ use Livewire\Component;
 
 class SuccessPayment extends Component
 {
-
     public function mount()
     {
         if (!session()->pull('payment_in_progress')) {

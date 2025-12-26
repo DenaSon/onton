@@ -13,8 +13,11 @@ class ResetPassword extends Component
     use Toast;
 
     public string $email = '';
+
     public string $password = '';
+
     public string $password_confirmation = '';
+
     public string $token;
 
     public function mount(string $token)
@@ -48,10 +51,11 @@ class ResetPassword extends Component
         );
 
         if ($status === Password::PASSWORD_RESET) {
-            $this->success('Password Reset Successful', __('Your password has been updated.'),timeout: 5000);
+            $this->success('Password Reset Successful', __('Your password has been updated.'), timeout: 5000);
+
             return redirect()->route('login');
         } else {
-            $this->error('Reset Failed', __($status),timeout: 5000,redirectTo: route('login'));
+            $this->error('Reset Failed', __($status), timeout: 5000, redirectTo: route('login'));
         }
     }
 

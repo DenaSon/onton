@@ -5,17 +5,21 @@ namespace App\Livewire\UserDashboard\Feed\Components;
 use App\Services\Crawler\Rss2JsonService;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Mary\Traits\Toast;
 use Log;
+use Mary\Traits\Toast;
 
 class Medium extends Component
 {
     use Toast;
 
     public bool $open = false;
+
     public ?string $mediumUrl = null;
+
     public array $items = [];
+
     public bool $loading = false;
+
     public ?string $error = null;
 
     public ?int $activeIndex = null;
@@ -42,6 +46,7 @@ class Medium extends Component
         if (!$this->mediumUrl) {
             $this->items = [];
             $this->error = 'Medium feed URL not found.';
+
             return;
         }
 
@@ -71,7 +76,7 @@ class Medium extends Component
             $this->items = [];
             $this->activeIndex = null;
             $this->error = 'Failed to load Medium posts.';
-            $this->error("Could not load Medium feed.", 'Error');
+            $this->error('Could not load Medium feed.', 'Error');
         } finally {
             $this->loading = false;
         }

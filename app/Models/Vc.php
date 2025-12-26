@@ -1,4 +1,5 @@
 <?php
+
 // app/Models/VC.php
 
 namespace App\Models;
@@ -34,7 +35,6 @@ class Vc extends Model
         'staff_x_accounts' => 'array',
     ];
 
-
     /*
     |--------------------------------------------------------------------------
     | Polymorphic Tags Relations
@@ -54,6 +54,7 @@ class Vc extends Model
     public function getWebsiteUrlAttribute()
     {
         $url = $this->website;
+
         return $url && !str_starts_with($url, 'http') ? 'https://' . $url : $url;
     }
 
@@ -140,7 +141,6 @@ class Vc extends Model
         return $this->belongsToMany(Vc::class, 'vc_investments', 'portfolio_id', 'investor_id');
     }
 
-
     public function portfolios()
     {
         return $this->hasMany(Portfolio::class);
@@ -154,18 +154,15 @@ class Vc extends Model
 
     public function scopeWithVerticals($query, $verticalIds)
     {
-        return $query->whereHas('tags', fn($q) =>
-        $q->where('type', 'vertical')->whereIn('tags.id', $verticalIds)
+        return $query->whereHas('tags', fn($q) => $q->where('type', 'vertical')->whereIn('tags.id', $verticalIds)
         );
     }
 
     public function scopeWithStages($query, $stageIds)
     {
-        return $query->whereHas('tags', fn($q) =>
-        $q->where('type', 'stage')->whereIn('tags.id', $stageIds)
+        return $query->whereHas('tags', fn($q) => $q->where('type', 'stage')->whereIn('tags.id', $stageIds)
         );
     }
-
 
     protected static function booted()
     {
@@ -183,6 +180,4 @@ class Vc extends Model
             $vc->tags()->detach();
         });
     }
-
-
 }

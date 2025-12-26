@@ -2,14 +2,13 @@
 
 namespace App\Livewire\UserDashboard\Feed\Components;
 
-use App\Models\Newsletter;
 use Livewire\Component;
 
 class ViewNewsletterModal extends Component
 {
     public bool $newsletterViewModal = false;
-    public ?int $newsletterId = null;
 
+    public ?int $newsletterId = null;
 
     protected $listeners = ['newsletterViewModal' => 'open'];
 
@@ -25,4 +24,3 @@ class ViewNewsletterModal extends Component
         return view('livewire.user-dashboard.feed.components.view-newsletter-modal');
     }
 }
-

@@ -11,9 +11,7 @@ class FollowedMediumWidget extends Component
     {
         $user = auth()->user();
 
-
         $followedVcIds = $user->followedVCs()->pluck('vcs.id');
-
 
         $mediumUpdates = Newsletter::query()
             ->whereIn('vc_id', $followedVcIds)

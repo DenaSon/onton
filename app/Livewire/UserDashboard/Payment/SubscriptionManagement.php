@@ -17,12 +17,17 @@ class SubscriptionManagement extends Component
     use Toast;
 
     public $subscription = null;
+
     public $onTrial = false;
+
     public $trialEndsAt = null;
+
     public $planName = 'Unknown';
+
     public $nextBillingDate = null;
 
     public $planPrice = null;
+
     public $planCurrency = null;
 
     public array $invoices = [];
@@ -36,7 +41,6 @@ class SubscriptionManagement extends Component
 
     }
 
-
     /**
      * @throws ApiErrorException
      */
@@ -44,6 +48,7 @@ class SubscriptionManagement extends Component
     {
         if (!$this->subscription?->stripe_id) {
             $this->nextBillingDate = null;
+
             return;
         }
 
@@ -52,7 +57,6 @@ class SubscriptionManagement extends Component
         $stripeSubscription = StripeSubscription::retrieve($this->subscription->stripe_id);
 
         $this->nextBillingDate = \Carbon\Carbon::createFromTimestamp($stripeSubscription->current_period_end);
-
 
         $priceId = $stripeSubscription->items->data[0]->price->id ?? null;
 
@@ -87,12 +91,14 @@ class SubscriptionManagement extends Component
 
         if (RateLimiter::tooManyAttempts($key, 1)) {
             $this->addError('rate_limit', 'You are performing this action too frequently. Please wait a few minutes.');
+
             return;
         }
 
         RateLimiter::hit($key, 60);
         if (!$this->subscription) {
             $this->addError('subscription', 'You do not have an active subscription.');
+
             return;
         }
         $this->subscription?->cancel();
@@ -111,13 +117,13 @@ class SubscriptionManagement extends Component
         $this->mount(); // Refresh data
     }
 
-
     public function resumeSubscription(): void
     {
         $key = 'resume-subscription:' . auth()->id();
 
         if (RateLimiter::tooManyAttempts($key, 1)) {
             $this->addError('rate_limit', 'You are performing this action too frequently. Please wait a few minutes.');
+
             return;
         }
 
@@ -125,6 +131,7 @@ class SubscriptionManagement extends Component
 
         if (!$this->subscription) {
             $this->addError('subscription', 'You do not have an active subscription.');
+
             return;
         }
 
@@ -140,12 +147,10 @@ class SubscriptionManagement extends Component
             footerText: 'Resume subscription successfully.',
         ));
 
-
         cache()->forget('stripe_invoices_user_' . auth()->id());
 
         $this->mount();
     }
-
 
     public function render()
     {
@@ -153,5 +158,4 @@ class SubscriptionManagement extends Component
         return view('livewire.user-dashboard.payment.subscription-management')
             ->title('Subscription Management');
     }
-
 }

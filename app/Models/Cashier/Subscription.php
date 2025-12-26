@@ -2,7 +2,6 @@
 
 namespace App\Models\Cashier;
 
-
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -33,8 +32,6 @@ class Subscription extends CashierSubscription
 
     /**
      * Check if the subscription is currently in a trial period.
-     *
-     * @return bool
      */
     public function isTrialing(): bool
     {
@@ -43,8 +40,6 @@ class Subscription extends CashierSubscription
 
     /**
      * Check if the subscription is canceled but still active (in a grace period).
-     *
-     * @return bool
      */
     public function isOnGracePeriod(): bool
     {
@@ -53,8 +48,6 @@ class Subscription extends CashierSubscription
 
     /**
      * Check if the subscription has fully ended.
-     *
-     * @return bool
      */
     public function isEnded(): bool
     {
@@ -63,20 +56,16 @@ class Subscription extends CashierSubscription
 
     /**
      * Check if the subscription will renew soon (within 5 days).
-     *
-     * @return bool
      */
     public function isRenewingSoon(): bool
     {
         $nextBilling = $this->nextBillingDate();
+
         return $nextBilling && $nextBilling->diffInDays(now()) <= 5;
     }
 
-
     /**
      * Determine if the subscription is cancelled.
-     *
-     * @return bool
      */
     public function cancelled(): bool
     {
@@ -86,8 +75,6 @@ class Subscription extends CashierSubscription
     /**
      * Get the subscription's next billing date.
      * (only if no trial and no cancellation)
-     *
-     * @return CarbonInterface|null
      */
     public function nextBillingDate(): ?CarbonInterface
     {
@@ -106,8 +93,6 @@ class Subscription extends CashierSubscription
 
     /**
      * Get a human-readable status label.
-     *
-     * @return string
      */
     public function getStatusLabel(): string
     {
@@ -136,8 +121,6 @@ class Subscription extends CashierSubscription
 
     /**
      * Determine if the subscription is for the Basic plan.
-     *
-     * @return bool
      */
     public function isBasicPlan(): bool
     {
@@ -146,8 +129,6 @@ class Subscription extends CashierSubscription
 
     /**
      * Determine if the subscription is for the Pro plan.
-     *
-     * @return bool
      */
     public function isProPlan(): bool
     {

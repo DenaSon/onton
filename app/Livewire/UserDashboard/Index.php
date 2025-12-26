@@ -13,15 +13,20 @@ use Livewire\Component;
 class Index extends Component
 {
     public int $newslettersToday = 0;
+
     public int $totalVCs = 0;
+
     public int $followedVCs = 0;
 
     // NEW: last week stats
     public int $emailNewslettersLastWeek = 0;
+
     public int $substackNewslettersLastWeek = 0;
+
     public int $mediumUpdatesLastWeek = 0;
 
     public bool $showTrialAlert = false;
+
     public ?string $trialMessage = null;
 
     public function mount(): void
@@ -39,9 +44,8 @@ class Index extends Component
         $baseQuery = Newsletter::query()
             ->where('received_at', '>=', $oneWeekAgo);
 
-
         $this->emailNewslettersLastWeek = (clone $baseQuery)
-            //->where('source', 'email')
+            // ->where('source', 'email')
             ->count();
 
         $this->substackNewslettersLastWeek =
@@ -50,21 +54,19 @@ class Index extends Component
                 ->where('received_at', '>=', $oneWeekAgo)
                 ->whereRaw("SUBSTRING_INDEX(from_email, '@', -1) = 'substack.com'")->count();
 
-
         $this->mediumUpdatesLastWeek = 0;
-//            (clone $baseQuery)
-//            //->where('source', 'medium')
-//            ->count();
+        //            (clone $baseQuery)
+        //            //->where('source', 'medium')
+        //            ->count();
 
         // Trial logic
         $subscription = $user?->subscription('default');
 
         if (!$subscription || is_null($subscription->trial_ends_at)) {
             $this->showTrialAlert = true;
-            $this->trialMessage = "Start your free trial now!";
+            $this->trialMessage = 'Start your free trial now!';
         }
     }
-
 
     public function render()
     {

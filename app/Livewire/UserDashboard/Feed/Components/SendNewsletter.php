@@ -23,15 +23,16 @@ class SendNewsletter extends Component
 
         if (!$user->can('receive', $newsletter)) {
             $this->error('Unauthorized', 'You are not allowed to receive this newsletter.');
+
             return;
         }
-
 
         $rateKey = "send-newsletter:{$user->id}:{$newsletter->id}";
 
         if (RateLimiter::tooManyAttempts($rateKey, 1)) {
             $minutes = ceil(RateLimiter::availableIn($rateKey) / 60);
             $this->warning('Please Wait', "You've already received this newsletter. Try again in {$minutes} minute(s).");
+
             return;
         }
 

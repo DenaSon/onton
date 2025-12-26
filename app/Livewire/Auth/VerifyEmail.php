@@ -21,6 +21,7 @@ class VerifyEmail extends Component
 
         if (RateLimiter::tooManyAttempts('resend-verification:' . $user->id, 1)) {
             $this->error('Too many attempts', 'Please wait a few minutes before trying again.');
+
             return null;
         }
 

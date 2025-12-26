@@ -18,8 +18,11 @@ class EditProfile extends Component
     use Toast;
 
     public $name;
+
     public $password;
+
     public $password_confirmation;
+
     public $current_password;
 
     public function mount()
@@ -40,7 +43,6 @@ class EditProfile extends Component
 
         return $rules;
     }
-
 
     public function updated($propertyName)
     {
